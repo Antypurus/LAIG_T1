@@ -24,7 +24,7 @@ MyInterface.prototype.init = function(application) {
     
     this.gui = new dat.GUI();
 
-    // add a group of controls (and open/expand by defult)
+    // add a oup of controls (and open/expand by defult)
     
     return true;
 };

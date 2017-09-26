@@ -50,6 +50,7 @@ MySceneGraph.prototype.onXMLReady = function()
     var rootElement = this.reader.xmlDoc.documentElement;
     
     // Here should go the calls for different functions to parse the various blocks
+    console.log("Starting XML Parse");
     var error = this.parseLSXFile(rootElement);
     
     if (error != null ) {
