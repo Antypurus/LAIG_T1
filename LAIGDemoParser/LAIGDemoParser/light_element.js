@@ -13,7 +13,3 @@ function Light(id,position,ambient,difuse,specular){
     this.difuse = difuse;
     this.specular = specular;
 }
-
-Light.prototype.setEnable = function(status){
-    this.enabled = status;
-};
