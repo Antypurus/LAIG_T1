@@ -20,7 +20,6 @@ primitive.prototype.initBuffers = function() {
   for(var i = 0;i<this.vertices.length;++i){
     this.inidices.push(i);
   }
-  
-  this.initGLBuffers();
 
+  this.initGLBuffers();
 }
