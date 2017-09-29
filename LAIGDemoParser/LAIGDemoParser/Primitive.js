@@ -9,7 +9,7 @@ function primitive(type,vertices,id,scene){
   this.inidices = null;
 
   this.scene = scene;
-  this.initBuffers();
+  this.initBuffers();//testing
 }
 
 primitive.prototype = Object.create(CGFobject.prototype);
