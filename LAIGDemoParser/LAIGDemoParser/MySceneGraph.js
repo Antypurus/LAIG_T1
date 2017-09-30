@@ -173,7 +173,7 @@ MySceneGraph.prototype.parseInitials = function(initialsNode) {
     var indexFrustum = nodeNames.indexOf("frustum");
     if (indexFrustum == -1) {
         this.onXMLMinorError("frustum planes missing; assuming 'near = 0.1' and 'far = 500'");
-        frustum = new frustum(near,far);
+       // frustum = new frustum(near,far);
     } 
     else {
         this.near = this.reader.getFloat(children[indexFrustum], 'near');
@@ -204,7 +204,7 @@ MySceneGraph.prototype.parseInitials = function(initialsNode) {
             return "'near' must be smaller than 'far'";
         }
 
-        frustum = new frustum(near,far);
+       // frustum = new frustum(near,far);
     }
 
     // Checks if at most one translation, three rotations, and one scaling are defined.
