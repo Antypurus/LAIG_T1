@@ -9,8 +9,8 @@ function primitive(type,vertices,id,scene){
   this.inidices = null;
   this.transforms = null;
   this.scene = scene;
-  this.setUP();
-  this.initBuffers();
+  //this.setUP();
+  //this.initBuffers();
 }
 
 primitive.prototype = Object.create(CGFobject.prototype);
@@ -38,5 +38,29 @@ primitive.prototype.removeTransform = function(index){
 }
 
 primitive.prototype.initBuffers = function() {
+  this.pushMatrix();
+  for(var i=0;i<this.transforms.length();++i){
+    this.transforms[i].act(this);
+  }
+  this.popMatrix();
+
   this.initGLBuffers();
+}
+
+function triangle(id,scene){
+  var vertices = [
+    0,0,0,
+    2,0,0,
+    1,2,0
+   ];
+
+   var indices = [
+     0,1,2,
+     2,1,0
+   ]
+
+   primitive.call(this,"triangle",vertices,id,scene);
+   this.indices = indices;
+
+   this.initBuffers();
 }
