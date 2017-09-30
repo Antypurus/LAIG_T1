@@ -18,7 +18,9 @@ primitive.prototype.constructor = primitive;
 primitive.prototype.initBuffers = function() {
 
   for(var i = 0;i<this.vertices.length;++i){
-    this.inidices.push(i);
+    if(i%2==0){
+      this.inidices.push(i);
+    }
   }
 
   this.initGLBuffers();
