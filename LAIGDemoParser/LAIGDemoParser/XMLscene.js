@@ -1,29 +1,4 @@
 var DEGREE_TO_RAD = Math.PI / 180;
-
-function obj(scene){
-    this.vertices = [
-        0,0,0,
-        2,0,0,
-        1,2,0
-    ];
-    
-    this.indices = [
-        0,1,2,
-        2,1,0
-    ];
-    
-    CGFobject.call(this,scene);
-    this.initBuffers();
-}
-
-obj.prototype = Object.create(CGFobject.prototype);
-obj.prototype.constructor = obj;
-
-obj.prototype.initBuffers = function(){
-    this.primitiveType = this.scene.gl.TRIANGLES;
-    this.initGLBuffers();
-}
-
 /**
  * XMLscene class, representing the scene that is to be rendered.
  * @constructor
@@ -32,12 +7,9 @@ function XMLscene(interface) {
     CGFscene.call(this);
 
     this.interface = interface;
-
     this.initiaConfig = null;
 
     this.lightValues = {};
-
-    this.obje = new obj(this);
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -165,9 +137,6 @@ XMLscene.prototype.display = function() {
                 i++;
             }
         }
-
-        obje.setAmbient(1,1,1,1);
-        obje.display();
         // Displays the scene.
         this.graph.displayScene();
         //this.display();
