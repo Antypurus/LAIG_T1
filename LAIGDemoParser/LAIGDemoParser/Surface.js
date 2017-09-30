@@ -5,6 +5,6 @@ function surface(Ka,Kd,Ks,shine){
   this.shininess = shine;
 }
 
-function material(){
-
+function material(path){
+  this.path = path;
 }
