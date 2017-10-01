@@ -1,5 +1,8 @@
 
-//primitive constructor
+/*
+Constructor for a generic primitive
+@constructor
+*/
 function primitive(type,vertices,id,scene){
   CGFobject.call(this,scene);
 
@@ -27,14 +30,17 @@ primitive.prototype.setUP = function(){
 
 primitive.prototype.setTransforms = function(transforms){
   this.transforms = transforms;
+  return;
 }
 
 primitive.prototype.addTransform = function(transform){
   this.transforms.push(transform);
+  return;
 }
 
 primitive.prototype.removeTransform = function(index){
   this.transforms.splice(index,1);
+  return;
 }
 
 primitive.prototype.initBuffers = function() {
@@ -43,24 +49,6 @@ primitive.prototype.initBuffers = function() {
     this.transforms[i].act(this);
   }
   this.popMatrix();
-
   this.initGLBuffers();
-}
-
-function triangle(id,scene){
-  var vertices = [
-    0,0,0,
-    2,0,0,
-    1,2,0
-   ];
-
-   var indices = [
-     0,1,2,
-     2,1,0
-   ]
-
-   primitive.call(this,"triangle",vertices,id,scene);
-   this.indices = indices;
-
-   this.initBuffers();
+  return;
 }
