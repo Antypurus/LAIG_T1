@@ -5,21 +5,24 @@ function action(){
 }
 
 
-function translation(x=0,y=0,z=0,object){
-  action.call(this);
-
+function Translation(x=0,y=0,z=0,object){
+  
   this.x_translation = x;
   this.y_translation = y;
   this.z_translation = z;
-
+  
   this.object = object;
-
+  
+  action.call(this);
   action.act = function (object = this.object) {
     this.object.translate(this.x_translation,this.y_translation,this.z_translation);
   }
 }
 
-function rotation(axis,angle,object){
+Translation.prototype = Object.create(action.prototype);
+Translation.prototype.constructor = Translation;
+
+function Rotation(axis,angle,object){
   action.call(this);
 
   this.anlge = angle
@@ -39,17 +42,22 @@ function rotation(axis,angle,object){
   }
 }
 
+Rotation.prototype = Object.create(action.prototype);
+Rotation.prototype.constructor = Rotation;
 
-function scale(sx=0,sy=0,sz=0,object){
-  action.call(this);
-
+function Scale(sx=0,sy=0,sz=0,object){
+  
   this.x_scalar = sx;
   this.y_scalar = sy;
   this.z_scalar = sz;
-
+  
   this.object = object;
-
+  
+  action.call(this);
   action.act = function (object = this.object) {
     this.object.scale(this.x_scalar,this.y_scalar,this.z_scalar);
   }
 }
+
+Scale.prototype = Object.create(action.prototype);
+Scale.prototype.constructor = Scale;
