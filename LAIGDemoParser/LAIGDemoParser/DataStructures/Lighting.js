@@ -15,6 +15,9 @@ function Ambient(r,g,b,a){
       }
 }
 
+Ambient.prototype = Object.create(lightComponent.prototype);
+Ambient.prototype.constructor = Ambient;
+
 function Difuse(r,g,b,a){
   lightComponent.call(this,r,g,b,a);
 
@@ -23,6 +26,9 @@ function Difuse(r,g,b,a){
       }
 }
 
+Difuse.prototype = Object.create(lightComponent.prototype);
+Difuse.prototype.constructor = Difuse;
+
 function Specular(r,g,b,a){
   lightComponent.call(this,r,g,b,a);
 
@@ -30,6 +36,9 @@ function Specular(r,g,b,a){
           return surface.specular_coeficient*light;//finish this to acocunt for the angle
       }
 }
+
+Specular.prototype = Object.create(lightComponent.prototype);
+Specular.prototype.constructor = Specular;
 
 function Light(id,position,ambient,difuse,specular){
     this.enabled = true;
