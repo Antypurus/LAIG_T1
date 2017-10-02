@@ -46,6 +46,7 @@ function MySceneGraph(filename, scene) {
  */
 MySceneGraph.prototype.onXMLReady = function() 
 {
+    //TODO: Parser 
     console.log("XML Loading finished.");
     var rootElement = this.reader.xmlDoc.documentElement;
     
