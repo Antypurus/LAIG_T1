@@ -22,7 +22,7 @@ XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
     
     this.initCameras();
-    this.tria = new Triangle(this,new position(0,0,0),new position(2,0,0),new position(0,2,0));
+    this.tria = new Circle(this,10000,4);
 
     this.mat = new CGFappearance(this);
     this.enableTextures(true);
