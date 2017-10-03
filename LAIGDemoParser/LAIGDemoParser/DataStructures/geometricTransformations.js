@@ -1,9 +1,10 @@
 
+//THIS IS GOING TO BE REDONE
+
 //used to create an array of translation , rotations and scale
 function action(){
     action.act = function (object) {}//polymorphic function used to apply the rotation , translation or scale to the object
 }
-
 
 function Translation(x=0,y=0,z=0,object){
   
