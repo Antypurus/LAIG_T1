@@ -13,15 +13,15 @@ function getUrlVars() {
 
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
 			 'MyGraphNode.js', 'MyGraphLeaf.js', 'MyInterface.js',
-			 '../DataStructures/frustum.js',  '../DataStructures/geometricTransformations.js',
-			  '../DataStructures/Initials.js',  '../DataStructures/Lighting',
-			   '../DataStructures/Object.js',  '../DataStructures/Object.js',
-			    '../DataStructures/Observer,js',  '../DataStructures/Position.js',
-			     '../DataStructures/Surface.js',  '../DataStructures/Primitives/Primitive.js',
-			     '../DataStructures/Primitives/PrimitiveManager.js', '../DataStructures/Primitives/BasePrimitives/Cylinder.js',
-			     '../DataStructures/Primitives/BasePrimitives/Sphere.js',
-			     '../DataStructures/Primitives/BasePrimitives/Square.js',
-			     '../DataStructures/Primitives/BasePrimitives/Triangle.js',
+			 'DataStructures/frustum.js',  'DataStructures/geometricTransformations.js',
+			  'DataStructures/Initials.js',  'DataStructures/Lighting',
+			   'DataStructures/Object.js',  'DataStructures/Object.js',
+			    'DataStructures/Observer,js',  'DataStructures/Position.js',
+			     'DataStructures/Surface.js',  'DataStructures/Primitives/Primitive.js',
+			     'DataStructures/Primitives/PrimitiveManager.js', 'DataStructures/Primitives/BasePrimitives/Cylinder.js',
+			     'DataStructures/Primitives/BasePrimitives/Sphere.js',
+			     'DataStructures/Primitives/BasePrimitives/Square.js',
+			     'DataStructures/Primitives/BasePrimitives/Triangle.js',
 
 
 main=function()
