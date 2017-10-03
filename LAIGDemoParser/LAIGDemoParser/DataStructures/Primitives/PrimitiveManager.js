@@ -8,7 +8,7 @@ function PrimitiveManager(Scene){
 
 }
 
-PrimitiveManager.prototype.addTriangle(id,Coord1,Coord2,Coord3){
+PrimitiveManager.prototype.addTriangle = function(id,Coord1,Coord2,Coord3){
   if(this.triangles.has(id)){
     return false;
   }else{
@@ -18,7 +18,7 @@ PrimitiveManager.prototype.addTriangle(id,Coord1,Coord2,Coord3){
   return false;
 }
 
-PrimitiveManager.prototype.addSquare(id,Coord1,Coord2){
+PrimitiveManager.prototype.addSquare = function(id,Coord1,Coord2){
   if(this.rectangles.has(id)){
     return false;
   }else{
