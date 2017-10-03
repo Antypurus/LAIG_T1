@@ -25,10 +25,6 @@ XMLscene.prototype.init = function(application) {
     this.tria = new Triangle(this,new position(0,0,0),new position(2,0,0),new position(0,2,0));
 
     this.mat = new CGFappearance(this);
-    this.mat.setAmbient(1,1,1,1);
-
-    this.mat.apply();
-
     this.enableTextures(true);
     
     this.gl.clearDepth(100.0);
@@ -117,8 +113,6 @@ XMLscene.prototype.display = function() {
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
-    this.tria.display();
-
     this.pushMatrix();
     
     if (this.graph.loadedOk) 
@@ -155,7 +149,8 @@ XMLscene.prototype.display = function() {
 		// Draw axis
 		this.axis.display();
 	}
-    
+	
+    this.tria.display()
     this.popMatrix();
     
     // ---- END Background, camera and axis setup
