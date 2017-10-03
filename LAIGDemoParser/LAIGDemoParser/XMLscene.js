@@ -22,6 +22,12 @@ XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
     
     this.initCameras();
+    this.tria = new Triangle(this,new position(0,0,0),new position(2,0,0),new position(0,2,0));
+
+    this.mat = new CGFappearance(this);
+    this.mat.setAmbient(1,1,1,1);
+
+    this.mat.apply();
 
     this.enableTextures(true);
     
@@ -110,6 +116,8 @@ XMLscene.prototype.display = function() {
 
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
+
+    this.tria.display();
 
     this.pushMatrix();
     
