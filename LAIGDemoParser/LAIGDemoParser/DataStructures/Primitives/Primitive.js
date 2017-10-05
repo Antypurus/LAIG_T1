@@ -9,7 +9,7 @@ function primitive(type,vertices,id,scene){
   this.id = id;
   this.type = type;
   this.vertices = vertices;
-  this.inidices = null;
+  this.indices = null;
   this.scene = scene;
   this.setUP();
   this.initBuffers();
@@ -22,7 +22,7 @@ primitive.prototype.setUP = function(){
   for(var i = 0;i<this.vertices.length;++i){
 
     if(i%2==0){
-      this.inidices.push(i);
+      this.indices.push(i);
     }
   }
 }

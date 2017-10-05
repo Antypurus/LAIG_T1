@@ -26,7 +26,7 @@ Translation.prototype.constructor = Translation;
 function Rotation(axis,angle,object){
   action.call(this);
 
-  this.anlge = angle
+  this.angle = angle
   this.axis = axis;
   this.object = object;
 

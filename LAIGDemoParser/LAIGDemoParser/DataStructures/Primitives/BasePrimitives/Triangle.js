@@ -1,4 +1,4 @@
-function Triangle(CGFScene,coord1,coord2,coord3){
+function Triangle(Scene,coord1,coord2,coord3){
     this.scene = CGFScene
 
     this.coord1 = coord1;
@@ -6,7 +6,7 @@ function Triangle(CGFScene,coord1,coord2,coord3){
     this.coord3 = coord3;
     this.setUP();
 
-    CGFobject.call(this,CGFScene);
+    CGFobject.call(this,Scene);
     this.initBuffers();
 }
 
