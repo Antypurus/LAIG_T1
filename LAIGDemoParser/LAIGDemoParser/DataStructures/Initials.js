@@ -4,6 +4,6 @@ function initials(){
     this.rotation_x = null;
     this.rotation_y = null;
     this.rotation_z = null;
-    this.scake = null;
+    this.scale = null;
     this.reference = 0;
 }
