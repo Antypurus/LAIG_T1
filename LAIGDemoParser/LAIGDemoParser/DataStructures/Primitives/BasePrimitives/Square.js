@@ -13,7 +13,7 @@ Square.prototype = Object.create(CGFobject.prototype);
 Square.prototype.constructor = Square;
 
 Square.prototype.setUP = function(){
-  this.vertives = [
+  this.vertices = [
     this.coord1.x,this.coord1.y,0,
     this.coord2.x,this.coord1.y,0,
     this.coord2.x,this.coord2.y,0,
