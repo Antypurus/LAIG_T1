@@ -1,21 +1,27 @@
-function Sphere(Scene,radiu,parts_along_radius,parts_per_section){
+function Sphere(Scene,radius,parts_along_radius,parts_per_section){
     this.scene = Scene;
-    this.parts_along_radius = parts_along_radius;
-    this.parts_per_section = parts_per_section;
+    this.slices = parts_along_radius;
+    this.stacks = parts_per_section;
+    this.radius = radius;
 
-    CGFobject.call(this.scene);
-    this.setUP();
-    this.initBuffers();
+
+    this.semisphere1 = new SemiSphere(this.scene,this.radius, this.slices, this.stacks);
+    this.semisphere2 = new SemiSphere(this.scene,this.radius, this.slices, this.stacks);
+
+    CGFobject.call(this,Scene);
 }
 
 Sphere.prototype = Object.create(CGFobject.prototype);
 Sphere.prototype.constructor = Sphere;
 
-Sphere.prototype.setUP = function(){
-    //calc vertices and indices
-}
+Sphere.prototype.display = function(){
 
-Sphere.prototype.initBuffers = function(){
-    this.primitiveType = this.scene.gl.TRIANGLES;
-    this.initGLBuffers();
+    this.scene.pushMatrix();
+    this.semisphere1.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(180 *  Math.PI / 180, 0,1,0);
+    this.semisphere2.display();
+    this.scene.popMatrix();
 }

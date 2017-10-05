@@ -20,6 +20,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
 			     'DataStructures/Surface.js',  'DataStructures/Primitives/Primitive.js',
 			     'DataStructures/Primitives/PrimitiveManager.js', 'DataStructures/Primitives/BasePrimitives/Cylinder.js',
 			     'DataStructures/Primitives/BasePrimitives/Sphere.js',
+			     'DataStructures/Primitives/BasePrimitives/SemiSphere.js',
 			     'DataStructures/Primitives/BasePrimitives/Square.js',
 			     'DataStructures/Primitives/BasePrimitives/Triangle.js',"DataStructures/Primitives/BasePrimitives/Circle.js",
 

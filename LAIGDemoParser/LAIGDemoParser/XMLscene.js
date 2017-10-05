@@ -23,7 +23,8 @@ XMLscene.prototype.init = function(application) {
     
     this.initCameras();
     this.tria = new Circle(this,10000,4);
-
+    this.square = new Square(this, new position(0,0,0), new position(1,1,1));
+	this.sphere = new Sphere(this,1,60,60);
     this.mat = new CGFappearance(this);
     this.enableTextures(true);
     
@@ -150,7 +151,7 @@ XMLscene.prototype.display = function() {
 		this.axis.display();
 	}
 	
-    this.tria.display()
+    this.sphere.display();
     this.popMatrix();
     
     // ---- END Background, camera and axis setup
