@@ -169,7 +169,6 @@ MySceneGraph.prototype.parseInitials = function(initialsNode) {
     // Frustum planes.
     this.near = 0.1;
     this.far = 500;//TODO
-    var frustum = null;
 
     var indexFrustum = nodeNames.indexOf("frustum");
     if (indexFrustum == -1) {
@@ -1351,14 +1350,15 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
 						
 						if (type != null)
+						{
+						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type));
+                        sizeChildren++;
 							this.log("   Leaf: "+ type);
+						}
 						else
 							this.warn("Error in leaf");
 						
-						//parse leaf
-						//this.nodes[nodeID].addLeaf(new MyGraphLeaf(this,descendants[j]);
-                        sizeChildren++;
-					}
+																}
 					else
 						this.onXMLMinorError("unknown tag <" + descendants[j].nodeName + ">");
 
@@ -1429,8 +1429,50 @@ MySceneGraph.generateRandomString = function(length) {
 /**
  * Displays the scene, processing each node, starting in the root node.
  */
-MySceneGraph.prototype.displayScene = function() {
-	// entry point for graph rendering
-	// remove log below to avoid performance issues
-	this.log("Graph should be rendered here...");
+MySceneGraph.prototype.displayScene = function(nodeID) {
+if(nodeID != null)
+    {
+    var N = this.nodes[nodeID];
+    
+    this.textura = null;
+    this.material = null;
+
+   if(N.materialID != "null"){
+        material = this.materials[N.materialID];
+    }
+
+    if(N.textureID != "null" && N.textureID != "clear"){
+        textura = this.textures[N.textureID][0];
+    }
+    else
+        if(N.textureID == "clear")
+            textura = null;
+
+ this.scene.pushMatrix();
+
+		this.scene.multMatrix(N.transformMatrix);
+
+        for(var i = 0; i < N.children.length; i++)
+        {
+    
+            //this.applymaterial();
+            this.displayScene(N.children[i]);
+        
+        }
+        for(var j = 0; j < N.leaves.length; j++)
+        {
+
+        if(material != null){
+            material.apply();
+        }
+        
+        if(textura != null){
+            textura.bind();
+        }
+
+        N.leaves[i].display();
+        }
+
+          this.scene.popMatrix();
+    }
 }

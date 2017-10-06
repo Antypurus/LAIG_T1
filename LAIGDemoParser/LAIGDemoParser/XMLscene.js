@@ -22,10 +22,7 @@ XMLscene.prototype.init = function(application) {
     CGFscene.prototype.init.call(this, application);
     
     this.initCameras();
-    this.tria = new Circle(this,10000,4);
-    this.square = new Square(this, new position(0,0,0), new position(1,1,1));
-	this.sphere = new Sphere(this,1,60,60);
-    this.mat = new CGFappearance(this);
+    
     this.enableTextures(true);
     
     this.gl.clearDepth(100.0);
@@ -118,7 +115,7 @@ XMLscene.prototype.display = function() {
     
     if (this.graph.loadedOk) 
     {        
-        console.log("Graph Loaded!");
+        //console.log("Graph Loaded!");
         // Applies initial transformations.
         this.multMatrix(this.graph.initialTransforms);
 
@@ -141,8 +138,7 @@ XMLscene.prototype.display = function() {
             }
         }
         // Displays the scene.
-        this.graph.displayScene();
-        //this.display();
+        this.graph.displayScene(this.graph.idRoot);
 
     }
 	else
@@ -151,7 +147,6 @@ XMLscene.prototype.display = function() {
 		this.axis.display();
 	}
 	
-    this.sphere.display();
     this.popMatrix();
     
     // ---- END Background, camera and axis setup

@@ -1,5 +1,5 @@
 function Triangle(Scene,coord1,coord2,coord3){
-    this.scene = CGFScene
+    this.scene = Scene;
 
     this.coord1 = coord1;
     this.coord2 = coord2;
@@ -24,6 +24,19 @@ Triangle.prototype.setUP = function(){
   this.indices = [
     0,1,2,
   ];
+
+      this.normals = [
+    		0, 1, 0,
+    		0, 1, 0,
+    		0, 1, 0
+    	];
+
+  	this.texCoords = [
+			0, 0,
+			0, 1,
+			1, 1
+		];
+
 
 }
 
