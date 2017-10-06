@@ -1430,14 +1430,13 @@ MySceneGraph.generateRandomString = function(length) {
  * Displays the scene, processing each node, starting in the root node.
  */
 MySceneGraph.prototype.displayScene = function(nodeID) {
-if(nodeID != null)
-    {
-    var N = this.nodes[nodeID];
-    
+
     this.textura = null;
     this.material = null;
 
-   if(N.materialID != "null"){
+     var N = this.nodes[nodeID];
+
+   if(N.materialID != "null" && N.materialID ){
         material = this.materials[N.materialID];
     }
 
@@ -1475,4 +1474,3 @@ if(nodeID != null)
 
           this.scene.popMatrix();
     }
-}
