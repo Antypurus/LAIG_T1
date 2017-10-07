@@ -16,6 +16,10 @@ var NODES_INDEX = 6;
 function MySceneGraph(filename, scene) {
     this.loadedOk = null ;
     
+    this.textura = null;
+    this.material = null;
+    this.matID = null;
+
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
     scene.graph = this;
@@ -1429,16 +1433,19 @@ MySceneGraph.generateRandomString = function(length) {
 /**
  * Displays the scene, processing each node, starting in the root node.
  */
-MySceneGraph.prototype.displayScene = function(nodeID) {
+MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
+    
+        this.scene.pushMatrix();
 
-    this.textura = null;
-    this.material = null;
-
+        var textura = textura;
+       var material = material;
      var N = this.nodes[nodeID];
-
-   if(N.materialID != "null" && N.materialID ){
-        material = this.materials[N.materialID];
+        
+   if(N.materialID != "null"){
+       material = this.materials[N.materialID];
     }
+    //if(N.materialID == "null")
+        //this.material = this.materials[N.defaultMaterialID];
 
     if(N.textureID != "null" && N.textureID != "clear"){
         textura = this.textures[N.textureID][0];
@@ -1447,22 +1454,18 @@ MySceneGraph.prototype.displayScene = function(nodeID) {
         if(N.textureID == "clear")
             textura = null;
 
- this.scene.pushMatrix();
-
+       
 		this.scene.multMatrix(N.transformMatrix);
 
         for(var i = 0; i < N.children.length; i++)
         {
-    
-            //this.applymaterial();
-            this.displayScene(N.children[i]);
-        
+            this.displayScene(N.children[i], textura, material);
         }
         for(var j = 0; j < N.leaves.length; j++)
         {
 
         if(material != null){
-            material.apply();
+           material.apply();
         }
         
         if(textura != null){
@@ -1474,3 +1477,7 @@ MySceneGraph.prototype.displayScene = function(nodeID) {
 
           this.scene.popMatrix();
     }
+
+MySceneGraph.prototype.prepareScene = function(nodeID) {
+    this.displayScene(nodeID, null, null);
+}
