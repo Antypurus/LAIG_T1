@@ -6,6 +6,9 @@ function Sphere(Scene,radius,parts_along_radius,parts_per_section){
 
 
     this.semisphere1 = new SemiSphere(this.scene,this.radius, this.slices, this.stacks);
+
+    //this sphere is not needed , the first one works fine we just need to rotatte after displaying
+    //so this second sphere is just wasted memory as such it has been removed
     //this.semisphere2 = new SemiSphere(this.scene,this.radius, this.slices, this.stacks);
 
     CGFobject.call(this,Scene);
