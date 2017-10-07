@@ -6,7 +6,7 @@ function Sphere(Scene,radius,parts_along_radius,parts_per_section){
 
 
     this.semisphere1 = new SemiSphere(this.scene,this.radius, this.slices, this.stacks);
-    this.semisphere2 = new SemiSphere(this.scene,this.radius, this.slices, this.stacks);
+    //this.semisphere2 = new SemiSphere(this.scene,this.radius, this.slices, this.stacks);
 
     CGFobject.call(this,Scene);
 }
@@ -22,6 +22,6 @@ Sphere.prototype.display = function(){
 
     this.scene.pushMatrix();
     this.scene.rotate(180 *  Math.PI / 180, 0,1,0);
-    this.semisphere2.display();
+    this.semisphere1.display();
     this.scene.popMatrix();
 }
