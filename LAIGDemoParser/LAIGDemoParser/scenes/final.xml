@@ -1,0 +1,609 @@
+<SCENE>
+
+<!-- Initial values -->
+<INITIALS>
+    <frustum near="0.1" far="500"/>
+    <translation x="-1" y="1" z="0" />
+    <rotation axis="x" angle="0" />
+    <rotation axis="y" angle="0" />
+    <rotation axis="z" angle="0" />
+    <scale sx="0.25" sy="0.25" sz="0.25" />
+    <reference length="5" />
+</INITIALS>
+
+
+<!-- Illumination and clear colour -->
+<ILLUMINATION>
+    <ambient r="0.2" g="0.2" b="0.2" a="1" />
+    <background r="0" g="0" b="0" a="1" />
+</ILLUMINATION>
+
+
+<!-- Lights -->
+<LIGHTS>
+	<LIGHT id="light0">
+        <enable value ="1" />
+        <position  x="0" y="29" z="19" w="1" />
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+    </LIGHT>
+
+	<LIGHT id="light1">
+        <enable value ="1" />
+        <position x="19" y="29" z="0" w="1" />
+        <ambient r="0" g="0" b="0" a="1.0" />
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+    </LIGHT>
+
+	<LIGHT id="light2">
+        <enable value ="1" />
+        <position x="20" y="30" z="20" w="1" />
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+    </LIGHT>
+</LIGHTS>
+
+<!-- Textures -->
+<TEXTURES>
+    <!-- Street bench -->
+    <TEXTURE id="banco">
+        <file path="images/bank.jpg" />                
+        <amplif_factor s="1" t="1" />                           
+    </TEXTURE>
+</TEXTURES>
+
+
+<MATERIALS>
+	<!-- Pyramid material -->
+    <MATERIAL id="piramideBase">
+        <shininess value="1" />
+        <specular r="1" g="1" b="1" a="1" />
+        <diffuse r="1.0" g="1" b="1" a="1" />
+        <ambient r="00" g="00" b="00" a="1" />
+        <emission r="1" g="1" b="1" a="1" />
+    </MATERIAL>
+</MATERIALS>
+
+<!-- The nodes -->
+<NODES>
+
+    <ROOT id="root" />
+
+    <!-- The root node -->
+    <NODE id="root">
+      <MATERIAL id="piramideBase"/>
+      <TEXTURE id="null"/>
+      <DESCENDANTS>
+        <NODEREF id="artifact"/>
+        <NODEREF id="traps"/>
+        <NODEREF id="pedestal"/>
+        <NODEREF id="lasers"/>
+        <NODEREF id="room"/>
+        <NODEREF id="candeiros"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Artifact Node -->
+    <NODE id="artifact">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="core"/>
+        <NODEREF id="piramides"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Traps Node -->
+    <NODE id="traps">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="trap1"/>
+        <NODEREF id="trap2"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Pedestal Node -->
+    <NODE id="pedestal">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="pCilindro"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Lasers Node -->
+    <NODE id="lasers">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="l1"/>
+        <NODEREF id="l2"/>
+        <NODEREF id="l3"/>
+        <NODEREF id="l4"/>
+        <NODEREF id="l5"/>
+        <NODEREF id="l6"/>
+        <NODEREF id="l7"/>
+        <NODEREF id="l8"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Room Node -->
+    <NODE id="room">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="ground"/>
+        <NODEREF id="wall0"/>
+        <NODEREF id="wall1"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Lights Node -->
+    <NODE id="candeiros">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="c1"/>
+        <NODEREF id="c2"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Artifact Code Node -->
+    <NODE id="core">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="10" y="8" z="10"/>
+      <DESCENDANTS>
+        <LEAF id="sphere_core" type="sphere" args="2 100 100"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Artifact Piramids Node -->
+    <NODE id="piramides">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="p1"/>
+        <NODEREF id="p2"/>
+        <NODEREF id="p3"/>
+        <NODEREF id="p4"/>
+        <NODEREF id="p5"/>
+        <NODEREF id="p6"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- Traps part1 -->
+    <NODE id="trap1">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="18" y="0" z="0"/>
+      <DESCENDANTS>
+        <NODEREF id="trap"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- Traps part2 -->
+    <NODE id="trap2">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="y" angle="90"/>
+      <TRANSLATION x="0" y="0" z="19"/>
+      <DESCENDANTS>
+        <NODEREF id="trap"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Pedestasl Cilinder -->
+    <NODE id="pCilindro">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="x" angle="-90"/>
+      <TRANSLATION x="10" y="0" z="10"/>
+      <DESCENDANTS>
+        <NODEREF id="cilindro0"/>
+      </DESCENDANTS>
+    </NODE>
+	
+    <NODE id="cilindro0">
+	      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <LEAF id="cilindro_0" type="cylinder" args="2 5 5 100 100 1 0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Individual Lasers -->
+    <NODE id="l1">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="10" y="0" z="5"/>
+      <DESCENDANTS>
+        <NODEREF id="laser"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="l2">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="13.54" y="0" z="6.46"/>
+      <DESCENDANTS>
+        <NODEREF id="laser"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="l3">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="15" y="0" z="10"/>
+      <DESCENDANTS>
+        <NODEREF id="laser"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="l4">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="13.54" y="0" z="13.54"/>
+      <DESCENDANTS>
+        <NODEREF id="laser"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="l5">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="10" y="0" z="15"/>
+      <DESCENDANTS>
+        <NODEREF id="laser"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="l6">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="6.46" y="0" z="13.54"/>
+      <DESCENDANTS>
+        <NODEREF id="laser"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="l7">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="5" y="0" z="10"/>
+      <DESCENDANTS>
+        <NODEREF id="laser"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="l8">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="6.46" y="0" z="6.46"/>
+      <DESCENDANTS>
+        <NODEREF id="laser"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Room Ground -->
+    <NODE id="ground">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="x" angle="90"/>
+      <SCALE sx="20" sy="1" sz="20"/>
+      <DESCENDANTS>
+        <NODEREF id="square0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Room Walls -->
+    <NODE id="wall0">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="y" angle="-90"/>
+      <SCALE sx="1" sy="30" sz="20"/>
+      <DESCENDANTS>
+        <NODEREF id="square0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="wall1">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <SCALE sx="20" sy="30" sz="1"/>
+      <DESCENDANTS>
+        <NODEREF id="square0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- Square0 Primitive -->
+    <NODE id="square0">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <LEAF id="square_0" type="rectangle" args=" 0 0 1 1"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!--  The Individual Lights -->
+    <NODE id="c1">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <SCALE sx="1" sy="1" sz="3"/>
+      <ROTATION axis="y" angle="-90"/>
+      <TRANLATION x="17" y="29" z="0"/>
+      <DESCENDANTS>
+        <NODEREF id="cube"/>
+      </DESCENDANTS>
+    </NODE>
+    <NODE id="c2">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <SCALE sx="1" sy="1" sz="3"/>
+      <TRANLATION x="0" y="29" z="17"/>
+      <DESCENDANTS>
+        <NODEREF id="cube"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Individual Pyramids -->
+    <NODE id="p3">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRTANSLATION x="10" y="8" z="13"/>
+      <DESCENDANTS>
+        <NODEREF id="piramide"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="p1">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="y" angle="180"/>
+      <TRTANSLATION x="10" y="8" z="7"/>
+      <DESCENDANTS>
+        <NODEREF id="piramide"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="p2">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="y" angle="90"/>
+      <TRTANSLATION x="13" y="8" z="10"/>
+      <DESCENDANTS>
+        <NODEREF id="piramide"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="p4">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="y" angle="270"/>
+      <TRTANSLATION x="7" y="8" z="10"/>
+      <DESCENDANTS>
+        <NODEREF id="piramide"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="p5">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="x" angle="-90"/>
+      <TRTANSLATION x="10" y="11" z="10"/>
+      <DESCENDANTS>
+        <NODEREF id="piramide"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="p6">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="x" angle="90"/>
+      <TRTANSLATION x="10" y="5" z="10"/>
+      <DESCENDANTS>
+        <NODEREF id="piramide"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- A Trap -->
+    <NODE id="trap">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="trap_p0"/>
+        <NODEREF id="trap_p1"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Trap Parts -->
+    <NODE id="trap_p0">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <SCALE sx="1" sy="1" sz="3"/>
+      <DESCENDANTS>
+        <NODEREF id="cube"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="trap_p1">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <SCALE sx="1" sy="1" sz="3"/>
+      <TRANSLATION x="0.5" y="0" z="0"/>
+      <DESCENDANTS>
+        <NODEREF id="cube"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- An Individual Laser -->
+    <NODE id="laser">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="x" angle="-90"/>
+      <DESCENDANTS>
+        <LEAF id="cil" type="cylinder" args="30 0.25 0.25 100 100 0 0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- A Cube -->
+    <NODE id="cube">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="face0"/>
+        <NODEREF id="face1"/>
+        <NODEREF id="face2"/>
+        <NODEREF id="face3"/>
+        <NODEREF id="face4"/>
+        <NODEREF id="face5"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Faces Of A Cube -->
+    <NODE id="face0">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <TRANSLATION x="0" y="0" z="1"/>
+      <DESCENDANTS>
+        <NODEREF id="face"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="face1">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="face"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="face2">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="x" angle="90"/>
+      <DESCENDANTS>
+        <NODEREF id="face"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="face3">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="y" angle="-90"/>
+      <DESCENDANTS>
+        <NODEREF id="face"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="face4">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="x" angle="90"/>
+      <TRANSLATION x="0" y="1" z="0"/>
+      <DESCENDANTS>
+        <NODEREF id="face"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="face5">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="y" angle="-90"/>
+      <TRANSLATION x="1" y="0" z="0"/>
+      <DESCENDANTS>
+        <NODEREF id="face"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="face">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <LEAF id="square_1" type="rectangle" args="0 0 1 1"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- A Pyramid -->
+    <NODE id="piramide">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="piramideBase"/>
+        <NODEREF id="piramideWalls"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Piramid Base -->
+    <NODE id="piramideBase">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <LEAF id="quadrado" type="rectangle" args="1 1 -1 -1"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <!-- The Piramids Walls -->
+    <NODE id="piramideWalls">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="pWall0"/>
+        <NODEREF id="pWall1"/>
+        <NODEREF id="pWall2"/>
+        <NODEREF id="pWall3"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="pWall0">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="z" angle="90"/>
+      <DESCENDANTS>
+        <NODEREF id="triangle0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="pWall1">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <DESCENDANTS>
+        <NODEREF id="triangle0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="pWall2">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="z" angle="180"/>
+      <DESCENDANTS>
+        <NODEREF id="triangle0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="pWall3">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />
+      <ROTATION axis="z" angle="270"/>
+      <DESCENDANTS>
+        <NODEREF id="triangle0"/>
+      </DESCENDANTS>
+    </NODE>
+
+    <NODE id="triangle0">
+      <MATERIAL id="null" />
+      <TEXTURE id="null" />  
+      <DESCENDANTS>
+        <LEAF id="triangle_0" type="triangle" args="0 0 0 1 1 0 -1 1 0"/>
+      </DESCENDANTS>
+    </NODE>
+
+</NODES>
+
+</SCENE>

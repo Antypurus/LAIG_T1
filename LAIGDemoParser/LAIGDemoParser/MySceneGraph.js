@@ -1477,7 +1477,3 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
 
           this.scene.popMatrix();
     }
-
-MySceneGraph.prototype.prepareScene = function(nodeID) {
-    this.displayScene(nodeID, null, null);
-}
