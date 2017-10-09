@@ -5,6 +5,7 @@ function Cylinder(Scene,bottom_radius,top_radius,height,sections_along_height,pa
     this.height = height;
     this.slices = sections_along_height;
     this.stacks = parts_per_section;
+    this.circle = new Circle(Scene, this.stacks, bottom_radius);
 
     CGFobject.call(this,Scene);
 
@@ -51,9 +52,26 @@ Cylinder.prototype.setUP = function(){
 	this.texCoords.push(1 - (i + 1) / this.slices, (z + 1) / this.stacks);
 	}
 	}
+
 }
 
 Cylinder.prototype.initBuffers = function(){
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
+}
+
+Cylinder.prototype.display = function()
+{
+	this.scene.pushMatrix();
+	this.circle.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(0,0,this.height);
+	this.circle.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	CGFobject.prototype.display.call(this);
+	this.scene.popMatrix();
 }
