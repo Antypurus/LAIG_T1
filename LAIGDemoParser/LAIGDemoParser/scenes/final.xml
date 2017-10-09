@@ -73,6 +73,14 @@
         <ambient r="00" g="00" b="00" a="1" />
         <emission r="1" g="0" b="0" a="1" />
     </MATERIAL>
+
+    <MATERIAL id="wls">
+        <shininess value="1" />
+        <specular r="0" g="0" b="0" a="0.5" />
+        <diffuse r="0" g="0" b="1" a="0.5" />
+        <ambient r="00" g="00" b="1" a="0.5" />
+        <emission r="0" g="0" b="1" a="1" />
+    </MATERIAL>    
 </MATERIALS>
 
 <!-- The nodes -->
@@ -141,7 +149,7 @@
 
     <!-- The Room Node -->
     <NODE id="room">
-      <MATERIAL id="lasers" />
+      <MATERIAL id="wls" />
       <TEXTURE id="null" />
       <DESCENDANTS>
         <NODEREF id="ground"/>
@@ -303,22 +311,23 @@
     <NODE id="ground">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <ROTATION axis="x" angle="90"/>
       <SCALE sx="20" sy="1" sz="20"/>
+      <TRANSLATION x="0" y="0" z="1"/>
+      <ROTATION axis="x" angle="-90"/>
       <DESCENDANTS>
-        <NODEREF id="square0"/>
+        <NODEREF id="face"/>
       </DESCENDANTS>
     </NODE>
 
     <!-- The Room Walls -->
     <NODE id="wall0">
-      <MATERIAL id="lasers" />
+      <MATERIAL id="null" />
       <TEXTURE id="null" />
       <SCALE sx="1" sy="30" sz="20"/>
       <TRANSLATION x="0" y="0" z="1"/>
       <ROTATION axis="y" angle="90"/>
       <DESCENDANTS>
-        <NODEREF id="square0"/>
+        <NODEREF id="face"/>
       </DESCENDANTS>
     </NODE>
 
@@ -327,16 +336,7 @@
       <TEXTURE id="null" />
       <SCALE sx="20" sy="30" sz="1"/>
       <DESCENDANTS>
-        <NODEREF id="square0"/>
-      </DESCENDANTS>
-    </NODE>
-
-    <!-- Square0 Primitive -->
-    <NODE id="square0">
-      <MATERIAL id="null" />
-      <TEXTURE id="null" />
-      <DESCENDANTS>
-        <LEAF type="rectangle" args=" 0 1  1 0"/>
+        <NODEREF id="face"/>
       </DESCENDANTS>
     </NODE>
 
@@ -344,7 +344,7 @@
     <NODE id="c1">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <TRANSLATION x="17" y="29" z="0"/>
+      <TRANSLATION x="17" y="29" z="1"/>
       <ROTATION axis="y" angle="90"/>
       <SCALE sx="1" sy="1" sz="3"/>
       <DESCENDANTS>
@@ -555,6 +555,8 @@
     <NODE id="piramideBase">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
+      <TRANSLATION x="0" y="0" z="0"/>
+      <ROTATION axis="y" angle="180"/>
       <DESCENDANTS>
         <LEAF id="quadrado" type="rectangle" args="-1 1 1 -1"/>
       </DESCENDANTS>
