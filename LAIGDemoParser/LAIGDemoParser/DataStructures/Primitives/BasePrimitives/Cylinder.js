@@ -29,10 +29,10 @@ Cylinder.prototype.setUP = function(){
 	var sliplus1 = sli+1/this.stacks;
 		
 	for(var i = 0; i < this.slices; i++){
-	this.vertices.push(Math.cos(i*alpha),Math.sin(i*alpha),sli * this.height);
-	this.vertices.push(Math.cos((i+1)*alpha), Math.sin((i+1)*alpha),sli * this.height);
-	this.vertices.push(Math.cos((i+1)*alpha), Math.sin((i+1)*alpha),sliplus1 * this.height);
-	this.vertices.push(Math.cos(i*alpha), Math.sin(i*alpha),sliplus1 * this.height);
+	this.vertices.push(Math.cos(i*alpha)*this.bottom_radius,Math.sin(i*alpha)*this.bottom_radius,sli * this.height);
+	this.vertices.push(Math.cos((i+1)*alpha)*this.bottom_radius, Math.sin((i+1)*alpha)*this.bottom_radius,sli * this.height);
+	this.vertices.push(Math.cos((i+1)*alpha)*this.bottom_radius, Math.sin((i+1)*alpha)*this.bottom_radius,sliplus1 * this.height);
+	this.vertices.push(Math.cos(i*alpha)*this.bottom_radius, Math.sin(i*alpha)*this.bottom_radius,sliplus1 * this.height);
 
 	this.indices.push(ind,ind +1 ,ind + 3);
 	this.indices.push(ind+1,ind+2,ind+3);
