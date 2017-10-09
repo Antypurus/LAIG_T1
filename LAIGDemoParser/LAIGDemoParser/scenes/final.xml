@@ -212,7 +212,7 @@
 	      <MATERIAL id="null" />
       <TEXTURE id="null" />
       <DESCENDANTS>
-        <LEAF id="cilindro_0" type="cylinder" args="2 5 5 100 100 1 0"/>
+        <LEAF id="cilindro_0" type="cylinder" args="1 5 5 100 100 1 0"/>
       </DESCENDANTS>
     </NODE>
 
@@ -307,7 +307,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <ROTATION axis="y" angle="-90"/>
-      <SCALE sx="1" sy="30" sz="20"/>
+      <SCALE sx="1.0" sy="30.0" sz="20.0"/>
       <DESCENDANTS>
         <NODEREF id="square0"/>
       </DESCENDANTS>
@@ -327,7 +327,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <DESCENDANTS>
-        <LEAF id="square_0" type="rectangle" args=" 0 0 1 1"/>
+        <LEAF type="rectangle" args=" 0 1 1 0"/>
       </DESCENDANTS>
     </NODE>
 
@@ -356,7 +356,7 @@
     <NODE id="p3">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <TRTANSLATION x="10" y="8" z="13"/>
+      <TRANSLATION x="10" y="8" z="13"/>
       <DESCENDANTS>
         <NODEREF id="piramide"/>
       </DESCENDANTS>
@@ -366,7 +366,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <ROTATION axis="y" angle="180"/>
-      <TRTANSLATION x="10" y="8" z="7"/>
+      <TRANSLATION x="10" y="8" z="7"/>
       <DESCENDANTS>
         <NODEREF id="piramide"/>
       </DESCENDANTS>
@@ -376,7 +376,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <ROTATION axis="y" angle="90"/>
-      <TRTANSLATION x="13" y="8" z="10"/>
+      <TRANSLATION x="13" y="8" z="10"/>
       <DESCENDANTS>
         <NODEREF id="piramide"/>
       </DESCENDANTS>
@@ -386,7 +386,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <ROTATION axis="y" angle="270"/>
-      <TRTANSLATION x="7" y="8" z="10"/>
+      <TRANSLATION x="7" y="8" z="10"/>
       <DESCENDANTS>
         <NODEREF id="piramide"/>
       </DESCENDANTS>
@@ -396,7 +396,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <ROTATION axis="x" angle="-90"/>
-      <TRTANSLATION x="10" y="11" z="10"/>
+      <TRANSLATION x="10" y="11" z="10"/>
       <DESCENDANTS>
         <NODEREF id="piramide"/>
       </DESCENDANTS>
@@ -406,7 +406,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <ROTATION axis="x" angle="90"/>
-      <TRTANSLATION x="10" y="5" z="10"/>
+      <TRANSLATION x="10.0" y="5.0" z="10.0"/>
       <DESCENDANTS>
         <NODEREF id="piramide"/>
       </DESCENDANTS>
@@ -448,7 +448,7 @@
       <TEXTURE id="null" />
       <ROTATION axis="x" angle="-90"/>
       <DESCENDANTS>
-        <LEAF id="cil" type="cylinder" args="30 0.25 0.25 100 100 0 0"/>
+        <LEAF id="cil" type="cylinder" args="30 0.05 0.05 100 100 0 0"/>
       </DESCENDANTS>
     </NODE>
 
@@ -479,6 +479,7 @@
     <NODE id="face1">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
+      <TRANSLATION x="0" y="0" z="0"/>
       <DESCENDANTS>
         <NODEREF id="face"/>
       </DESCENDANTS>
@@ -505,8 +506,8 @@
     <NODE id="face4">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <ROTATION axis="x" angle="90"/>
-      <TRANSLATION x="0" y="1" z="0"/>
+      <ROTATION axis="x" angle="-90"/>
+      <TRANSLATION x="0" y="1" z="1"/>
       <DESCENDANTS>
         <NODEREF id="face"/>
       </DESCENDANTS>
@@ -515,7 +516,7 @@
     <NODE id="face5">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <ROTATION axis="y" angle="-90"/>
+      <ROTATION axis="y" angle="180"/>
       <TRANSLATION x="1" y="0" z="0"/>
       <DESCENDANTS>
         <NODEREF id="face"/>
@@ -526,7 +527,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <DESCENDANTS>
-        <LEAF id="square_1" type="rectangle" args="0 0 1 1"/>
+        <LEAF id="square_1" type="rectangle" args="0 1 1 0"/>
       </DESCENDANTS>
     </NODE>
 
@@ -545,7 +546,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <DESCENDANTS>
-        <LEAF id="quadrado" type="rectangle" args="1 1 -1 -1"/>
+        <LEAF id="quadrado" type="rectangle" args="-1 1 1 -1"/>
       </DESCENDANTS>
     </NODE>
 
@@ -600,10 +601,8 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />  
       <DESCENDANTS>
-        <LEAF id="triangle_0" type="triangle" args="0 0 0 1 1 0 -1 1 0"/>
+        <LEAF id="triangle_0" type="triangle" args="0 0 1 1 1 0 -1 1 0"/>
       </DESCENDANTS>
     </NODE>
-
-</NODES>
-
+  </NODES>
 </SCENE>
