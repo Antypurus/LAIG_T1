@@ -344,9 +344,9 @@
     <NODE id="c1">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <SCALE sx="1" sy="1" sz="3"/>
       <TRANLATION x="17" y="29" z="0"/>
-      <ROTATION axis="y" angle="-90"/>
+      <ROTATION axis="y" angle="90"/>
+      <SCALE sx="1" sy="1" sz="3"/>
       <DESCENDANTS>
         <NODEREF id="cube"/>
       </DESCENDANTS>
@@ -354,8 +354,8 @@
     <NODE id="c2">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <SCALE sx="1" sy="1" sz="3"/>
       <TRANLATION x="0" y="29" z="17"/>
+      <SCALE sx="1" sy="1" sz="3"/>
       <DESCENDANTS>
         <NODEREF id="cube"/>
       </DESCENDANTS>
@@ -435,7 +435,7 @@
     <NODE id="trap_p0">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <SCALE sx="1" sy="1" sz="3"/>
+      <SCALE sx="0.5" sy="0.5" sz="1.5"/>
       <DESCENDANTS>
         <NODEREF id="cube"/>
       </DESCENDANTS>
@@ -444,8 +444,8 @@
     <NODE id="trap_p1">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <SCALE sx="1" sy="1" sz="3"/>
-      <TRANSLATION x="0.5" y="0" z="0"/>
+      <TRANSLATION x="0.8" y="0" z="0"/>
+      <SCALE sx="0.5" sy="0.5" sz="1.5"/>
       <DESCENDANTS>
         <NODEREF id="cube"/>
       </DESCENDANTS>
