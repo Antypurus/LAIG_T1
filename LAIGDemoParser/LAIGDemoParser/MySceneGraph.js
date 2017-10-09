@@ -1443,9 +1443,11 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         var ampS = null;
         var ampT = null;
         
+        //se for diferente de null é porque tem material novo senao usa do pai
     if(N.materialID != "null")
        material = this.materials[N.materialID];
 
+    //a textura se nao for null nem clear, é porque o node tem textura nova se fosse clear nao usava nada
     if(N.textureID != "null" && N.textureID != "clear")
     {
         textura = this.textures[N.textureID][0];
@@ -1455,15 +1457,16 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
     else if(N.textureID == "clear")
             textura = null;
 
-
-
-
 		this.scene.multMatrix(N.transformMatrix);
 
         for(var i = 0; i < N.children.length; i++)
         {
-            this.displayScene(N.children[i], textura, material);
+            //o node x se tiver 2 filhos comeca pelo primeiro e vai ver os filhos desse and so on
+            //textura e material servem o filho saber a textura e material do pai
+            this.displayScene(N.children[i], textura, material); //recursivo
         }
+
+        //quando se chega aos nos folha é quando se comeca a desenhar, e depois volta-se atrás para ir a outro node
         for(var j = 0; j < N.leaves.length; j++)
         {
 
@@ -1475,9 +1478,10 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
             textura.bind();
         }
 
+        //a implementar
         //if(ampS != null || ampT != null)
         //N.leaves[j].scaleTexCoords(ampS, ampT);
-        N.leaves[j].display(); 
+        N.leaves[j].display(); //desenha de 0 ao numero de folhas do vetor de folhas daquele node
                
         }
 

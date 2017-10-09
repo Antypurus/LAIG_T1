@@ -1,4 +1,4 @@
-function Cylinder(Scene,bottom_radius,top_radius,height,sections_along_height,parts_per_section){
+function Cylinder(Scene,height,bottom_radius,top_radius,sections_along_height,parts_per_section){
     this.scene = Scene;
     this.bottom_radius = bottom_radius;
     this.top_radius = top_radius;

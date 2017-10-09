@@ -8,53 +8,44 @@ function MyGraphLeaf(graph, xmlelem, type)
 {
     this.graph = graph;
     this.type = type;
+    this.xmlelem = xmlelem;
+    var args = graph.reader.getString(this.xmlelem, 'args');
+    var argsArray = args.split(" ");
     this.object = null;
-    var str = graph.reader.getString(xmlelem, 'args');
-    var stringArray = str.split(" ");
 
 switch(this.type)
     {
         case 'rectangle':
-            var x1 = parseFloat(stringArray[0]);
-            var y1 = parseFloat(stringArray[1]);
-            var x2 = parseFloat(stringArray[2]);
-            var y2 = parseFloat(stringArray[3]);
-            this.object = new Rectangle(graph.scene, new position(x1, y1 ,0), new position(x2,y2,0));
+            var P1 = new position(parseFloat(argsArray[0]), parseFloat(argsArray[1]), 0);
+            var P2 = new position(parseFloat(argsArray[2]), parseFloat(argsArray[3]), 0);
+            this.object = new Rectangle(graph.scene, P1, P2);
             break;
+
         case 'sphere':
-            var radius = parseFloat(stringArray[0]);
-            var stacks = parseInt(stringArray[1]);
-            var slices = parseInt(stringArray[2]);
-            this.object = new Sphere(graph.scene, radius, stacks, slices);
+            var radius = parseFloat(argsArray[0]);
+            var parts_along_radius = parseInt(argsArray[1]);
+            var parts_per_section = parseInt(argsArray[2]);
+            this.object = new Sphere(graph.scene, radius, parts_along_radius, parts_per_section);
             break;
-        case 'cylinder':
-            var height = parseFloat(stringArray[0]);
-            var base = parseFloat(stringArray[1]);
-            var top = parseFloat(stringArray[2]);
-            var stacks = parseInt(stringArray[3]);
-            var slices = parseInt(stringArray[4]);
-            this.object = new Cylinder(graph.scene,  base, top, height, stacks, slices);
-            break;
+
         case 'triangle':
-            var x1 = parseFloat(stringArray[0]);
-            var y1 = parseFloat(stringArray[1]);
-            var z1 = parseFloat(stringArray[2]);
-            var x2 = parseFloat(stringArray[3]);
-            var y2 = parseFloat(stringArray[4]);
-            var z2 = parseFloat(stringArray[5]);
-            var x3 = parseFloat(stringArray[6]);
-            var y3 = parseFloat(stringArray[7]);
-            var z3 = parseFloat(stringArray[8]);
-            this.object = new Triangle(graph.scene, new position(x1, y1, z1), new position(x2, y2, z2), new position(x3, y3, z3));
+            var P1 = new position(parseFloat(argsArray[0]), parseFloat(argsArray[1]), parseFloat(argsArray[2]));
+            var P2 = new position(parseFloat(argsArray[3]), parseFloat(argsArray[4]), parseFloat(argsArray[5]));
+            var P3 = new position(parseFloat(argsArray[6]), parseFloat(argsArray[7]), parseFloat(argsArray[8]));
+            this.object = new Triangle(graph.scene, P1, P2, P3);
+            break;
+
+        case 'cylinder':
+            var height = parseFloat(argsArray[0]);
+            var bottom_radius = parseFloat(argsArray[1]);
+            var top_radius = parseFloat(argsArray[2]);
+            var sections_along_height = parseInt(argsArray[3]);
+            var parts_per_section = parseInt(argsArray[4]);
+            this.object = new Cylinder(graph.scene, height,  bottom_radius, top_radius, sections_along_height, parts_per_section);
+            break;
         default:
             break;
     }
-}
-
-MyGraphLeaf.prototype.display = function(){
-   if(this.object != null){
-        this.object.display();
-   }
 }
 
 MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) {
@@ -66,4 +57,11 @@ MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) {
     }
     this.object.updateTexCoordsGLBuffers();
  }
+}
+
+//a funcao display desenha o objeto que for criado em cima no mygraphleaf
+MyGraphLeaf.prototype.display = function(){
+   if(this.object != null){
+        this.object.display();
+   }
 }
