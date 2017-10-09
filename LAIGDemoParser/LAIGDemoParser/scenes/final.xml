@@ -51,8 +51,43 @@
     <!-- Street bench -->
     <TEXTURE id="banco">
         <file path="images/bank.jpg" />                
-        <amplif_factor s="1" t="1" />                           
+        <amplif_factor s="1" t="10" />                           
     </TEXTURE>
+	
+	<TEXTURE id = "artifact">
+		<file path="images/artifact.jpg" />
+		<amplif_factor s="1" t="10" />
+	</TEXTURE>
+	
+	<TEXTURE id = "oldwall">
+		<file path="images/wall.jpg" />
+		<amplif_factor s="1" t="10" />
+	</TEXTURE>
+	
+	<TEXTURE id = "piramides">
+		<file path="images/piramides.png" />
+		<amplif_factor s="1" t="10" />
+	</TEXTURE>
+	
+	<TEXTURE id = "chao">
+		<file path="images/floor2.png" />
+		<amplif_factor s="1" t="10" />
+	</TEXTURE>
+	
+	<TEXTURE id = "pedestalPic">
+		<file path="images/pedestal.png" />
+		<amplif_factor s="1" t="10" />
+	</TEXTURE>
+	
+	<TEXTURE id = "laserPic">
+		<file path="images/laser.jpg" />
+		<amplif_factor s="1" t="10" />
+	</TEXTURE>
+
+	<TEXTURE id = "lampsPic">
+		<file path="images/lamps.png" />
+		<amplif_factor s="1" t="10" />
+	</TEXTURE>
 </TEXTURES>
 
 
@@ -105,7 +140,7 @@
     <!-- The Artifact Node -->
     <NODE id="artifact">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="artifact" />
       <DESCENDANTS>
         <NODEREF id="core"/>
         <NODEREF id="piramides"/>
@@ -115,7 +150,7 @@
     <!-- The Traps Node -->
     <NODE id="traps">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="banco" />
       <DESCENDANTS>
         <NODEREF id="trap1"/>
         <NODEREF id="trap2"/>
@@ -125,7 +160,7 @@
     <!-- The Pedestal Node -->
     <NODE id="pedestal">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="pedestalPic" />
       <DESCENDANTS>
         <NODEREF id="pCilindro"/>
       </DESCENDANTS>
@@ -149,8 +184,8 @@
 
     <!-- The Room Node -->
     <NODE id="room">
-      <MATERIAL id="wls" />
-      <TEXTURE id="null" />
+      <MATERIAL id="null" />
+      <TEXTURE id="pedestalPic" />
       <DESCENDANTS>
         <NODEREF id="ground"/>
         <NODEREF id="wall0"/>
@@ -158,10 +193,10 @@
       </DESCENDANTS>
     </NODE>
 
-    <!-- The Lights Node -->
+    <!-- The LAMPS Node -->
     <NODE id="candeiros">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="lampsPic" />
       <DESCENDANTS>
         <NODEREF id="c1"/>
         <NODEREF id="c2"/>
@@ -181,7 +216,7 @@
     <!-- The Artifact Piramids Node -->
     <NODE id="piramides">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="piramides" />
       <DESCENDANTS>
         <NODEREF id="p1"/>
         <NODEREF id="p2"/>
@@ -195,7 +230,7 @@
     <!-- Traps part1 -->
     <NODE id="trap1">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="banco" />
       <TRANSLATION x="18" y="0" z="0"/>
       <DESCENDANTS>
         <NODEREF id="trap"/>
@@ -205,7 +240,7 @@
     <!-- Traps part2 -->
     <NODE id="trap2">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="banco" />
       <TRANSLATION x="0" y="0" z="19"/>
       <ROTATION axis="y" angle="90"/>
       <DESCENDANTS>
@@ -310,7 +345,7 @@
     <!-- The Room Ground -->
     <NODE id="ground">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="chao" />
       <SCALE sx="20" sy="1" sz="20"/>
       <TRANSLATION x="0" y="0" z="1"/>
       <ROTATION axis="x" angle="-90"/>
@@ -454,7 +489,7 @@
     <!-- An Individual Laser -->
     <NODE id="laser">
       <MATERIAL id="null" />
-      <TEXTURE id="null" />
+      <TEXTURE id="laserPic" />
       <ROTATION axis="x" angle="-90"/>
       <DESCENDANTS>
         <LEAF id="cil" type="cylinder" args="30 0.25 0.25 100 100 0 0"/>

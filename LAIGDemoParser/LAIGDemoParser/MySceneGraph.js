@@ -1438,23 +1438,26 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         this.scene.pushMatrix();
 
         var textura = textura;
-       var material = material;
-     var N = this.nodes[nodeID];
+        var material = material;
+        var N = this.nodes[nodeID];
+        var ampS = null;
+        var ampT = null;
         
-   if(N.materialID != "null"){
+    if(N.materialID != "null")
        material = this.materials[N.materialID];
-    }
-    //if(N.materialID == "null")
-        //this.material = this.materials[N.defaultMaterialID];
 
-    if(N.textureID != "null" && N.textureID != "clear"){
+    if(N.textureID != "null" && N.textureID != "clear")
+    {
         textura = this.textures[N.textureID][0];
+        ampS = this.textures[N.textureID][1];
+        ampT = this.textures[N.textureID][2];
     }
-    else
-        if(N.textureID == "clear")
+    else if(N.textureID == "clear")
             textura = null;
 
-       
+
+
+
 		this.scene.multMatrix(N.transformMatrix);
 
         for(var i = 0; i < N.children.length; i++)
@@ -1467,12 +1470,15 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         if(material != null){
            material.apply();
         }
-        
+
         if(textura != null){
             textura.bind();
         }
 
-        N.leaves[i].display();
+        //if(ampS != null || ampT != null)
+        //N.leaves[j].scaleTexCoords(ampS, ampT);
+        N.leaves[j].display(); 
+               
         }
 
           this.scene.popMatrix();

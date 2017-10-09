@@ -56,3 +56,14 @@ MyGraphLeaf.prototype.display = function(){
         this.object.display();
    }
 }
+
+MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) {
+  if(this.object != null){
+    for (var i = 0; i < this.object.texCoords.length; i += 2) 
+    {
+        this.object.texCoords[i] = this.object.texCoords[i] / ampS;
+        this.object.texCoords[i + 1] = this.object.texCoords[i + 1] / ampT;
+    }
+    this.object.updateTexCoordsGLBuffers();
+ }
+}
