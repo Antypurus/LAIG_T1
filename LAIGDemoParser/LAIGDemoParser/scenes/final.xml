@@ -344,7 +344,7 @@
     <NODE id="c1">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <TRANLATION x="17" y="29" z="0"/>
+      <TRANSLATION x="17" y="29" z="0"/>
       <ROTATION axis="y" angle="90"/>
       <SCALE sx="1" sy="1" sz="3"/>
       <DESCENDANTS>
@@ -354,7 +354,7 @@
     <NODE id="c2">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
-      <TRANLATION x="0" y="29" z="17"/>
+      <TRANSLATION x="0" y="29" z="17"/>
       <SCALE sx="1" sy="1" sz="3"/>
       <DESCENDANTS>
         <NODEREF id="cube"/>
