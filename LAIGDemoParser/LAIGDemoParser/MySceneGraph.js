@@ -20,6 +20,9 @@ function MySceneGraph(filename, scene) {
     this.material = null;
     this.matID = null;
 
+    this.passedNodes = [];
+    this.flag = true;
+
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
     scene.graph = this;
@@ -1435,55 +1438,87 @@ MySceneGraph.generateRandomString = function(length) {
  */
 MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
     
-        this.scene.pushMatrix();
-
         var textura = textura;
         var material = material;
         var N = this.nodes[nodeID];
         var ampS = null;
         var ampT = null;
+        var textureTest;
+       
+    if(N != null){
         
         //se for diferente de null é porque tem material novo senao usa do pai
     if(N.materialID != "null")
-       material = this.materials[N.materialID];
+        if(this.materials[N.materialID] != null)
+       material = N.materialID;
 
-    //a textura se nao for null nem clear, é porque o node tem textura nova se fosse clear nao usava nada
-    if(N.textureID != "null" && N.textureID != "clear")
+
+
+    if(N.textureID == "clear")
+            textureTest = "clear";
+            
+    else if(N.textureID == "null")
     {
-        textura = this.textures[N.textureID][0];
+        if(this.textures[textura] != null)
+        {
+            textureTest = this.textures[textura][0];
+            ampS = this.textures[textura][1];
+            ampT = this.textures[textura][2];
+        }
+        else
+            textureTest = null;
+    }
+    //a textura se nao for null nem clear, é porque o node tem textura nova se fosse clear nao usava nada
+    else
+    {
+        textureTest = this.textures[N.textureID][0];
+        textura = N.textureID;
         ampS = this.textures[N.textureID][1];
         ampT = this.textures[N.textureID][2];
     }
-    else if(N.textureID == "clear")
-            textura = null;
 
 		this.scene.multMatrix(N.transformMatrix);
 
+		var materialTest = this.materials[material];
+		/*if(textureTest == "clear")
+		  materialTest.setTexture(null);
+		else
+		  materialTest.setTexture(textureTest);
+		  */
+
         for(var i = 0; i < N.children.length; i++)
         {
+             this.scene.pushMatrix();
             //o node x se tiver 2 filhos comeca pelo primeiro e vai ver os filhos desse and so on
             //textura e material servem o filho saber a textura e material do pai
             this.displayScene(N.children[i], textura, material); //recursivo
+            this.scene.popMatrix();
         }
 
         //quando se chega aos nos folha é quando se comeca a desenhar, e depois volta-se atrás para ir a outro node
         for(var j = 0; j < N.leaves.length; j++)
         {
 
-        if(material != null){
-           material.apply();
-        }
-
-        if(textura != null){
-            textura.bind();
-        }
-
+        //materialTest.apply();
+        if(materialTest != null)
+        materialTest.apply();
+        
+        if(textureTest != null)
+        textureTest.bind();
         //a implementar
-        //if(ampS != null || ampT != null)
-        //N.leaves[j].scaleTexCoords(ampS, ampT);
-        N.leaves[j].display(); //desenha de 0 ao numero de folhas do vetor de folhas daquele node
-               
+        if(ampS != null && ampT != null)
+        {
+            if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
+        N.leaves[j].scaleTexCoords(ampS, ampT); //faz scale as text coords de acordo com os amplification factors
         }
 
-          this.scene.popMatrix();
+        N.leaves[j].display(ampS, ampT); //desenha de 0 ao numero de folhas do vetor de folhas daquele node
+
+            if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
+        N.leaves[j].descaleTexCoords(ampS, ampT); //faz reset as tex coords
+        }
+      
+
+          
+    }
     }

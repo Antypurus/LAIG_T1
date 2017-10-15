@@ -12,6 +12,7 @@ function MyGraphLeaf(graph, xmlelem, type)
     var args = graph.reader.getString(this.xmlelem, 'args');
     var argsArray = args.split(" ");
     this.primitive = null;
+    this.oldprimitive = [];
 
 switch(this.type)
     {
@@ -50,17 +51,31 @@ switch(this.type)
 
 MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) {
   if(this.primitive != null){
-    for (var i = 0; i < this.object.texCoords.length; i += 2) 
+    this.oldprimitive = this.primitive.texCoords;
+    for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
     {
-        this.primitive.texCoords[i] = this.object.texCoords[i] / ampS;
-        this.primitive.texCoords[i + 1] = this.object.texCoords[i + 1] / ampT;
+        this.primitive.texCoords[i] = this.primitive.texCoords[i] / ampS;
+        this.primitive.texCoords[i + 1] = this.primitive.texCoords[i + 1] / ampT;
     }
     this.primitive.updateTexCoordsGLBuffers();
  }
 }
 
+MyGraphLeaf.prototype.descaleTexCoords = function(ampS, ampT) {
+  if(this.primitive != null){
+    this.oldprimitive = this.primitive.texCoords;
+    for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
+    {
+        this.primitive.texCoords[i] = this.primitive.texCoords[i] * ampS;
+        this.primitive.texCoords[i + 1] = this.primitive.texCoords[i + 1] * ampT;
+    }
+    this.primitive.updateTexCoordsGLBuffers();
+ }
+}
+
+
 //a funcao display desenha o objeto que for criado em cima no mygraphleaf
-MyGraphLeaf.prototype.display = function(){
+MyGraphLeaf.prototype.display = function(ampS, ampT){
    if(this.primitive != null){
         this.primitive.display();
    }

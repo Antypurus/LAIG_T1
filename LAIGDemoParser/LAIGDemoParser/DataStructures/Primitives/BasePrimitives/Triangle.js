@@ -33,8 +33,8 @@ Triangle.prototype.setUP = function(){
 
   	this.texCoords = [
 			0, 0,
-			0, 1,
-			1, 1
+			0, Math.abs(this.vertices[0] - this.vertices[2]),
+			Math.abs(this.vertices[0] - this.vertices[3]), Math.abs(this.vertices[0] - this.vertices[2]),
 		];
 
 
