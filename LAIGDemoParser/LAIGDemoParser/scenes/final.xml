@@ -76,7 +76,7 @@
 	
 	<TEXTURE id = "pedestalPic">
 		<file path="images/pedestal.png" />
-		<amplif_factor s="1" t="1" />
+		<amplif_factor s="0.5" t="0.5" />
 	</TEXTURE>
 	
 	<TEXTURE id = "laserPic">
