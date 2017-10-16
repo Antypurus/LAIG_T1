@@ -1354,11 +1354,18 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                 else
 					if (descendants[j].nodeName == "LEAF")
 					{
-						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle']);
+					    var cPoint = descendants[j].children;
+					    var points = [];
+					    for(var x = 0; x < cPoint.length; x++)
+					    points.push(cPoint[x].children);
+						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle', 'patch']);
 						
 						if (type != null)
 						{
-						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type));
+						    if(type != 'patch')
+						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type), null);
+						      else
+						          this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type, points));
                         sizeChildren++;
 							this.log("   Leaf: "+ type);
 						}
@@ -1433,6 +1440,37 @@ MySceneGraph.generateRandomString = function(length) {
     return String.fromCharCode.apply(null, numbers);
 }
 
+MySceneGraph.prototype.getKnotsVector = function(degree)
+{
+    var v = new Array();
+    for(var i=0; i<=degree; i++)
+    {
+    v.push(0);
+    }
+    
+    for(var i=0;i<=degree; i++)
+    {
+    v.push(1);
+    }
+
+    return v;
+}
+
+MySceneGraph.prototype.makeSurface = function(id,degree1,degree2,controlvertexes,translation)
+{
+    var knots1 = this.getKnotsVector(degree1);
+    var knots2 = this.getKnotsVector(degree2);
+
+    var nurbsSurface = new CGFnurbsSurface(degree1, degree2, knots1, knots2, controlvertexes); // TODO  (CGF 0.19.3): remove knots1 and knots2 from CGFnurbsSurface method call. Calculate inside method.
+	getSurfacePoint = function(u, v) {
+		return nurbsSurface.getPoint(u, v);
+	};
+
+	var obj = new CGFnurbsObject(this.scene, getSurfacePoint, 200, 200 );
+	return obj;
+	//this.surfaces.push(obj);
+}
+
 /**
  * Displays the scene, processing each node, starting in the root node.
  */
@@ -1443,7 +1481,7 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         var N = this.nodes[nodeID];
         var ampS = null;
         var ampT = null;
-        var textureTest;
+        var textToApply;
        
     if(N != null){
         
@@ -1455,23 +1493,23 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
 
 
     if(N.textureID == "clear")
-            textureTest = "clear";
+            textToApply = "clear";
             
     else if(N.textureID == "null")
     {
         if(this.textures[textura] != null)
         {
-            textureTest = this.textures[textura][0];
+            textToApply = this.textures[textura][0];
             ampS = this.textures[textura][1];
             ampT = this.textures[textura][2];
         }
         else
-            textureTest = null;
+            textToApply = null;
     }
     //a textura se nao for null nem clear, é porque o node tem textura nova se fosse clear nao usava nada
     else
     {
-        textureTest = this.textures[N.textureID][0];
+        textToApply = this.textures[N.textureID][0];
         textura = N.textureID;
         ampS = this.textures[N.textureID][1];
         ampT = this.textures[N.textureID][2];
@@ -1503,8 +1541,8 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         if(materialTest != null)
         materialTest.apply();
         
-        if(textureTest != null)
-        textureTest.bind();
+        if(textToApply != null)
+        textToApply.bind();
         //a implementar
         if(ampS != null && ampT != null)
         {
@@ -1515,7 +1553,7 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         N.leaves[j].display(ampS, ampT); //desenha de 0 ao numero de folhas do vetor de folhas daquele node
 
             if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
-        N.leaves[j].descaleTexCoords(ampS, ampT); //faz reset as tex coords
+        N.leaves[j].deScaleTexCoords(ampS, ampT); //faz reset as tex coords
         }
       
 

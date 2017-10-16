@@ -13,7 +13,8 @@ function getUrlVars() {
 
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
 			 'MyGraphNode.js', 'MyGraphLeaf.js', 'MyInterface.js',
-			 'DataStructures/frustum.js',  'DataStructures/geometricTransformations.js',
+			 'DataStructures/frustum.js',  'DataStructures/Patch.js',
+			 'DataStructures/geometricTransformations.js',
 			  'DataStructures/Initials.js',  'DataStructures/Lighting.js',
 			   'DataStructures/Object.js',  'DataStructures/Object.js',
 			    'DataStructures/Observer.js',  'DataStructures/Position.js',

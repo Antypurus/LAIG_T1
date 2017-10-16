@@ -4,7 +4,7 @@
  * @constructor
 **/
 
-function MyGraphLeaf(graph, xmlelem, type)
+function MyGraphLeaf(graph, xmlelem, type, cPoint)
 {
     this.graph = graph;
     this.type = type;
@@ -13,6 +13,7 @@ function MyGraphLeaf(graph, xmlelem, type)
     var argsArray = args.split(" ");
     this.primitive = null;
     this.oldprimitive = [];
+    this.cPoint = cPoint;
 
 switch(this.type)
     {
@@ -44,6 +45,35 @@ switch(this.type)
             var parts_per_section = parseInt(argsArray[4]);
             this.primitive = new Cylinder(this.graph.scene, height,  bottom_radius, top_radius, sections_along_height, parts_per_section);
             break;
+        case 'patch':
+        var point = this.cPoint;
+        this.primitive = this.graph.makeSurface("2", 2, // degree on U: 3 control vertexes U
+					 3, // degree on V: 4 control vertexes on V
+					[	// U = 0
+						[ // V = 0..3;
+							 [ -1.5, -1.5, 0.0, 1 ],
+							 [ -2.0, -2.0, 2.0, 1 ],
+							 [ -2.0,  2.0, 2.0, 1 ],
+							 [ -1.5,  1.5, 0.0, 1 ]
+							
+						],
+						// U = 1
+						[ // V = 0..3
+							 [ 0, 0, 3.0, 1 ],
+							 [ 0, -2.0, 3.0, 1],
+							 [ 0,  2.0, 3.0, 1 ],
+							 [ 0,  0, 3.0, 1 ]							 
+						],
+						// U = 2
+						[ // V = 0..3							 
+							 [ 1.5, -1.5, 0.0, 1 ],
+							 [ 2.0, -2.0, 2.0, 1 ],
+							 [ 2.0,  2.0, 2.0, 1 ],
+							 [ 1.5,  1.5, 0.0, 1 ]
+						]
+					]);
+            //this.primitive = new CGFnurbsObject(CGFnurbsSurface(degree1,degree2,knots1,knots2,controlpoints), uDivs, vDivs;
+            break;
         default:
             break;
     }
@@ -61,7 +91,7 @@ MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) {
  }
 }
 
-MyGraphLeaf.prototype.descaleTexCoords = function(ampS, ampT) {
+MyGraphLeaf.prototype.deScaleTexCoords = function(ampS, ampT) {
   if(this.primitive != null){
     this.oldprimitive = this.primitive.texCoords;
     for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
