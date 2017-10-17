@@ -52,13 +52,28 @@ switch(this.type)
         var knots = [];
         for(var t=0; t < point.length; t++)
         {
+        	var CPS = [];
 			for(var i =0; i < point[t].length; i++)
 			{
-				knots.push(point[t][i]);
+				for(var z= 0; z < point[t][i].attributes.length;z++)
+				{
+				CPS.push(point[t][i].attributes[z].value);
+				}
 			}
+			knots.push(CPS);
         }
         //var cP = [[knots[0], knots[1]], [knots[2], knots[3]], [knots[4], knots[5]]];
-        var node = knots[0];
+        
+		for(var i=0; i < knots.length; i++)
+		{
+			var CPS = [];
+			for(var j=0; j < knots[i].length; j++)
+			{
+				CPS.push(knots[i][j])
+			}
+		}
+
+       /* var node = knots[0];
         var node2 = knots[1];
         var node3 = knots[2];
         var node4 = knots[3];
@@ -159,6 +174,7 @@ switch(this.type)
    		CPFINAL.push(CP1234);
    		CPFINAL.push(CP5678);
    		CPFINAL.push(CP9101112);
+   		*/
         this.primitive =this.graph.makeSurface(degree1, degree2,CPFINAL);
             //this.primitive = new CGFnurbsObject(CGFnurbsSurface(degree1,degree2,knots1,knots2,controlpoints), uDivs, vDivs;
             break;
