@@ -1456,7 +1456,7 @@ MySceneGraph.prototype.getKnotsVector = function(degree)
     return v;
 }
 
-MySceneGraph.prototype.makeSurface = function(id,degree1,degree2,controlvertexes,translation)
+MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes,translation)
 {
     var knots1 = this.getKnotsVector(degree1);
     var knots2 = this.getKnotsVector(degree2);

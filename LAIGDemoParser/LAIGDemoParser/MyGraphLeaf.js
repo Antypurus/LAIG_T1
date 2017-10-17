@@ -47,31 +47,119 @@ switch(this.type)
             break;
         case 'patch':
         var point = this.cPoint;
-        this.primitive = this.graph.makeSurface("2", 2, // degree on U: 3 control vertexes U
-					 3, // degree on V: 4 control vertexes on V
-					[	// U = 0
-						[ // V = 0..3;
-							 [ -1.5, -1.5, 0.0, 1 ],
-							 [ -2.0, -2.0, 2.0, 1 ],
-							 [ -2.0,  2.0, 2.0, 1 ],
-							 [ -1.5,  1.5, 0.0, 1 ]
-							
-						],
-						// U = 1
-						[ // V = 0..3
-							 [ 0, 0, 3.0, 1 ],
-							 [ 0, -2.0, 3.0, 1],
-							 [ 0,  2.0, 3.0, 1 ],
-							 [ 0,  0, 3.0, 1 ]							 
-						],
-						// U = 2
-						[ // V = 0..3							 
-							 [ 1.5, -1.5, 0.0, 1 ],
-							 [ 2.0, -2.0, 2.0, 1 ],
-							 [ 2.0,  2.0, 2.0, 1 ],
-							 [ 1.5,  1.5, 0.0, 1 ]
-						]
-					]);
+        var degree1 = parseFloat(argsArray[0]);
+        var degree2 = parseFloat(argsArray[1]);
+        var knots = [];
+        for(var t=0; t < point.length; t++)
+        {
+			for(var i =0; i < point[t].length; i++)
+			{
+				knots.push(point[t][i]);
+			}
+        }
+        //var cP = [[knots[0], knots[1]], [knots[2], knots[3]], [knots[4], knots[5]]];
+        var node = knots[0];
+        var node2 = knots[1];
+        var node3 = knots[2];
+        var node4 = knots[3];
+        var node5 = knots[4];
+        var node6 = knots[5];
+                var node7 = knots[6];
+        var node8 = knots[7];
+        var node9 = knots[8];
+        var node10 = knots[9];
+        var node11 = knots[10];
+        var node12 = knots[11];
+        var CP = [];
+        var CP2 = [];
+         var CP3 = [];
+          var CP4 = [];
+           var CP5 = [];
+            var CP6 = [];
+                    var CP7 = [];
+        var CP8 = [];
+         var CP9 = [];
+          var CP10 = [];
+           var CP11 = [];
+            var CP12 = [];
+        for(var i =0; i < node.attributes.length;i++)
+        {
+        	CP.push(node.attributes[i].value);
+        	CP = CP.map(Number);
+        }
+                for(var i =0; i < node2.attributes.length;i++)
+        {
+        	CP2.push(node2.attributes[i].value);
+        	CP2 = CP2.map(Number);
+        }
+                for(var i =0; i < node3.attributes.length;i++)
+        {
+        	CP3.push(node3.attributes[i].value);
+        	CP3 = CP3.map(Number);
+        }
+                for(var i =0; i < node4.attributes.length;i++)
+        {
+        	CP4.push(node4.attributes[i].value);
+        	CP4 = CP4.map(Number);
+        }
+                for(var i =0; i < node5.attributes.length;i++)
+        {
+        	CP5.push(node5.attributes[i].value);
+        	CP5 = CP5.map(Number);
+        }
+                for(var i =0; i < node6.attributes.length;i++)
+        {
+        	CP6.push(node6.attributes[i].value);
+        	CP6 = CP6.map(Number);
+        }
+
+                        for(var i =0; i < node7.attributes.length;i++)
+        {
+        	CP7.push(node7.attributes[i].value);
+        	CP7 = CP7.map(Number);
+        }
+
+                        for(var i =0; i < node8.attributes.length;i++)
+        {
+        	CP8.push(node8.attributes[i].value);
+        	CP8 = CP8.map(Number);
+        }
+
+                        for(var i =0; i < node9.attributes.length;i++)
+        {
+        	CP9.push(node9.attributes[i].value);
+        	CP9 = CP9.map(Number);
+        }
+
+                        for(var i =0; i < node10.attributes.length;i++)
+        {
+        	CP10.push(node10.attributes[i].value);
+        	CP10 = CP10.map(Number);
+        }
+
+                        for(var i =0; i < node11.attributes.length;i++)
+        {
+        	CP11.push(node11.attributes[i].value);
+        	CP11 = CP11.map(Number);
+        }
+
+                        for(var i =0; i < node12.attributes.length;i++)
+        {
+        	CP12.push(node12.attributes[i].value);
+        	CP12 = CP12.map(Number);
+        }
+        
+        var CPFINAL = [];
+        var CP1234 = [];
+        var CP5678 = [];
+        var CP9101112 = [];
+        CP1234.push(CP,CP2,CP3,CP4);
+        CP5678.push(CP5,CP6,CP7,CP8);
+        CP9101112.push(CP9,CP10, CP11,CP12);
+   		CPFINAL.push(CP1234);
+   		CPFINAL.push(CP5678);
+   		CPFINAL.push(CP9101112);
+        this.primitive =this.graph.makeSurface(degree1, degree2,CPFINAL);
             //this.primitive = new CGFnurbsObject(CGFnurbsSurface(degree1,degree2,knots1,knots2,controlpoints), uDivs, vDivs;
             break;
         default:
