@@ -1440,6 +1440,11 @@ MySceneGraph.generateRandomString = function(length) {
     return String.fromCharCode.apply(null, numbers);
 }
 
+/**
+ * Generates an array containing the of knots based on the degree
+ * 
+ * @returns arrays of knots
+ */
 MySceneGraph.prototype.getKnotsVector = function(degree)
 {
     var v = new Array();
@@ -1456,6 +1461,16 @@ MySceneGraph.prototype.getKnotsVector = function(degree)
     return v;
 }
 
+/**
+ * Generates an array containing the of knots based on the degree
+ * 
+ * @param degree1
+ * @param degree2
+ * @param controlvertexes array of control points
+ * @param translation
+ * 
+ * @returns nurbs object to be drawn on mygraphleaf
+ */
 MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes,translation)
 {
     var knots1 = this.getKnotsVector(degree1);
@@ -1473,29 +1488,44 @@ MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes,tr
 
 /**
  * Displays the scene, processing each node, starting in the root node.
+ * 
+ * @param nodeID current node id
+ * @param textura id of the texture used by upper node sent to children
+ * @param material id of the material used by upper node sent to children
  */
 MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
     
         var textura = textura;
         var material = material;
-        var N = this.nodes[nodeID];
+        var N = this.nodes[nodeID]; //puts in a variable N the current node
         var ampS = null;
         var ampT = null;
         var textToApply;
        
+    //checks if the current node is null
     if(N != null){
         
-        //se for diferente de null é porque tem material novo senao usa do pai
+    //checks if the current node material is not null, if it is null it uses the fathers material, otherwise it uses its own
     if(N.materialID != "null")
         if(this.materials[N.materialID] != null)
-       material = N.materialID;
+            material = N.materialID;
 
 
-
+    //checks if the current node has its texture set to clear, if so it doesn't apply any texture
     if(N.textureID == "clear")
             textToApply = "clear";
             
-    else if(N.textureID == "null")
+    //checks if the current node has its texture different from null, if so it uses its own texture, else it uses its fathers texture
+    //it also sets the amplification factors to be used later in the scale function
+    else if(N.textureID != "null")
+    {
+        textToApply = this.textures[N.textureID][0];
+        textura = N.textureID;
+        ampS = this.textures[N.textureID][1];
+        ampT = this.textures[N.textureID][2];
+    }
+    //a textura se nao for null nem clear, é porque o node tem textura nova se fosse clear nao usava nada
+    else
     {
         if(this.textures[textura] != null)
         {
@@ -1506,57 +1536,48 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         else
             textToApply = null;
     }
-    //a textura se nao for null nem clear, é porque o node tem textura nova se fosse clear nao usava nada
-    else
-    {
-        textToApply = this.textures[N.textureID][0];
-        textura = N.textureID;
-        ampS = this.textures[N.textureID][1];
-        ampT = this.textures[N.textureID][2];
-    }
 
+        //multiplies the transformation matrix with the current node transformation matrix
 		this.scene.multMatrix(N.transformMatrix);
 
-		var materialTest = this.materials[material];
-		/*if(textureTest == "clear")
-		  materialTest.setTexture(null);
-		else
-		  materialTest.setTexture(textureTest);
-		  */
+		var materialToApply = this.materials[material];
 
+        //recursively calls the display of the current node children
         for(var i = 0; i < N.children.length; i++)
         {
-             this.scene.pushMatrix();
-            //o node x se tiver 2 filhos comeca pelo primeiro e vai ver os filhos desse and so on
-            //textura e material servem o filho saber a textura e material do pai
-            this.displayScene(N.children[i], textura, material); //recursivo
+            this.scene.pushMatrix();
+            this.displayScene(N.children[i], textura, material);
             this.scene.popMatrix();
         }
 
-        //quando se chega aos nos folha é quando se comeca a desenhar, e depois volta-se atrás para ir a outro node
+        //After reaching the leaf nodes it applies the material, texture and call the display on the leaf primitive
         for(var j = 0; j < N.leaves.length; j++)
         {
 
-        //materialTest.apply();
-        if(materialTest != null)
-        materialTest.apply();
+        //applies the material    
+        if(materialToApply != null)
+            materialToApply.apply();
         
+        //binds the texture
         if(textToApply != null)
-        textToApply.bind();
-        //a implementar
+            textToApply.bind();
+
         if(ampS != null && ampT != null)
         {
+            //if the primitive is a triangle or rectangle it scales its texture coordinates
             if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
-        N.leaves[j].scaleTexCoords(ampS, ampT); //faz scale as text coords de acordo com os amplification factors
+                N.leaves[j].scaleTexCoords(ampS, ampT);
         }
 
-        N.leaves[j].display(ampS, ampT); //desenha de 0 ao numero de folhas do vetor de folhas daquele node
+        //call the display function on the leaves
+        N.leaves[j].display();
 
+        if(ampS != null && ampT != null)
+        {
+            //descales the texture coordinates to their original
             if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
-        N.leaves[j].deScaleTexCoords(ampS, ampT); //faz reset as tex coords
+                N.leaves[j].deScaleTexCoords(ampS, ampT); //faz reset as tex coords
         }
-      
-
-          
+    }        
     }
-    }
+}

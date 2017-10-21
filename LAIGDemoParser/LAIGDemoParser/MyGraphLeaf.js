@@ -178,6 +178,12 @@ switch(this.type)
     }
 }
 
+/**
+ * Scales the primitive texture coords according to the amplification factors set on the xml
+ * 
+ * @param ampS amplification factor on s axis
+ * @param ampT amplification factor on t axis
+ */
 MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) {
   if(this.primitive != null){
     this.oldprimitive = this.primitive.texCoords;
@@ -190,6 +196,12 @@ MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) {
  }
 }
 
+/**
+ * Descales the primitive texture coords to its original coordinates according to the amplification factors set on the xml
+ * 
+ * @param ampS amplification factor on s axis
+ * @param ampT amplification factor on t axis
+ */
 MyGraphLeaf.prototype.deScaleTexCoords = function(ampS, ampT) {
   if(this.primitive != null){
     this.oldprimitive = this.primitive.texCoords;
@@ -202,9 +214,11 @@ MyGraphLeaf.prototype.deScaleTexCoords = function(ampS, ampT) {
  }
 }
 
-
-//a funcao display desenha o objeto que for criado em cima no mygraphleaf
-MyGraphLeaf.prototype.display = function(ampS, ampT){
+/**
+ * Displays the primitive created for each leaf
+ * 
+ */
+MyGraphLeaf.prototype.display = function(){
    if(this.primitive != null){
         this.primitive.display();
    }
