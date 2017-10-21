@@ -44,6 +44,39 @@
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />
     </LIGHT>
+	
+	<LIGHT id="Tlight0">
+        <enable value ="1" />
+        <position  x="18" y="5" z="5" w="1" />
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+    </LIGHT>
+
+	<LIGHT id="Tlight1">
+        <enable value ="1" />
+        <position x="18" y="5" z="15" w="1" />
+        <ambient r="0" g="0" b="0" a="1.0" />
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+    </LIGHT>
+
+	<LIGHT id="Tlight2">
+        <enable value ="1" />
+        <position x="3" y="5" z="5" w="1" />
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+    </LIGHT>
+	
+	<LIGHT id="Tlight3">
+        <enable value ="1" />
+        <position x="3" y="5" z="15" w="1" />
+        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+        <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+        <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+    </LIGHT>
+
 </LIGHTS>
 
 <!-- Textures -->
@@ -88,6 +121,7 @@
 		<file path="images/lamps.png" />
 		<amplif_factor s="1" t="1" />
 	</TEXTURE>
+	
 </TEXTURES>
 
 
@@ -98,14 +132,14 @@
         <specular r="1" g="1" b="1" a="1" />
         <diffuse r="1.0" g="1" b="1" a="1" />
         <ambient r="00" g="00" b="00" a="1" />
-        <emission r="1" g="1" b="1" a="1" />
+        <emission r="0.5" g="0.5" b="0.5" a="1" />
     </MATERIAL>
 
       <MATERIAL id="lasers">
         <shininess value="1" />
         <specular r="1" g="0" b="0" a="0.5" />
         <diffuse r="1.0" g="0" b="0" a="0.5" />
-        <ambient r="00" g="00" b="00" a="1" />
+        <ambient r="1" g="00" b="00" a="1" />
         <emission r="1" g="0" b="0" a="1" />
     </MATERIAL>
 
@@ -115,7 +149,15 @@
         <diffuse r="0" g="0" b="1" a="0.5" />
         <ambient r="00" g="00" b="1" a="0.5" />
         <emission r="0" g="0" b="1" a="1" />
-    </MATERIAL>    
+    </MATERIAL>
+
+    <MATERIAL id="artifactMaterial">
+        <shininess value="1" />
+        <specular r="0" g="0" b="0" a="0.5" />
+        <diffuse r="0" g="0" b="0" a="0.5" />
+        <ambient r="00" g="00" b="0" a="0.5" />
+        <emission r="1" g="1" b="1" a="1" />
+    </MATERIAL>       
 </MATERIALS>
 
 <!-- The nodes -->
@@ -134,12 +176,14 @@
         <NODEREF id="lasers"/>
         <NODEREF id="room"/>
         <NODEREF id="candeiros"/>
+		<NODEREF id="tables"/>
+		<NODEREF id ="tableslights"/>
       </DESCENDANTS>
     </NODE>
-
+	
     <!-- The Artifact Node -->
     <NODE id="artifact">
-      <MATERIAL id="null" />
+      <MATERIAL id="artifactMaterial" />
       <TEXTURE id="artifact" />
       <DESCENDANTS>
         <NODEREF id="core"/>
@@ -203,6 +247,114 @@
         <NODEREF id="c2"/>
       </DESCENDANTS>
     </NODE>
+	
+	<!--The Tables node -->
+	<NODE id="tables">
+		<MATERIAL id="null"/>
+		<TEXTURE id ="pedestalPic"/>
+		<DESCENDANTS>
+			<NODEREF id = "table1"/>
+			<NODEREF id = "table2"/>
+			<NODEREF id = "table3"/>
+			<NODEREF id = "table4"/>
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The first Table node -->
+	<NODE id = "table1">
+		<MATERIAL id = "null"/>
+		<TEXTURE id = "null"/>
+		<TRANSLATION x= "18" y="0" z ="5"/>
+		<ROTATION axis="x" angle="-90"/>
+		<DESCENDANTS>
+			<LEAF id="LegLess table" type = "cylinder" args = "3 1 3 8 8" />
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The second Table node -->
+	<NODE id = "table2">
+		<MATERIAL id = "null"/>
+		<TEXTURE id = "null"/>
+		<TRANSLATION x= "18" y="0" z ="15"/>
+		<ROTATION axis="x" angle="-90"/>
+		<DESCENDANTS>
+			<LEAF id="LegLess table" type = "cylinder" args = "3 1 3 8 8" />
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The third Table node -->
+	<NODE id = "table3">
+		<MATERIAL id = "null"/>
+		<TEXTURE id = "null"/>
+		<TRANSLATION x= "3" y="0" z ="5"/>
+		<ROTATION axis="x" angle="-90"/>
+		<DESCENDANTS>
+			<LEAF id="LegLess table" type = "cylinder" args = "3 1 3 8 8" />
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The fourth Table node -->
+	<NODE id = "table4">
+		<MATERIAL id = "null"/>
+		<TEXTURE id = "null"/>
+		<TRANSLATION x= "3" y="0" z ="15"/>
+		<ROTATION axis="x" angle="-90"/>
+		<DESCENDANTS>
+			<LEAF id="LegLess table" type = "cylinder" args = "3 1 3 8 8" />
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The Table Lights node -->
+	<NODE id="tableslights">
+		<MATERIAL id="null"/>
+		<TEXTURE id ="banco"/>
+		<DESCENDANTS>
+			<NODEREF id = "tablelight1"/>
+			<NODEREF id = "tablelight2"/>
+			<NODEREF id = "tablelight3"/>
+			<NODEREF id = "tablelight4"/>
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The first table light -->
+	<NODE id = "tablelight1">
+		<MATERIAL id = "null"/>
+		<TEXTURE id = "null"/>
+		<TRANSLATION x= "18" y="5" z ="5"/>
+		<DESCENDANTS>
+			<LEAF id="LegLess tablelight1" type = "sphere" args = "1 30 30" />
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The second table light -->
+	<NODE id = "tablelight2">
+		<MATERIAL id = "null"/>
+		<TEXTURE id = "null"/>
+		<TRANSLATION x= "18" y="5" z ="15"/>
+		<DESCENDANTS>
+			<LEAF id="LegLess tablelight2" type = "sphere" args = "1 30 30" />
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The third table light -->
+	<NODE id = "tablelight3">
+		<MATERIAL id = "null"/>
+		<TEXTURE id = "null"/>
+		<TRANSLATION x= "3" y="5" z ="5"/>
+		<DESCENDANTS>
+			<LEAF id="LegLess tablelight3" type = "sphere" args = "1 30 30" />
+		</DESCENDANTS>
+	</NODE>
+	
+	<!--The fourth table light -->
+	<NODE id = "tablelight4">
+		<MATERIAL id = "null"/>
+		<TEXTURE id = "null"/>
+		<TRANSLATION x= "3" y="5" z ="15"/>
+		<DESCENDANTS>
+			<LEAF id="LegLess tablelight4" type = "sphere" args = "1 30 30" />
+		</DESCENDANTS>
+	</NODE>
 
     <!-- The Artifact Code Node -->
     <NODE id="core">
