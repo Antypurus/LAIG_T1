@@ -92,11 +92,6 @@
 		<amplif_factor s="1" t="1" />
 	</TEXTURE>
 	
-	<TEXTURE id = "oldwall">
-		<file path="images/wall.jpg" />
-		<amplif_factor s="1" t="1" />
-	</TEXTURE>
-	
 	<TEXTURE id = "piramides">
 		<file path="images/piramides.png" />
 		<amplif_factor s="10" t="10" />
