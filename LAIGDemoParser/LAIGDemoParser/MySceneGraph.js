@@ -1601,18 +1601,16 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         if(textToApply != null)
             textToApply.bind();
 
-        if(ampS != null && ampT != null && N.hasPassed == false)
+        if(ampS != null && ampT != null)
         {
-            //if the primitive is a triangle or rectangle it scales its texture coordinates
             if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
-			{
-				N.hasPassed = true;
-				N.leaves[j].scaleTexCoords(ampS, ampT);
-			}
-        }
+			 N.leaves[j].scaleTexCoords(ampS, ampT); //faz scale as text coords de acordo com os amplification factors
 
-        //call the display function on the leaves
-        N.leaves[j].display();
-    }        
+		    N.leaves[j].display(); //desenha de 0 ao numero de folhas do vetor de folhas daquele node
+
+            if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
+			N.leaves[j].deScaleTexCoords(ampS, ampT); //faz reset as tex coords
+        }
+    }     
     }
 }

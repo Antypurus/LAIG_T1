@@ -9,9 +9,9 @@ function MyGraphLeaf(graph, xmlelem, type, controlPoints)
     this.graph = graph;
     this.type = type;
     this.xmlelem = xmlelem;
-    var args = graph.reader.getString(this.xmlelem, 'args');
-    var argsArray = args.split(" ");
-    this.primitive = null;
+	var args = graph.reader.getString(this.xmlelem, 'args'); //extracts the arguments of the leaf and puts them in a array
+	var argsArray = args.split(" "); //splits the arguments and puts them in an array with each position being one argument
+	this.primitive = null; //creates primitive to be later displayed
 
 switch(this.type)
     {
@@ -62,24 +62,45 @@ switch(this.type)
  * @param ampS amplification factor on s axis
  * @param ampT amplification factor on t axis
  */
-MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) {
-  if(this.primitive != null){
-    this.oldprimitive = this.primitive.texCoords;
-    for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
-    {
-        this.primitive.texCoords[i] = this.primitive.texCoords[i] / ampS;
-        this.primitive.texCoords[i + 1] = this.primitive.texCoords[i + 1] / ampT;
-    }
-    this.primitive.updateTexCoordsGLBuffers();
- }
+MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT) 
+{
+	if(this.primitive != null)
+	{
+		for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
+		{
+			this.primitive.texCoords[i] = this.primitive.texCoords[i] / ampS; //calculating the updated tex coord in s axis 
+			this.primitive.texCoords[i + 1] = this.primitive.texCoords[i + 1] / ampT; //calculating the updated tex coord in t axis 
+		}
+		this.primitive.updateTexCoordsGLBuffers(); //call the function to update the texture coordinates of the primitive
+	}
 }
+
+ /**
+  * Descales the primitive texture coords to its original coordinates according to the amplification factors set on the xml
+  * 
+  * @param ampS amplification factor on s axis
+  * @param ampT amplification factor on t axis
+  */
+ MyGraphLeaf.prototype.deScaleTexCoords = function(ampS, ampT) {
+   if(this.primitive != null){
+     this.oldprimitive = this.primitive.texCoords;
+     for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
+     {
+         this.primitive.texCoords[i] = this.primitive.texCoords[i] * ampS;
+         this.primitive.texCoords[i + 1] = this.primitive.texCoords[i + 1] * ampT;
+     }
+     this.primitive.updateTexCoordsGLBuffers();
+  }
+ }
 
 /**
  * Displays the primitive created for each leaf
  * 
  */
-MyGraphLeaf.prototype.display = function(){
-   if(this.primitive != null){
-        this.primitive.display();
+MyGraphLeaf.prototype.display = function()
+{
+   if(this.primitive != null)
+   {
+	   this.primitive.display();
    }
 }

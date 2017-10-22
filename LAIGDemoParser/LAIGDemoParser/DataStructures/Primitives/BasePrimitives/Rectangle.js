@@ -45,19 +45,3 @@ Rectangle.prototype.initBuffers = function(){
   this.primitiveType = this.scene.gl.TRIANGLES;
   this.initGLBuffers();
 }
-
-Rectangle.prototype.setAmplifFactor = function(amplif_s, amplif_t)
-{
-	var dist_s = Math.abs(this.vertices[0] - this.vertices[2]);
-	var dist_t = Math.abs(this.vertices[1] - this.vertices[3]); 
-	this.texCoords.push(
-		dist_s/amplif_s, 1 - dist_t/amplif_t,
-		0, 1 - dist_t/amplif_t,
-		dist_s/amplif_s, 1,
-		0, 1
-	);
-
-
-	this.updateTexCoordsGLBuffers();
-
-}

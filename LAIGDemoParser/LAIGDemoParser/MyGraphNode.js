@@ -5,7 +5,8 @@
  * @constructor
 **/
 
-function MyGraphNode(graph, nodeID, hasPassed) {
+function MyGraphNode(graph, nodeID, hasPassed) 
+{
     this.graph = graph;
 
     this.nodeID = nodeID;
@@ -21,9 +22,6 @@ function MyGraphNode(graph, nodeID, hasPassed) {
 
     // The texture ID.
     this.textureID = null ;
-	
-	// If the node has been passed already
-	this.hasPassed = false;
 
     this.transformMatrix = mat4.create();
     mat4.identity(this.transformMatrix);
@@ -32,14 +30,16 @@ function MyGraphNode(graph, nodeID, hasPassed) {
 /**
  * Adds the reference (ID) of another node to this node's children array.
  */
-MyGraphNode.prototype.addChild = function(nodeID) {
+MyGraphNode.prototype.addChild = function(nodeID) 
+{
     this.children.push(nodeID);
 }
 
 /**
  * Adds a leaf to this node's leaves array.
  */
-MyGraphNode.prototype.addLeaf = function(leaf) {
+MyGraphNode.prototype.addLeaf = function(leaf) 
+{
     this.leaves.push(leaf);
 }
 
