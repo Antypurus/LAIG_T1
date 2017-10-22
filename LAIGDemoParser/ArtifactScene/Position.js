@@ -1,3 +1,10 @@
+ /**
+  * Creates a new point with x, y, z
+  * 
+  * @param x x coordinate
+  * @param y y coordinate
+  * @param z z coordinate
+  */
 function position(x,y,z){
     this.x = x;
     this.y = y;

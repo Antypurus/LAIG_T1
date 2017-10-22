@@ -95,7 +95,7 @@ Cylinder.prototype.display = function () {
 	if(this.bottomcap)
 	{
 	this.scene.pushMatrix();
-	this.scene.scale(this.bottom_radius,this.bottom_radius,1);
+	this.scene.scale(this.bottom_radius,this.bottom_radius,1); //scaling the botcap with its radius
 	this.circle.display();
 	this.scene.popMatrix();
 	}
@@ -103,7 +103,7 @@ Cylinder.prototype.display = function () {
 	if(this.topcap)
 	{
 	this.scene.pushMatrix();
-	this.scene.scale(this.top_radius,this.top_radius,1);
+	this.scene.scale(this.top_radius,this.top_radius,1); //scaling the topcap with its radius
 	this.scene.translate(0, 0, this.height);
 	this.circle.display();
 	this.scene.popMatrix();

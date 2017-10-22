@@ -1532,65 +1532,67 @@ MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes,tr
  * @param textura id of the texture used by upper node sent to children
  * @param material id of the material used by upper node sent to children
  */
-MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
+MySceneGraph.prototype.displayScene = function(nodeID, textID, matID) {
     
-        var textura = textura;
-        var material = material;
-        var N = this.nodes[nodeID]; //puts in a variable N the current node
+        var textID = textID; //creates a variable equal to the father's node texture id
+        var matID = matID; //creates a variable equal to the father's node material id
+        var NODE = this.nodes[nodeID]; //puts in a variable NODE the current node
         var ampS = null;
         var ampT = null;
         var textToApply;
        
     //checks if the current node is null
-    if(N != null){
+    if(NODE != null){
         
     //checks if the current node material is not null, if it is null it uses the fathers material, otherwise it uses its own
-    if(N.materialID != "null")
-        if(this.materials[N.materialID] != null)
-            material = N.materialID;
+    if(NODE.materialID != "null")
+        if(this.materials[NODE.materialID] != null)
+            matID = NODE.materialID;
 
 
     //checks if the current node has its texture set to clear, if so it doesn't apply any texture
-    if(N.textureID == "clear")
+    if(NODE.textureID == "clear")
             textToApply = "clear";
             
     //checks if the current node has its texture different from null, if so it uses its own texture, else it uses its fathers texture
     //it also sets the amplification factors to be used later in the scale function
-    else if(N.textureID != "null")
+    else if(NODE.textureID != "null")
     {
-        textToApply = this.textures[N.textureID][0];
-        textura = N.textureID;
-        ampS = this.textures[N.textureID][1];
-        ampT = this.textures[N.textureID][2];
+        textToApply = this.textures[NODE.textureID][0];
+        textID = NODE.textureID;
+        ampS = this.textures[NODE.textureID][1];
+        ampT = this.textures[NODE.textureID][2];
     }
-    //a textura se nao for null nem clear, é porque o node tem textura nova se fosse clear nao usava nada
+    //if the texture is neither null or clear it is a new texture
+    //it also sets the amplification factors to be used later in the scale function
     else
     {
-        if(this.textures[textura] != null)
+        if(this.textures[textID] != null)
         {
-            textToApply = this.textures[textura][0];
-            ampS = this.textures[textura][1];
-            ampT = this.textures[textura][2];
+            textToApply = this.textures[textID][0];
+            ampS = this.textures[textID][1];
+            ampT = this.textures[textID][2];
         }
         else
             textToApply = null;
     }
 
         //multiplies the transformation matrix with the current node transformation matrix
-		this.scene.multMatrix(N.transformMatrix);
+		this.scene.multMatrix(NODE.transformMatrix);
 
-		var materialToApply = this.materials[material];
+        //puts in a variable the material to be applied
+		var materialToApply = this.materials[matID];
 
         //recursively calls the display of the current node children
-        for(var i = 0; i < N.children.length; i++)
+        for(var i = 0; i < NODE.children.length; i++)
         {
             this.scene.pushMatrix();
-            this.displayScene(N.children[i], textura, material);
+            this.displayScene(NODE.children[i], textID, matID); //sends the childrens nodes, the current texture id and the current material id
             this.scene.popMatrix();
         }
 
         //After reaching the leaf nodes it applies the material, texture and call the display on the leaf primitive
-        for(var j = 0; j < N.leaves.length; j++)
+        for(var j = 0; j < NODE.leaves.length; j++)
         {
 
         //applies the material    
@@ -1601,19 +1603,19 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         if(textToApply != null)
             textToApply.bind();
 
+        //if the amplifications factor are different from null it checks if it a triangle or rectangle and if so it calls the function to scale their text coords else it just displays
         if(ampS != null && ampT != null)
         {
-            if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
-			 N.leaves[j].scaleTexCoords(ampS, ampT); //faz scale as text coords de acordo com os amplification factors
+            if(NODE.leaves[j].type == "rectangle" || NODE.leaves[j].type == "triangle")
+			 NODE.leaves[j].scaleTexCoords(ampS, ampT); //scales text coords
+		    NODE.leaves[j].display(); 
 
-		    N.leaves[j].display(); //desenha de 0 ao numero de folhas do vetor de folhas daquele node
-
-            if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
-			N.leaves[j].deScaleTexCoords(ampS, ampT); //faz reset as tex coords
+            if(NODE.leaves[j].type == "rectangle" || NODE.leaves[j].type == "triangle")
+			NODE.leaves[j].deScaleTexCoords(ampS, ampT); //resets text coords
         }
         else
         {
-            N.leaves[j].display();
+            NODE.leaves[j].display(); //displays all of N's leaves
         }
     }     
     }

@@ -85,12 +85,13 @@ MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT)
   */
  MyGraphLeaf.prototype.deScaleTexCoords = function(ampS, ampT) {
    if(this.primitive != null){
-     this.oldprimitive = this.primitive.texCoords;
+
      for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
      {
          this.primitive.texCoords[i] = this.primitive.texCoords[i] * ampS;
          this.primitive.texCoords[i + 1] = this.primitive.texCoords[i + 1] * ampT;
      }
+     
      this.primitive.updateTexCoordsGLBuffers();
   }
  }
