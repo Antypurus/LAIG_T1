@@ -41,7 +41,9 @@ switch(this.type)
             var top_radius = parseFloat(argsArray[2]);
             var sections_along_height = parseInt(argsArray[3]);
             var parts_per_section = parseInt(argsArray[4]);
-            this.primitive = new Cylinder(this.graph.scene, height,  bottom_radius, top_radius, sections_along_height, parts_per_section);
+            var topcap = parseInt(argsArray[5]);
+            var bottomcap = parseInt(argsArray[6]);
+            this.primitive = new Cylinder(this.graph.scene, height,  bottom_radius, top_radius, sections_along_height, parts_per_section, topcap, bottomcap);
             break;
 			
         case 'patch':

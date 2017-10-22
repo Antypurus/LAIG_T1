@@ -1,10 +1,12 @@
-function Cylinder(Scene, height, bottom_radius, top_radius, sections_along_height, parts_per_section) {
+function Cylinder(Scene, height, bottom_radius, top_radius, sections_along_height, parts_per_section, topcap, bottomcap) {
 	this.scene = Scene;
 	this.bottom_radius = bottom_radius;
 	this.top_radius = top_radius;
 	this.height = height;
 	this.slices = sections_along_height;
 	this.stacks = parts_per_section;
+	this.topcap = topcap;
+	this.bottomcap = bottomcap;
 	this.circle = new Circle(Scene, this.stacks, 1);
 
 	CGFobject.call(this, Scene);
@@ -63,8 +65,8 @@ Cylinder.prototype.setUP = function () {
 
 			this.texCoords.push(1 - i / this.slices, z / this.stacks);
 			this.texCoords.push(1 - (i + 1) / this.slices, z / this.stacks);
-			this.texCoords.push(1 - i / this.slices, (z + 1) / this.stacks);
 			this.texCoords.push(1 - (i + 1) / this.slices, (z + 1) / this.stacks);
+			this.texCoords.push(1 - i / this.slices, (z + 1) / this.stacks);
 		}
 	}
 
@@ -76,16 +78,22 @@ Cylinder.prototype.initBuffers = function () {
 }
 
 Cylinder.prototype.display = function () {
+	if(this.bottomcap)
+	{
 	this.scene.pushMatrix();
 	this.scene.scale(this.bottom_radius,this.bottom_radius,1);
 	this.circle.display();
 	this.scene.popMatrix();
+	}
 
+	if(this.topcap)
+	{
 	this.scene.pushMatrix();
 	this.scene.scale(this.top_radius,this.top_radius,1);
 	this.scene.translate(0, 0, this.height);
 	this.circle.display();
 	this.scene.popMatrix();
+	}
 
 	this.scene.pushMatrix();
 	CGFobject.prototype.display.call(this);

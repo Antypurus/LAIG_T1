@@ -1611,6 +1611,10 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
             if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
 			N.leaves[j].deScaleTexCoords(ampS, ampT); //faz reset as tex coords
         }
+        else
+        {
+            N.leaves[j].display();
+        }
     }     
     }
 }
