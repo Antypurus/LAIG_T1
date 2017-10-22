@@ -357,7 +357,7 @@
       <TEXTURE id="null" />
       <TRANSLATION x="9.9" y="5" z="10"/>
       <DESCENDANTS>
-        <LEAF id="sphere_core" type="sphere" args="2 100 100"/>
+        <LEAF id="sphere_core" type="sphere" args="2 50 50"/>
       </DESCENDANTS>
     </NODE>
 
