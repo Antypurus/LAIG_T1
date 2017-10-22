@@ -1,9 +1,23 @@
 function Sphere(Scene,radius,parts_along_radius,parts_per_section){
     this.scene = Scene;
-    this.slices = parts_along_radius;
-    this.stacks = parts_per_section;
-    this.radius = radius;
 
+	if(parts_along_radius < 3)
+		{
+			this.stacks = 3
+			console.log("Sphere stack value error, needs to be at least 3, set to default value")
+		}
+	else
+	this.stacks = parts_along_radius;
+
+	if(parts_per_section < 6)
+		{
+			this.slices = 6;
+			console.log("Sphere slice value error, needs to be at least 6, set to default value")
+		}
+	else
+	this.slices = parts_per_section;
+	
+    this.radius = radius;
 
     CGFobject.call(this,Scene);
     this.initBuffers();

@@ -11,19 +11,19 @@ function getUrlVars() {
     return vars;
 }
 
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js',
-			 'MyGraphNode.js', 'MyGraphLeaf.js', 'MyInterface.js',
-			 'DataStructures/frustum.js',  'DataStructures/Patch.js',
-			 'DataStructures/geometricTransformations.js',
-			  'DataStructures/Initials.js',  'DataStructures/Lighting.js',
-			   'DataStructures/Object.js',  'DataStructures/Object.js',
-			    'DataStructures/Observer.js',  'DataStructures/Position.js',
-			     'DataStructures/Surface.js',  'DataStructures/Primitives/Primitive.js',
-			     'DataStructures/Primitives/PrimitiveManager.js', 'DataStructures/Primitives/BasePrimitives/Cylinder.js',
-			     'DataStructures/Primitives/BasePrimitives/Sphere.js',
-			     'DataStructures/Primitives/BasePrimitives/SemiSphere.js',
-			     'DataStructures/Primitives/BasePrimitives/Rectangle.js',
-			     'DataStructures/Primitives/BasePrimitives/Triangle.js',"DataStructures/Primitives/BasePrimitives/Circle.js",
+serialInclude(['../lib/CGF.js', 
+				'XMLscene.js', 
+				'MySceneGraph.js',
+			 	'MyGraphNode.js', 
+			 	'MyGraphLeaf.js', 
+			 	'MyInterface.js', 
+			 	'Primitives/Cylinder.js',
+			    'Primitives/Sphere.js',
+			    'Primitives/SemiSphere.js',
+			    'Primitives/Rectangle.js',
+				'Primitives/Triangle.js',
+				'Primitives/Circle.js',
+				'Primitives/Position.js',
 
 
 main=function()

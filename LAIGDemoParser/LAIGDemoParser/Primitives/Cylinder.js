@@ -3,8 +3,22 @@ function Cylinder(Scene, height, bottom_radius, top_radius, sections_along_heigh
 	this.bottom_radius = bottom_radius;
 	this.top_radius = top_radius;
 	this.height = height;
-	this.slices = sections_along_height;
-	this.stacks = parts_per_section;
+	if(sections_along_height < 1)
+		{
+			this.stacks = 1
+			console.log("Cylinder stack value error, needs to be at least 1, set to default value")
+		}
+	else
+	this.stacks = sections_along_height;
+
+	if(parts_per_section < 3)
+		{
+			this.slices = 3;
+			console.log("Cylinder slice value error, needs to be at least 3, set to default value")
+		}
+	else
+	this.slices = parts_per_section;
+	
 	this.topcap = topcap;
 	this.bottomcap = bottomcap;
 	this.circle = new Circle(Scene, this.stacks, 1);
