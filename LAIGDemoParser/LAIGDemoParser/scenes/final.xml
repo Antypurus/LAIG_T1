@@ -371,7 +371,6 @@
         <NODEREF id="p3"/>
         <NODEREF id="p4"/>
         <NODEREF id="p5"/>
-        <NODEREF id="p6"/>
       </DESCENDANTS>
     </NODE>
 
@@ -630,15 +629,6 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="p6">
-      <MATERIAL id="null" />
-      <TEXTURE id="null" />
-      <TRANSLATION x="10.0" y="5.0" z="10.0"/>
-      <ROTATION axis="x" angle="90"/>
-      <DESCENDANTS>
-        <NODEREF id="piramide"/>
-      </DESCENDANTS>
-    </NODE>
 
     <!-- A Trap -->
     <NODE id="trap">
