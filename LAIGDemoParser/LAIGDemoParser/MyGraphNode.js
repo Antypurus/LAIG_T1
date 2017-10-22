@@ -5,7 +5,7 @@
  * @constructor
 **/
 
-function MyGraphNode(graph, nodeID) {
+function MyGraphNode(graph, nodeID, hasPassed) {
     this.graph = graph;
 
     this.nodeID = nodeID;
@@ -21,6 +21,9 @@ function MyGraphNode(graph, nodeID) {
 
     // The texture ID.
     this.textureID = null ;
+	
+	// If the node has been passed already
+	this.hasPassed = false;
 
     this.transformMatrix = mat4.create();
     mat4.identity(this.transformMatrix);

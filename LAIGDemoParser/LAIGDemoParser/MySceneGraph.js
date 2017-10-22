@@ -20,9 +20,6 @@ function MySceneGraph(filename, scene) {
     this.material = null;
     this.matID = null;
 
-    this.passedNodes = [];
-    this.flag = true;
-
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
     scene.graph = this;
@@ -1354,19 +1351,61 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                 else
 					if (descendants[j].nodeName == "LEAF")
 					{
-					    var cPoint = descendants[j].children;
-					    var points = [];
-					    for(var x = 0; x < cPoint.length; x++)
-					    points.push(cPoint[x].children);
 						var type=this.reader.getItem(descendants[j], 'type', ['rectangle', 'cylinder', 'sphere', 'triangle', 'patch']);
 						
 						if (type != null)
 						{
 						    if(type != 'patch')
-						this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type), null);
-						      else
-						          this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type, points));
-                        sizeChildren++;
+								this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type), null);
+						    else
+							{
+								var patchChildren = descendants[j].children;
+                                var cPoints = [];
+                                for(var x = 0; x < patchChildren.length; x++)
+                                    cPoints.push(patchChildren[x].children);
+						          
+						        var pointValues = [];
+                                for(var t=0; t < cPoints.length; t++)
+                                {
+        	                        var CPS = [];
+			                        for(var y =0; y < cPoints[t].length; y++)
+			                        {
+				                        for(var z= 0; z < cPoints[t][y].attributes.length;z++)
+				                        {
+				                            CPS.push(cPoints[t][y].attributes[z].value);
+				                        }
+			                        }
+			                     pointValues.push(CPS);
+                                }
+
+                                    var pointsMatrix = [];
+                                    var linesMatrix = [];
+                                    for(var o=0; o < pointValues.length; o++)
+                                    {
+                                        var CPS = [];
+                                        var counter = 1;
+                                        for(var l=0; l < pointValues[o].length; l++)
+                                        {
+                                            var value = [];
+                                            value.push(pointValues[o][l]);
+                                            value = value.map(Number);
+                                            CPS.push(value[0]);
+                                            //var PCcoords = [];
+                                            if(l==4*counter-1)
+                                            {
+                                                counter++;
+                                                pointsMatrix.push(CPS);
+                                                CPS = [];
+
+                                            }
+                                        }
+                                            linesMatrix.push(pointsMatrix);
+                                            pointsMatrix = [];	
+                                    }
+						          this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type, linesMatrix));
+						    } //finished parsing and created the patch leaf
+                        
+						sizeChildren++;
 							this.log("   Leaf: "+ type);
 						}
 						else
@@ -1562,22 +1601,18 @@ MySceneGraph.prototype.displayScene = function(nodeID, textura, material) {
         if(textToApply != null)
             textToApply.bind();
 
-        if(ampS != null && ampT != null)
+        if(ampS != null && ampT != null && N.hasPassed == false)
         {
             //if the primitive is a triangle or rectangle it scales its texture coordinates
             if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
-                N.leaves[j].scaleTexCoords(ampS, ampT);
+			{
+				N.hasPassed = true;
+				N.leaves[j].scaleTexCoords(ampS, ampT);
+			}
         }
 
         //call the display function on the leaves
         N.leaves[j].display();
-
-        if(ampS != null && ampT != null)
-        {
-            //descales the texture coordinates to their original
-            if(N.leaves[j].type == "rectangle" || N.leaves[j].type == "triangle")
-                N.leaves[j].deScaleTexCoords(ampS, ampT); //faz reset as tex coords
-        }
     }        
     }
 }
