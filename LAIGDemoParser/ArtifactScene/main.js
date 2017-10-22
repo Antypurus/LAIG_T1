@@ -16,14 +16,14 @@ serialInclude(['../lib/CGF.js',
 				'MySceneGraph.js',
 			 	'MyGraphNode.js', 
 			 	'MyGraphLeaf.js', 
-			 	'MyInterface.js', 
+				'MyInterface.js',
+				'Position.js', 
 			 	'Primitives/Cylinder.js',
 			    'Primitives/Sphere.js',
 			    'Primitives/SemiSphere.js',
 			    'Primitives/Rectangle.js',
 				'Primitives/Triangle.js',
 				'Primitives/Circle.js',
-				'Primitives/Position.js',
 
 
 main=function()

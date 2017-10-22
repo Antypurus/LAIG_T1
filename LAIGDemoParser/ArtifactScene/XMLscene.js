@@ -138,7 +138,7 @@ XMLscene.prototype.display = function() {
             }
         }
         //display scene
-        this.graph.displayScene(this.graph.idRoot);
+        this.graph.displayScene(this.graph.idRoot, null, null);
 
     }
 	else
