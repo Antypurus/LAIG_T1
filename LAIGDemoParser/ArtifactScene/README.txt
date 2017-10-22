@@ -1,8 +1,5 @@
-LAIG Demo Parser
+LAIG ArtifactScene T1
 
-Base code and demo scene provided by:
-- Rui Pedro Peixoto Cardoso - up201305469@fe.up.pt
-- Diogo da Silva Amaral - up201306082@fe.up.pt
-
-Adapted by:
-- Rui Rodrigues - rui.rodrigues@fe.up.pt
+Provided by:
+- Diogo Afonso Duarte Reis - up201505472@fe.up.pt
+- Tiago José Sousa Magalhães - up201607931@fe.up.pt
