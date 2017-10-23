@@ -140,7 +140,7 @@
     <MATERIAL id="defaultMaterial">                                  
         <shininess value="1" />
         <specular r="0.0" g="0.0" b="0.0" a="1" />        
-        <diffuse r="0.5" g="0.5" b="0.5" a="1" />       
+        <diffuse r="0.4" g="0.4" b="0.4" a="1" />       
         <ambient r="0.4" g="0.4" b="0.4" a="1" />         
         <emission r="0.0" g="0.0" b="0.0" a="1" />        
     </MATERIAL>

@@ -68,12 +68,7 @@ MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT)
 {
 	if(this.primitive != null)
 	{
-		for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
-		{
-			this.primitive.texCoords[i] = this.primitive.texCoords[i] / ampS; //calculating the updated tex coord in s axis 
-			this.primitive.texCoords[i + 1] = this.primitive.texCoords[i + 1] / ampT; //calculating the updated tex coord in t axis 
-		}
-		this.primitive.updateTexCoordsGLBuffers(); //call the function to update the texture coordinates of the primitive
+		this.primitive.ScaleTexCoords(ampS,ampT);
 	}
 }
 
@@ -83,18 +78,13 @@ MyGraphLeaf.prototype.scaleTexCoords = function(ampS, ampT)
   * @param ampS amplification factor on s axis
   * @param ampT amplification factor on t axis
   */
- MyGraphLeaf.prototype.deScaleTexCoords = function(ampS, ampT) {
-   if(this.primitive != null){
-
-     for (var i = 0; i < this.primitive.texCoords.length; i += 2) 
-     {
-         this.primitive.texCoords[i] = this.primitive.texCoords[i] * ampS;
-         this.primitive.texCoords[i + 1] = this.primitive.texCoords[i + 1] * ampT;
-     }
-     
-     this.primitive.updateTexCoordsGLBuffers();
-  }
- }
+MyGraphLeaf.prototype.deScaleTexCoords = function(ampS, ampT) 
+{
+   if(this.primitive != null)
+   {
+		this.primitive.deScaleTexCoords(ampS,ampT);
+   }
+}
 
 /**
  * Displays the primitive created for each leaf

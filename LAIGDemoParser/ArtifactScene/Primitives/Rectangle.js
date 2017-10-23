@@ -34,9 +34,9 @@ Rectangle.prototype.setUP = function(){
 
  	 this.texCoords = 
  	 [ 0,0,
- 	    Math.abs(this.vertices[0] - this.vertices[2]),0,
- 	    0,Math.abs(this.vertices[1] - this.vertices[3]),
- 	     Math.abs(this.vertices[0] - this.vertices[2]),Math.abs(this.vertices[1] - this.vertices[3])
+ 	    this.vertices[0],0,
+ 	    0,this.vertices[1],
+ 	     this.vertices[0],this.vertices[1]
     ];
 
 }
@@ -44,4 +44,24 @@ Rectangle.prototype.setUP = function(){
 Rectangle.prototype.initBuffers = function(){
   this.primitiveType = this.scene.gl.TRIANGLES;
   this.initGLBuffers();
+}
+
+Rectangle.prototype.ScaleTexCoords = function (ampS, ampT) 
+{
+    	for (var i = 0; i < this.texCoords.length; i += 2) 
+		{
+			this.texCoords[i] = this.texCoords[i] / ampS; //calculating the updated tex coord in s axis 
+			this.texCoords[i + 1] = this.texCoords[i + 1] / ampT; //calculating the updated tex coord in t axis 
+		}
+		this.updateTexCoordsGLBuffers(); //call the function to update the texture coordinates of the primitive
+}
+
+Rectangle.prototype.deScaleTexCoords = function (ampS, ampT){ 
+     for (var i = 0; i < this.texCoords.length; i += 2) 
+     {
+         this.texCoords[i] = this.texCoords[i] * ampS;
+         this.texCoords[i + 1] = this.texCoords[i + 1] * ampT;
+     }
+     
+     this.updateTexCoordsGLBuffers();
 }
