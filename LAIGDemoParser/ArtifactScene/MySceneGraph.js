@@ -1594,8 +1594,7 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID) {
         //After reaching the leaf nodes it applies the material, texture and call the display on the leaf primitive
         for(var j = 0; j < NODE.leaves.length; j++)
         {
-//if(nodeID == "candleface1")
-//console.log("this");
+            
         //applies the material    
         if(materialToApply != null)
             materialToApply.apply();
