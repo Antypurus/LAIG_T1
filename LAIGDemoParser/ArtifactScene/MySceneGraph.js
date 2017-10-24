@@ -1356,7 +1356,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 						if (type != null)
 						{
 						    if(type != 'patch')
-								this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type), null);
+								this.nodes[nodeID].addLeaf(new MyGraphLeaf(this, descendants[j], type, null));
 						    else
 							{
 								var patchChildren = descendants[j].children;
@@ -1510,7 +1510,7 @@ MySceneGraph.prototype.getKnotsVector = function(degree)
  * 
  * @returns nurbs object to be drawn on mygraphleaf
  */
-MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes,translation)
+MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes, u, v,translation)
 {
     var knots1 = this.getKnotsVector(degree1);
     var knots2 = this.getKnotsVector(degree2);
@@ -1520,7 +1520,7 @@ MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes,tr
 		return nurbsSurface.getPoint(u, v);
 	};
 
-	var obj = new CGFnurbsObject(this.scene, getSurfacePoint, 200, 200 );
+	var obj = new CGFnurbsObject(this.scene, getSurfacePoint, u, v );
 	return obj;
 	//this.surfaces.push(obj);
 }
@@ -1529,8 +1529,8 @@ MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes,tr
  * Displays the scene, processing each node, starting in the root node.
  * 
  * @param nodeID current node id
- * @param textura id of the texture used by upper node sent to children
- * @param material id of the material used by upper node sent to children
+ * @param textID id of the texture used by upper node sent to children
+ * @param matID id of the material used by upper node sent to children
  */
 MySceneGraph.prototype.displayScene = function(nodeID, textID, matID) {
     
@@ -1604,7 +1604,7 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID) {
             textToApply.bind();
 
         //if the amplifications factor are different from null it checks if it a triangle or rectangle and if so it calls the function to scale their text coords else it just displays
-        if(ampS != null && ampT != null)
+        if(ampS != null && ampT != null && ampS > 0 && ampT > 0)
         {
             if(NODE.leaves[j].type == "rectangle" || NODE.leaves[j].type == "triangle")
 			 NODE.leaves[j].scaleTexCoords(ampS, ampT); //scales text coords

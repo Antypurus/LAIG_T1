@@ -425,7 +425,7 @@
 	  <!--<ROTATION axis="y" angle="90" />
 	  <SCALE sx= "1.3" sy= "1" sz="1" /> -->
       <DESCENDANTS>
-               <LEAF  type="patch" args="2 3" >
+               <LEAF  type="patch" args="20 20" >
           <CPLINE>
             <CPOINT xx ="-1.5" yy="-1.5"  zz="0" ww="1"/>
             <CPOINT xx ="-2" yy="-2"  zz="2" ww="1"/>

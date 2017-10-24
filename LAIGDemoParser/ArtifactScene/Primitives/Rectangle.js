@@ -33,10 +33,11 @@ Rectangle.prototype.setUP = function(){
  	];
 
  	 this.texCoords = 
- 	 [ 0,0,
- 	    this.vertices[0],0,
- 	    0,this.vertices[1],
- 	     this.vertices[0],this.vertices[1]
+ 	 [
+ 	 this.vertices[0],0,
+ 	  	   0,0,
+ 	  	 this.vertices[0],this.vertices[1],
+ 	  	 	 0,this.vertices[1], 
     ];
 
 }
