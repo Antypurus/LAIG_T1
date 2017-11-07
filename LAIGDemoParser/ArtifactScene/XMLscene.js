@@ -1,4 +1,5 @@
 var DEGREE_TO_RAD = Math.PI / 180;
+var UPDATE_TIME = 10;
 /**
  * XMLscene class, representing the scene that is to be rendered.
  * @constructor
@@ -31,6 +32,7 @@ XMLscene.prototype.init = function(application) {
     this.gl.depthFunc(this.gl.LEQUAL);
     
     this.axis = new CGFaxis(this);
+    this.setUpdatePeriod(UPDATE_TIME);
 }
 
 /**
