@@ -25,6 +25,7 @@ function LinearAnimation(id, velocity, controlPoints)
         this.twoPointsFinish.push(lengthtwopoints);
     }
 
+    this.position = NULL;
     this.secondsElapsed = 0;
     this.distanceElapsed = 0; //if this is equal to animationLenght it stops
     this.nControlpoints  = 0; //this variable identifies the numbers of lines between control points the object has already passed
@@ -70,11 +71,27 @@ LinearAnimation.prototype.update = function(currTime)
 
     var distanceTranslate = this.distanceElapsed / this.twoPointsFinish[this.nControlpoints];
 
-    this.position = new getXYZ(
+    {
+    this.position = new Position(
         (increment * this.controlPoints[(this.nControlpoints+1)].x) + ((1-increment)*this.controlPoints[this.nControlpoints].x),
         (increment * this.controlPoints[(this.nControlpoints+1)].y) + ((1-increment)*this.controlPoints[this.nControlpoints].y),
-        (increment * this.controlPoints[(this.nControlpoints+1)].z) + ((1-increment)*this.controlPoints[this.nControlpoints].z)
-)
+        (increment * this.controlPoints[(this.nControlpoints+1)].z) + ((1-increment)*this.controlPoints[this.nControlpoints].z));
+    }
+
+
+    var deltaX = 0;
+    var deltaY = 0;
+    var deltaz = 0;
+
+    if (this.object != null) {
+        deltaX = this.position.x - this.object.vertices[0];
+        deltaY = this.position.y - this.object.vertices[1];
+        deltaZ = this.position.z - this.object.vertices[2];
+
+        this.object.scene.translate(deltaX,deltaY,deltaZ);
+    }
+
+    
 };
 
 LinearAnimation.prototype.twoPointsLength = function(P1,P2)

@@ -5,6 +5,7 @@
 
 function Animation(id)
 {
+    this.object = null;
     this.id = id;
 }
 
