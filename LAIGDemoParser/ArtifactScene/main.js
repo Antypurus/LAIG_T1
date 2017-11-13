@@ -23,6 +23,9 @@ serialInclude(['../lib/CGF.js',
 			    'Primitives/Rectangle.js',
 				'Primitives/Triangle.js',
 				'Primitives/Circle.js',
+				'Animations/LinearAnimation.js',
+				'Animations/CircularAnimation.js',
+				'Animations/Animation.js',
 
 
 main=function()

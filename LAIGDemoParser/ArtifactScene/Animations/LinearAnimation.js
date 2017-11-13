@@ -92,7 +92,7 @@ LinearAnimation.prototype.update = function(currTime)
     }
 
     
-};
+}
 
 LinearAnimation.prototype.twoPointsLength = function(P1,P2)
 {

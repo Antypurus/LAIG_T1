@@ -6,8 +6,9 @@ var ILLUMINATION_INDEX = 1;
 var LIGHTS_INDEX = 2;
 var TEXTURES_INDEX = 3;
 var MATERIALS_INDEX = 4;
-var LEAVES_INDEX = 5;
-var NODES_INDEX = 6;
+var ANIMATIONS_INDEX = 5;
+var LEAVES_INDEX = 6;
+var NODES_INDEX = 7;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -142,6 +143,16 @@ MySceneGraph.prototype.parseLSXFile = function(rootElement) {
             this.onXMLMinorError("tag <MATERIALS> out of order");
         
         if ((error = this.parseMaterials(nodes[index])) != null )
+            return error;
+    }
+
+    // <ANIMATIONS>
+    if ((index = nodeNames.indexOf("ANIMATIONS")) == -1)
+        return "tag <ANIMATIONS> missing";
+    else {
+        if (index != ANIMATIONS_INDEX)
+            this.onXMLMinorError("tag <ANIMATIONS> out of order");
+        if((error = this.parseAnimations(nodes[index])) != null)
             return error;
     }
     
@@ -1167,6 +1178,65 @@ MySceneGraph.prototype.parseMaterials = function(materialsNode) {
     this.generateDefaultMaterial();
     
     console.log("Parsed materials");
+}
+
+MySceneGraph.prototype.parseAnimations = function(animationsNode) 
+{
+    var children = animationsNode.children;
+    //Each animation
+
+    this.animations = [];
+
+    var oneAnimationDefined = false;
+
+    for (var i = 0; i < children.length; i++) {
+        if (children[i].nodeName != "ANIMATION") {
+            this.onXMLMinorError("unknown tag name <" + children[i].nodeName + ">");
+            continue;
+        }
+
+        var animationID = this.reader.getString(children[i], 'id');
+        var speed = this.reader.getString(children[i], 'speed');
+        var type = this.reader.getString(children[i], 'type');
+        if(animationID == null)
+            return "no id defined for animation";
+
+        var animationSpeed = this.reader.getString(children[i], 'speed');
+        if(animationSpeed == null)
+            return "no speed defined for animation";
+        
+        var animationType = this.reader.getString(children[i], )
+
+        if(this.animations[animationID] != null)
+            return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
+
+        var animationSpecs = children[i].children;
+
+        var controlPoints = [];
+
+        for (var j = 0; j < animationSpecs.length; j++)
+        {
+            var CP = [];
+            for(var k = 0; k < animationSpecs[j].attributes.length; k++)
+            {
+                CP.push(animationSpecs[j].attributes[i].value)
+            }
+            controlPoints.push(CP);
+        }
+
+        switch(type)
+        {
+            case 'linear':
+                newAnimation = new LinearAnimation(animationID, speed, controlPoints);
+                break;
+        }
+
+        this.animations[animationID] = newAnimation;
+        oneMaterialDefined = true;
+    }
+
+        //Determines the value for each field
+        //ControlPoints
 }
 
 
