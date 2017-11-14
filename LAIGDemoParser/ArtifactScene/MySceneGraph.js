@@ -1275,8 +1275,8 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
                 break;
 
              case 'bezier':
-                //newAnimation3 = new BezierAnimation(speed, controlPoints);
-                //this.animations[animationID] = newAnimation3;
+                newAnimation3 = new BezierAnimation(speed, controlPoints);
+                this.animations[animationID] = newAnimation3;
                 break;
 
              case 'combo':
