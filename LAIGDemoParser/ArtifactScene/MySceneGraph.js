@@ -1198,7 +1198,6 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
             continue;
         }
          
-        var animationSpecs = children[i];
 
         var animationID = this.reader.getString(children[i], 'id');
 
@@ -1214,9 +1213,10 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
         if(this.animations[animationID] != null)
             return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
 
-        var animationSpecs = children[i].children;
-        if(type == "linear" || type == "bezier")
-        {
+        
+        if(type == "linear")
+        {var animationSpecs = children[i].children;
+
         var controlPoints = [];
 
         for (var j = 0; j < animationSpecs.length; j++)
@@ -1224,7 +1224,28 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
             var CP = [];
             for(var k = 0; k < animationSpecs[j].attributes.length; k++)
             {
-                CP.push(animationSpecs[j].attributes[i].value)
+                CP.push(animationSpecs[j].attributes[k].value)
+            }
+            controlPoints.push(CP);
+        }
+
+        for(var j = 0; j < controlPoints.length; j++)
+        {
+            controlPoints[j] = controlPoints[j].map(Number);
+        }
+        }
+
+        if(type == "bezier")
+        {
+            var animationSpecs = children[i].children;
+        var controlPoints = [];
+
+        for (var j = 0; j < animationSpecs.length; j++)
+        {
+            var CP = [];
+            for(var k = 0; k < animationSpecs[j].attributes.length; k++)
+            {
+                CP.push(animationSpecs[j].attributes[k].value)
             }
             controlPoints.push(CP);
         }
@@ -1671,6 +1692,9 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
     //checks if the current node is null
     if(NODE != null){
         
+    //multiplies the transformation matrix with the current node transformation matrix
+    this.scene.multMatrix(NODE.transformMatrix);
+
     //checks if the current node material is not null, if it is null it uses the fathers material, otherwise it uses its own
     if(NODE.materialID != "null")
         if(this.materials[NODE.materialID] != null)
@@ -1688,7 +1712,7 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
 		    {
 		        if(this.animations[NODE.animations[j]] != null)
 		        {
-				animMatrix =  this.animations[NODE.animations[j]].getMatrix();
+				animMatrix =  this.animations[NODE.animations[j]].applyAnimation();
 				if (animMatrix != null){
 				this.scene.multMatrix(animMatrix);
 				break;
@@ -1725,9 +1749,6 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         else
             textToApply = null;
     }
-
-        //multiplies the transformation matrix with the current node transformation matrix
-		this.scene.multMatrix(NODE.transformMatrix);
 
         //puts in a variable the material to be applied
 		var materialToApply = this.materials[matID];

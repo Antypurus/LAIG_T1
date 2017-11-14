@@ -10,9 +10,9 @@ function CircularAnimation(center, radius, startang,rotang, velocity)
 
     this.center = center;
     this.radius = radius;
-    this.velocity = velocity;
     this.startang = startang;
     this.rotang = rotang;
+    this.velocity = velocity/radius;
 
     this.firstTime = true;
 	this.time = null;
@@ -41,16 +41,21 @@ CircularAnimation.prototype.update = function(currTime)
 		else{ // depois de fazer a primeira vez só precisa de atualizar o tempo atual
 			this.current_time = this.currTime;
 		}
-		this.curr_ang = this.startang + (this.velocity * (this.current_time - this.time));
-		mat4.identity(this.matrix);
-
-		mat4.translate(this.matrix, this.matrix,[this.center.x, this.center.y, this.center.z]); //translate para o centro
-		mat4.rotate(this.matrix, this.matrix, (this.curr_ang*Math.PI)/180.0, [0,1,0]); //para fazer rotate e preciso primeiro por em rad
-		mat4.translate(this.matrix, this.matrix,[this.radius,0,0]); //para fazer o moviment circular é preciso ir fazendo translate de raio
-	}
+		this.curr_ang = this.startang + (this.velocity * (this.current_time - this.time));	}
 	else{
 		this.finish = true; // stop animation
 	}
+}
+
+CircularAnimation.prototype.applyAnimation = function()
+{
+		mat4.identity(this.matrix);
+
+mat4.translate(this.matrix, this.matrix,[this.center.x, this.center.y, this.center.z]); //translate para o centro
+		mat4.rotate(this.matrix, this.matrix, (this.curr_ang*Math.PI)/180.0, [0,1,0]); //para fazer rotate e preciso primeiro por em rad
+		mat4.translate(this.matrix, this.matrix,[this.radius,0,0]); //para fazer o moviment circular é preciso ir fazendo translate de raio
+
+		return this.matrix;
 }
 
 CircularAnimation.prototype.getMatrix = function()
