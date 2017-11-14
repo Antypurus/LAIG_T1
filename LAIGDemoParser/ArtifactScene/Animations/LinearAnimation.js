@@ -53,14 +53,9 @@ LinearAnimation.prototype.setUp = function() {
 };
 
 LinearAnimation.prototype.update = function(currTime) {
-  var timeinS = 0;
   var timeElapsed = 0;
 
-  //console.log(this.currStep);
-
   timeElapsed = currTime / 1000 - this.prevTiem;
-
-  this.secondsElapsed = timeinS;
   if (this.currStep >= this.controlPoints.length - 1) {
     return null;
   } else {
@@ -80,7 +75,6 @@ LinearAnimation.prototype.update = function(currTime) {
       this.deltaY,
       this.deltaZ
     ]);
-    console.log(this.matrix);
 
     let vec = [];
     vec.push(
