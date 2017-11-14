@@ -5,7 +5,7 @@
  * @constructor
 **/
 
-function MyGraphNode(graph, nodeID, hasPassed) 
+function MyGraphNode(graph, nodeID) 
 {
     this.graph = graph;
 
@@ -17,11 +17,18 @@ function MyGraphNode(graph, nodeID, hasPassed)
     // IDs of leaf nodes.
     this.leaves = [];
 
+    this.animations = [];
+
     // The material ID.
     this.materialID = null ;
 
     // The texture ID.
     this.textureID = null ;
+
+    // The Animation Boolean defaulting at false
+    this.selectable = false;
+
+    this.hasPassed = false;
 
     this.transformMatrix = mat4.create();
     mat4.identity(this.transformMatrix);
@@ -33,6 +40,11 @@ function MyGraphNode(graph, nodeID, hasPassed)
 MyGraphNode.prototype.addChild = function(nodeID) 
 {
     this.children.push(nodeID);
+}
+
+MyGraphNode.prototype.addAnimation = function(animationID) 
+{
+    this.animations.push(animationID);
 }
 
 /**

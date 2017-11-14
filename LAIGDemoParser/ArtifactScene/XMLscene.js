@@ -96,6 +96,7 @@ XMLscene.prototype.onGraphLoaded = function()
     this.interface.addLightsGroup(this.graph.lights);
 }
 
+
 /**
  * Displays the scene.
  */
@@ -153,4 +154,14 @@ XMLscene.prototype.display = function() {
     
     // ---- END Background, camera and axis setup
     
+}
+
+XMLscene.prototype.update = function(currTime){
+    if (this.graph.loadedOk){
+    for(var id in this.graph.animations)
+    	if(this.graph.animations[id].finish != true)
+      		{
+      			this.graph.animations[id].update(currTime);
+      		}
+  }
 }

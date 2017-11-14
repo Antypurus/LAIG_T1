@@ -2,17 +2,15 @@
  * LinearAnimation
  * @constructor
  */
-function LinearAnimation(id, velocity, controlPoints)
+function LinearAnimation(velocity, controlPoints)
 {
-    Animation.call(this,id); //calling abstract methods
-
-    this.id = id;
+    this.matrix = mat4.create();
     this.controlPoints = controlPoints;
     this.Animationlength = 0;
     this.velocity = velocity;
     this.startingPos = this.controlPoints[0];
-    var deltaZ = this.controlPoints[1].z - this.controlPoints[0].z;
-    var deltaX = this.controlPoints[1].x - this.controlPoints[0].x;
+    var deltaZ = this.controlPoints[1][2] - this.controlPoints[0][2];
+    var deltaX = this.controlPoints[1][0] - this.controlPoints[0][0];
     this.angle = Math.atan2(deltaZ, deltaX);
     this.twoPointsFinish = new Array(); //distance between two points to know when to stop while travelling between those two
     
@@ -25,7 +23,7 @@ function LinearAnimation(id, velocity, controlPoints)
         this.twoPointsFinish.push(lengthtwopoints);
     }
 
-    this.position = NULL;
+    this.position = null;
     this.secondsElapsed = 0;
     this.distanceElapsed = 0; //if this is equal to animationLenght it stops
     this.nControlpoints  = 0; //this variable identifies the numbers of lines between control points the object has already passed
@@ -33,13 +31,14 @@ function LinearAnimation(id, velocity, controlPoints)
 }
 
 //Creates a LinearAnimation object using Animation Abstract Class
-LinearAnimation.prototype = Object.create(Animation.prototype);
+LinearAnimation.prototype = Object.create(CGFobject.prototype);
 LinearAnimation.prototype.constructor = LinearAnimation;
 
 LinearAnimation.prototype.update = function(currTime) 
 {
     var timeinS = 0;
     var timeElapsed = 0;
+    var distanceTranslate = 0;
     
     timeinS = currTime/1000;
 
@@ -48,58 +47,57 @@ LinearAnimation.prototype.update = function(currTime)
     
     this.secondsElapsed = timeinS;
 
-    this.distanceElapsed += timeElapsed * this.velocity;
+    this.distanceElapsed += this.velocity * timeElapsed;
 
     if(this.distanceElapsed > this.twoPointsFinish[this.nControlpoints])
     {
         //if the number of lines passed is equal to the total amount of lines - 1 it stops
         if(this.nControlpoints  == (this.twoPointsFinish.length - 1))
         {
-                this.finish = true;
+            //mat4.translate(this.matrix, this.matrix, this.controlPoints[this.controlPoints.length - 1]);
+            //mat4.rotate(this.matrix, this.matrix,this.angle, [0, 1, 0]);
+            this.finish = true;
                 return;
         }
         else
         {
             this.distanceElapsed = 0;
-            this.nControlpoints ++;
-            this.angle = Math.atan2(
-                (this.controlPoints[(this.nControlpoints + 1)].x - this.controlPoints[this.nControlpoints].x),
-                (this.controlPoints[(this.nControlpoints + 1)].z - this.controlPoints[this.nControlpoints].z)
-              );
+            this.nControlpoints++;
         }
     }
 
-    var distanceTranslate = this.distanceElapsed / this.twoPointsFinish[this.nControlpoints];
+    distanceTranslate = this.distanceElapsed / this.twoPointsFinish[this.nControlpoints];
 
-    {
-    this.position = new Position(
-        (increment * this.controlPoints[(this.nControlpoints+1)].x) + ((1-increment)*this.controlPoints[this.nControlpoints].x),
-        (increment * this.controlPoints[(this.nControlpoints+1)].y) + ((1-increment)*this.controlPoints[this.nControlpoints].y),
-        (increment * this.controlPoints[(this.nControlpoints+1)].z) + ((1-increment)*this.controlPoints[this.nControlpoints].z));
-    }
+    this.Position = new position(
+        (distanceTranslate * this.controlPoints[(this.nControlpoints+1)][0]),
+        (distanceTranslate * this.controlPoints[(this.nControlpoints+1)][1]),
+        (distanceTranslate * this.controlPoints[(this.nControlpoints+1)][2]));
 
+    this.angle = Math.atan2(
+    (this.controlPoints[this.nControlpoints][0] - this.controlPoints[(this.nControlpoints + 1)][0]),
+    (this.controlPoints[this.nControlpoints][2] - this.controlPoints[(this.nControlpoints + 1)][2])
+  );
 
-    var deltaX = 0;
-    var deltaY = 0;
-    var deltaz = 0;
-
-    if (this.object != null) {
-        deltaX = this.position.x - this.object.vertices[0];
-        deltaY = this.position.y - this.object.vertices[1];
-        deltaZ = this.position.z - this.object.vertices[2];
-
-        this.object.scene.translate(deltaX,deltaY,deltaZ);
-    }
-
+    mat4.identity(this.matrix);
+    mat4.translate(this.matrix, this.matrix,[this.Position.x, this.Position.y, this.Position.z]);
+    mat4.rotate(this.matrix, this.matrix,this.angle, [0, 1, 0]);
     
 }
 
 LinearAnimation.prototype.twoPointsLength = function(P1,P2)
 {
+    var p1 = new position(P1[0], P1[1], P1[2]);
+    var p2 = new position(P2[0], P2[1], P2[2]);
+
     return Math.sqrt
     (
-        Math.pow(this.P1.x - this.P2.x, 2 ) +
-		Math.pow(this.P1.y - this.P2.y, 2 ) +
-		Math.pow(this.P1.z - this.P2.z, 2 )
+        Math.pow(p1.x - p2.x, 2 ) +
+		Math.pow(p1.y - p2.y, 2 ) +
+		Math.pow(p1.z - p2.z, 2 )
     );
-};
+}
+
+LinearAnimation.prototype.getMatrix = function()
+{
+    return this.matrix;
+}

@@ -148,12 +148,30 @@
 </MATERIALS>
 
 <ANIMATIONS>
-
+	<!-- A default animation -->
 	<ANIMATION id = "defaultAnimation" speed = "1" type = "linear">
 		<controlpoint xx = "0" yy = "0" zz = "0" />
 		<controlpoint xx = "2" yy = "0" zz = "0" />
 		<controlpoint xx = "2.5" yy = "1" zz = "0" />
 		<controlpoint xx = "3" yy = "0" zz = "0" />
+	</ANIMATION>
+	
+    <ANIMATION id="animcirc" speed="30" type="circular"
+		centerx="1" centery="2" centerz="3"
+		radius="4" startang="0" rotang="360"
+	/>
+	
+	<ANIMATION id="animbezier" speed="5" type="bezier">
+		<controlpoint xx="0" yy="0" zz="0" />
+		<controlpoint xx="2" yy="3" zz="-1" />
+		<controlpoint xx="40" yy="-25" zz="-1" />
+		<controlpoint xx="40" yy="-20" zz="2" />
+	</ANIMATION>
+
+	<ANIMATION id="animcombo" type="combo">
+		<SPANREF id="defaultAnimation" />
+		<SPANREF id="animbezier" />
+		<SPANREF id="animcirc" />
 	</ANIMATION>
 	
 </ANIMATIONS>
@@ -318,6 +336,10 @@
         <TEXTURE id="null" />       			
 
         <TRANSLATION x="7.5" y="-2" z="21" />
+		
+		<ANIMATIONREFS>
+			<ANIMATIONREF id="animbezier" />
+		</ANIMATIONREFS>
         
         <DESCENDANTS>
             <NODEREF id="banco" /> 
@@ -376,7 +398,11 @@
         <TEXTURE id="null" />       			
 
         <TRANSLATION x="-2" y="0" z="5" />
-
+		
+		<ANIMATIONREFS>
+			<ANIMATIONREF id="animcirc" />
+		</ANIMATIONREFS>
+		
         <DESCENDANTS>
             <NODEREF id="arvore" />     	    
         </DESCENDANTS>
@@ -531,9 +557,6 @@
 
         <TRANSLATION x="12" y="5.8" z="4.75" />
         <SCALE sx="0.4" sy="2" sz="0.4" />
-		<ANIMATIONREFS>
-			<ANIMATIONREF id="defaultAnimation" />
-		</ANIMATIONREFS>
 
         <DESCENDANTS>
        		<NODEREF id="meiaPiramide1" /> 

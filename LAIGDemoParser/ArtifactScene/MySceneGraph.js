@@ -20,12 +20,15 @@ function MySceneGraph(filename, scene) {
     this.textura = null;
     this.material = null;
     this.matID = null;
+    this.animationID = null;
 
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
     scene.graph = this;
     
     this.nodes = [];
+    this.animationNodes = [];
+    
     
     this.idRoot = null;                    // The id of the root element.
 
@@ -1186,7 +1189,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
     //Each animation
 
     this.animations = [];
-
+    
     var oneAnimationDefined = false;
 
     for (var i = 0; i < children.length; i++) {
@@ -1194,24 +1197,26 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
             this.onXMLMinorError("unknown tag name <" + children[i].nodeName + ">");
             continue;
         }
+         
+        var animationSpecs = children[i];
 
         var animationID = this.reader.getString(children[i], 'id');
-        var speed = this.reader.getString(children[i], 'speed');
+
         var type = this.reader.getString(children[i], 'type');
+        if(type != "combo")
+        {
+            var speed = this.reader.getString(children[i], 'speed');
+            speed = Number(speed);
+        }
         if(animationID == null)
             return "no id defined for animation";
-
-        var animationSpeed = this.reader.getString(children[i], 'speed');
-        if(animationSpeed == null)
-            return "no speed defined for animation";
-        
-        var animationType = this.reader.getString(children[i], )
 
         if(this.animations[animationID] != null)
             return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
 
         var animationSpecs = children[i].children;
-
+        if(type == "linear" || type == "bezier")
+        {
         var controlPoints = [];
 
         for (var j = 0; j < animationSpecs.length; j++)
@@ -1224,14 +1229,45 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
             controlPoints.push(CP);
         }
 
-        switch(type)
+        for(var j = 0; j < controlPoints.length; j++)
+        {
+            controlPoints[j] = controlPoints[j].map(Number);
+        }
+        }
+
+         switch(type)
         {
             case 'linear':
-                newAnimation = new LinearAnimation(animationID, speed, controlPoints);
+                newAnimation1 = new LinearAnimation(speed, controlPoints);
+                this.animations[animationID] = newAnimation1;
+                break;
+
+            case 'circular':
+                var centerx = Number(this.reader.getString(children[i], 'centerx'));
+                var centery = Number(this.reader.getString(children[i], 'centerx'));
+                var centerz = Number(this.reader.getString(children[i], 'centerx'));
+                var radius = Number(this.reader.getString(children[i], 'radius'));
+                var startang = Number(this.reader.getString(children[i], 'startang'));
+                var rotang = Number(this.reader.getString(children[i], 'rotang'));
+                newAnimation2 = new CircularAnimation(new position(centerx, centery, centerz), radius, startang, rotang, speed);
+                this.animations[animationID] = newAnimation2;
+                break;
+
+             case 'bezier':
+                newAnimation3 = new BezierAnimation(speed, controlPoints);
+                this.animations[animationID] = newAnimation3;
+                break;
+
+             case 'combo':
+                //newAnimation = new ComboAnimation(newAnimation1, newAnimation2, newAnimation3);
+                //this.animations[animationID] = newAnimation;
+                break;
+
+            default:
                 break;
         }
 
-        this.animations[animationID] = newAnimation;
+        
         oneMaterialDefined = true;
     }
 
@@ -1264,6 +1300,9 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
         else if (nodeName == "NODE") {
             // Retrieves node ID.
             var nodeID = this.reader.getString(children[i], 'id');
+            //if(this.reader.getItem(children[i], 'selectable') != null)
+                //var selectable = this.reader.getString(children[i], 'selectable');
+
             if (nodeID == null )
                 return "failed to retrieve node ID";
             // Checks if ID is valid.
@@ -1278,7 +1317,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             // Gathers child nodes.
             var nodeSpecs = children[i].children;
             var specsNames = [];
-            var possibleValues = ["MATERIAL", "TEXTURE", "TRANSLATION", "ROTATION", "SCALE", "DESCENDANTS"];
+            var possibleValues = ["MATERIAL", "TEXTURE", "TRANSLATION", "ROTATION", "SCALE", "ANIMATIONREFS", "DESCENDANTS"];
             for (var j = 0; j < nodeSpecs.length; j++) {
                 var name = nodeSpecs[j].nodeName;
                 specsNames.push(nodeSpecs[j].nodeName);
@@ -1393,6 +1432,23 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
                 }
             }
             
+            // Retrieves information about animations.
+            var animationsIndex = specsNames.indexOf("ANIMATIONREFS");
+            if (animationsIndex != -1)
+           {
+
+            var animationRefs = nodeSpecs[animationsIndex].children;
+            
+            for (var j = 0; j < animationRefs.length; j++) {
+                if (animationRefs[j].nodeName == "ANIMATIONREF")
+				{
+					var curId = this.reader.getString(animationRefs[j], 'id');
+
+                    this.nodes[nodeID].addAnimation(curId);
+                    }
+				}
+           }   
+
             // Retrieves information about children.
             var descendantsIndex = specsNames.indexOf("DESCENDANTS");
             if (descendantsIndex == -1)
@@ -1602,10 +1658,11 @@ MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes, u
  * @param textID id of the texture used by upper node sent to children
  * @param matID id of the material used by upper node sent to children
  */
-MySceneGraph.prototype.displayScene = function(nodeID, textID, matID) {
+MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationID) {
     
         var textID = textID; //creates a variable equal to the father's node texture id
         var matID = matID; //creates a variable equal to the father's node material id
+        var animationID = animationID;
         var NODE = this.nodes[nodeID]; //puts in a variable NODE the current node
         var ampS = null;
         var ampT = null;
@@ -1618,6 +1675,28 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID) {
     if(NODE.materialID != "null")
         if(this.materials[NODE.materialID] != null)
             matID = NODE.materialID;
+
+	if(NODE.animations.length != 0){
+	   var animMatrix;
+            if(NODE.hasPassed == false)
+               { 
+                this.animationNodes.push(nodeID);
+                NODE.hasPassed == true;
+               }
+		    
+		    for(var j = 0; j < NODE.animations.length; j++)
+		    {
+		        if(this.animations[NODE.animations[j]] != null)
+		        {
+				animMatrix =  this.animations[NODE.animations[j]].getMatrix();
+				if (animMatrix != null){
+				this.scene.multMatrix(animMatrix);
+				break;
+				}
+			}
+		    }
+				
+	}
 
 
     //checks if the current node has its texture set to clear, if so it doesn't apply any texture
