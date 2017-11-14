@@ -77,8 +77,6 @@ BezierAnimation.prototype.bezierCalculation = function(currTime)
 
 BezierAnimation.prototype.update = function(currTime) 
 {
-  
-
 	this.crossProductResult = 
 	[ this.initialOrientation[1] * this.velocityVector[2] - this.initialOrientation[2] * this.velocityVector[1]
 	, this.initialOrientation[2] * this.velocityVector[0] - this.initialOrientation[0] * this.velocityVector[2]
