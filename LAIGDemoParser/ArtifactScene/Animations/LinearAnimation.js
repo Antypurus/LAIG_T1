@@ -21,7 +21,7 @@ function LinearAnimation(velocity, controlPoints) {
   this.deltaZ = 0;
 
   this.secondsElapsed = 0;
-  this.prevTiem = 0;
+  this.prevTime = 0;
 
   this.setUp();
 }
@@ -55,11 +55,11 @@ LinearAnimation.prototype.setUp = function() {
 LinearAnimation.prototype.update = function(currTime) {
   var timeElapsed = 0;
 
-  timeElapsed = currTime / 1000 - this.prevTiem;
+  timeElapsed = currTime / 1000 - this.prevTime;
   if (this.currStep >= this.controlPoints.length - 1) {
-    return null;
+    this.finish = true;
   } else {
-    if (this.prevTiem != 0) {
+    if (this.prevTime != 0) {
       this.deltaX += timeElapsed * this.vx[this.currStep];
       this.deltaY += timeElapsed * this.vy[this.currStep];
       this.deltaZ += timeElapsed * this.vz[this.currStep];
@@ -98,10 +98,10 @@ LinearAnimation.prototype.update = function(currTime) {
       this.currStep++;
     }
 
-    this.prevTiem = currTime / 1000;
+    this.prevTime = currTime / 1000;
   }
 };
 
-LinearAnimation.prototype.getMatrix = function() {
+LinearAnimation.prototype.applyAnimation = function() {
   return this.matrix;
 };
