@@ -201,7 +201,7 @@ XMLscene.prototype.update = function(currTime) {
 };
 
 XMLscene.prototype.bindTimeFactor = function(currTime) {
-  var normalizedTime = Math.abs(Math.sin(currTime / this.attenuation));
+  var normalizedTime = Math.abs(Math.sin(currTime / this.attenuation)/2+0.5);
   this.alternateShader.setUniformsValues({ timeFactor: normalizedTime });
   this.alternateShader.setUniformsValues({ scaleFactor: this.scaleFactor });
 };
