@@ -1290,8 +1290,8 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
                 break;
 
              case 'combo':
-               // newAnimation = new ComboAnimation(animationsArray);
-                //this.animations[animationID] = newAnimation;
+               newAnimation = new ComboAnimation(animationsArray);
+                this.animations[animationID] = newAnimation;
                 break;
 
             default:
@@ -1732,7 +1732,7 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
 
     if(Object.keys(NODE.animations.animations).length > 0)
     {
-        NODE.animations.applyAnimations(matrix);
+        NODE.animations.applyAnimation(matrix);
 
         //let matrix = NODE.animations.getMatrix();
        
