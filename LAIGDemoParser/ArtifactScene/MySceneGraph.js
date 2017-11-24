@@ -28,6 +28,7 @@ function MySceneGraph(filename, scene) {
     
     this.nodes = [];
     this.animationNodes = [];
+    this.animationsStop = false;
     
     
     this.idRoot = null;                    // The id of the root element.
@@ -1238,22 +1239,31 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
         if(type == "bezier")
         {
             var animationSpecs = children[i].children;
-        var controlPoints = [];
+            var controlPoints = [];
 
-        for (var j = 0; j < animationSpecs.length; j++)
-        {
-            var CP = [];
-            for(var k = 0; k < animationSpecs[j].attributes.length; k++)
+            for (var j = 0; j < animationSpecs.length; j++)
             {
-                CP.push(animationSpecs[j].attributes[k].value)
+                var CP = [];
+                for(var k = 0; k < animationSpecs[j].attributes.length; k++)
+                {
+                    CP.push(animationSpecs[j].attributes[k].value)
+                }
+                controlPoints.push(CP);
             }
-            controlPoints.push(CP);
-        }
 
-        for(var j = 0; j < controlPoints.length; j++)
-        {
-            controlPoints[j] = controlPoints[j].map(Number);
+            for(var j = 0; j < controlPoints.length; j++)
+            {
+                controlPoints[j] = controlPoints[j].map(Number);
+            }
         }
+        if (type == "combo")
+        {
+            var animationSpan = children[i].children;
+            var animationsArray = [];
+            for(let j= 0; j < animationSpan.length; j++)
+            {
+                animationsArray.push(animationSpan[j].attributes[0].value);
+            }
         }
 
          switch(type)
@@ -1280,7 +1290,7 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
                 break;
 
              case 'combo':
-                //newAnimation = new ComboAnimation(newAnimation1, newAnimation2, newAnimation3);
+               // newAnimation = new ComboAnimation(animationsArray);
                 //this.animations[animationID] = newAnimation;
                 break;
 
@@ -1292,8 +1302,10 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
         oneMaterialDefined = true;
     }
 
+       
         //Determines the value for each field
         //ControlPoints
+        
 }
 
 
@@ -1570,6 +1582,12 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             this.onXMLMinorError("unknown tag name <" + nodeName);
     }
 
+    for (let nodeID in this.nodes)
+    {
+        let node = this.nodes[nodeID];
+        node.animations.createCopies(this.animations);
+    }
+
     console.log("Parsed nodes");
     return null ;
 }
@@ -1672,6 +1690,15 @@ MySceneGraph.prototype.makeSurface = function(degree1,degree2,controlvertexes, u
 	//this.surfaces.push(obj);
 }
 
+MySceneGraph.prototype.updateAnimations = function (currTime)
+{
+    for (let nodeID in this.nodes) {
+        let node = this.nodes[nodeID];
+        node.updateAnimations(currTime);
+    }
+};
+
+
 /**
  * Displays the scene, processing each node, starting in the root node.
  * 
@@ -1693,34 +1720,26 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
     if(NODE != null){
         
     //multiplies the transformation matrix with the current node transformation matrix
-    this.scene.multMatrix(NODE.transformMatrix);
+   
 
     //checks if the current node material is not null, if it is null it uses the fathers material, otherwise it uses its own
     if(NODE.materialID != "null")
         if(this.materials[NODE.materialID] != null)
             matID = NODE.materialID;
 
-	if(NODE.animations.length != 0){
-	   var animMatrix;
-            if(NODE.hasPassed == false)
-               { 
-                this.animationNodes.push(nodeID);
-                NODE.hasPassed == true;
-               }
-		    
-		    for(var j = 0; j < NODE.animations.length; j++)
-		    {
-		        if(this.animations[NODE.animations[j]] != null)
-		        {
-				animMatrix =  this.animations[NODE.animations[j]].applyAnimation();
-				if (animMatrix != null){
-				this.scene.multMatrix(animMatrix);
-				break;
-				}
-			}
-		    }
-				
-	}
+    let matrix = mat4.create();
+    mat4.identity(matrix);
+
+    if(Object.keys(NODE.animations.animations).length > 0)
+    {
+        NODE.animations.applyAnimations(matrix);
+
+        //let matrix = NODE.animations.getMatrix();
+       
+    }
+
+    this.scene.multMatrix(NODE.transformMatrix);
+     this.scene.multMatrix(matrix);
 
 
     //checks if the current node has its texture set to clear, if so it doesn't apply any texture

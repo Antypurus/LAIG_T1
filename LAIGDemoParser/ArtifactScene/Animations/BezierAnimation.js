@@ -11,7 +11,6 @@ function BezierAnimation(velocity, controlPoints)
 
 	this.anglezxy = 0;
 	this.angley = 0;
-	this.vector = [];
 	this.angleVector = [];
 	this.distance = 0;
 	this.magnitude = 0;
@@ -19,6 +18,8 @@ function BezierAnimation(velocity, controlPoints)
 	this.dotProductResult = 0;
 	this.crossProductResult = [];
 	this.firstTime = true;
+    this.finish = false;
+    this.currTime = 0;
 
 	this.initialOrientation = [-1,0,0];
 	this.t = 0;
@@ -30,9 +31,10 @@ function BezierAnimation(velocity, controlPoints)
 	this.p3 = [];
 	this.p4 = [];
 
-	this.xPos  = this.controlPoints[0][0];
-	this.yPos  = this.controlPoints[0][1];
-	this.zPos  = this.controlPoints[0][2];
+	this.xPos = this.controlPoints[0][0];
+	this.yPos = this.controlPoints[0][1];
+    this.zPos = this.controlPoints[0][2];
+    this.bezierCalculation();
 
 }
 
@@ -84,52 +86,30 @@ BezierAnimation.prototype.BezierPoint = function(t, P1, P2, P3, P4)
 
 BezierAnimation.prototype.bezierCalculation = function() 
 {
+
     this.p1 = this.controlPoints[0];
 
     this.p4 = this.controlPoints[3];
-
-    for(var i = 0; i < this.p4.length && i < this.p1.length;i++)
-    {
-        this.vector[i] = this.p4[i] - this.p1[i];
-    }
 
     this.p2 = this.controlPoints[1];
 
     this.p3 = this.controlPoints[2];
 
-
     this.distance = this.BezierLength();
 
-    this.animationTime = Math.round(this.distance);   
-
-    this.destroyTarget = true;
+    this.animationTime = (this.distance/this.velocity);   
+    
 }
 
 
 BezierAnimation.prototype.update = function(currTime) 
 {
-	this.bezierCalculation();
+	if(this.finish)
+		return;
+	
 		this.currTime = currTime/1000;
 
-		if(this.firstTime)
-		{
-			this.firstTime = false;
-			this.time = this.currTime; //guardar o tempo em que começa a andar
-			this.current_time = this.currTime; //variavel que vai ser usada para manter a mesma velocidade
-		}
-		else{ // depois de fazer a primeira vez só precisa de atualizar o tempo atual
-			this.current_time = this.currTime;
-		}
-
-		var dist = this.BezierLength(); 
-		var delta = dist/this.velocity ;
-		
-
         if(this.t <= 1){
-
-        	var xPos = this.xPos;
-        	var yPos = this.yPos;
-        	var zPos = this.zPos;
 
             var t = this.t;
 
@@ -149,20 +129,27 @@ BezierAnimation.prototype.update = function(currTime)
     		];
 
 
-    		this.t += (this.current_time - this.time)/(this.animationTime);
+            this.t += (this.current_time - this.time) / (this.animationTime);
+            console.log(this.t);
 
         }
+        else
+            this.finish = true;
 	
 }
 
-BezierAnimation.prototype.applyAnimation = function()
+BezierAnimation.prototype.applyAnimation = function(matrix)
 {
-    	mat4.identity(this.matrix);
-    	mat4.translate(this.matrix, this.matrix,this.translationVector);
-		return this.matrix;
+	if(this.finish)
+		return;
+    mat4.translate(matrix, matrix,this.translationVector);
 }
 
 BezierAnimation.prototype.getMatrix = function()
 {
     return this.matrix;
+}
+
+BezierAnimation.prototype.getCopy = function () {
+    return new BezierAnimation(this.velocity, this.controlPoints.slice());
 }

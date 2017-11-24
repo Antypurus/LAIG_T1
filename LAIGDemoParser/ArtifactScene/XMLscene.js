@@ -131,6 +131,9 @@ XMLscene.prototype.onGraphLoaded = function() {
 
   this.initLights();
 
+  var date = new Date();
+  this.lastCurrTime = date.getTime(); //time in milliseconds
+
   // Adds lights group.
   this.interface.addLightsGroup(this.graph.lights);
 };
@@ -191,13 +194,14 @@ XMLscene.prototype.display = function() {
 };
 
 XMLscene.prototype.update = function(currTime) {
-  if (this.graph.loadedOk) {
-    this.bindTimeFactor(currTime);
-    for (var id in this.graph.animations)
-      if (this.graph.animations[id].finish != true) {
-        this.graph.animations[id].update(currTime);
-      }
-  }
+    if (this.graph.loadedOk)
+    {
+        this.bindTimeFactor(currTime);
+        var elapsedTime = currTime - this.lastCurrTime;
+        this.lastCurrTime = currTime;
+        this.graph.updateAnimations(elapsedTime);
+        
+    }
 };
 
 XMLscene.prototype.bindTimeFactor = function(currTime) {

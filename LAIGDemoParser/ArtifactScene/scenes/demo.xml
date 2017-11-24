@@ -156,16 +156,16 @@
 		<controlpoint xx = "3" yy = "0" zz = "0" />
 	</ANIMATION>
 	
-    <ANIMATION id="animcirc" speed="30" type="circular"
-		centerx="1" centery="2" centerz="3"
-		radius="4" startang="0" rotang="360"
+    <ANIMATION id="animcirc" speed="2" type="circular"
+		centerx="1" centery="1" centerz="1"
+		radius="1" startang="0" rotang="360"
 	/>
 	
 	<ANIMATION id="animbezier" speed="5" type="bezier">
 		<controlpoint xx="0" yy="0" zz="0" />
 		<controlpoint xx="2" yy="3" zz="-1" />
-		<controlpoint xx="40" yy="-25" zz="-1" />
-		<controlpoint xx="40" yy="-20" zz="2" />
+		<controlpoint xx="4" yy="-3" zz="-1" />
+		<controlpoint xx="4" yy="-3" zz="-2" />
 	</ANIMATION>
 
 	<ANIMATION id="animcombo" type="combo">
@@ -338,7 +338,7 @@
         <TRANSLATION x="7.5" y="-2" z="21" />
 		
 		<ANIMATIONREFS>
-			<ANIMATIONREF id="animbezier" />
+			<ANIMATIONREF id="animcirc" />
 		</ANIMATIONREFS>
         
         <DESCENDANTS>

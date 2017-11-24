@@ -5,19 +5,25 @@
 
 function CircularAnimation(center, radius, startang,rotang, velocity)
 {
-    this.matrix = mat4.create();
-    this.Animationlength = 0;
+    //this.matrix = mat4.create();
+    //this.Animationlength = 0;
 
+	
     this.center = center;
     this.radius = radius;
-    this.startang = startang;
-    this.rotang = rotang;
-    this.velocity = velocity/radius;
+    this.startang2 = startang;
+    this.rotang2 = rotang;
+    this.velocity2 = velocity;
+    this.startang = startang * (Math.PI/180);
+    this.rotang = rotang * (Math.PI/180);
+    let aux = velocity/radius;
+    this.velocity = aux;
 
+    this.currTime = 0;
     this.firstTime = true;
 	this.time = null;
-	this.currTime = null;
-	this.finish = false;
+    this.finish = false;
+    this.totalTime = Math.abs(this.rotang / this.velocity);
 
 	this.lastAng = this.startang + this.rotang; //last angle é igual ao angulo inicial mais o angulo de rotacao
 	this.curr_ang = this.startang; //o angulo atual é o startang no inicio
@@ -26,39 +32,38 @@ function CircularAnimation(center, radius, startang,rotang, velocity)
 CircularAnimation.prototype = Object.create(CGFobject.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
-CircularAnimation.prototype.update = function(currTime) 
+CircularAnimation.prototype.update = function(elapsedTime) 
 {
-	this.currTime = currTime/1000;
-	
-	if(this.curr_ang <= this.lastAng){
+	if(this.finish)
+		return;
+    this.currTime += elapsedTime/1000;
 
-		if(this.firstTime)
-		{
-			this.firstTime = false;
-			this.time = this.currTime; //guardar o tempo em que começa a andar
-			this.current_time = this.currTime; //variavel que vai ser usada para manter a mesma velocidade
-		}
-		else{ // depois de fazer a primeira vez só precisa de atualizar o tempo atual
-			this.current_time = this.currTime;
-		}
-		this.curr_ang = this.startang + (this.velocity * (this.current_time - this.time));	}
-	else{
+	
+    if (this.currTime <= this.totalTime)
+    {
+        this.curr_ang = this.startang + (this.velocity * this.currTime);
+    }
+    else
+    {
 		this.finish = true; // stop animation
 	}
 }
 
-CircularAnimation.prototype.applyAnimation = function()
+CircularAnimation.prototype.applyAnimation = function(matrix)
 {
-		mat4.identity(this.matrix);
-
-mat4.translate(this.matrix, this.matrix,[this.center.x, this.center.y, this.center.z]); //translate para o centro
-		mat4.rotate(this.matrix, this.matrix, (this.curr_ang*Math.PI)/180.0, [0,1,0]); //para fazer rotate e preciso primeiro por em rad
-		mat4.translate(this.matrix, this.matrix,[this.radius,0,0]); //para fazer o moviment circular é preciso ir fazendo translate de raio
-
-		return this.matrix;
+    if (this.finish)
+        return;
+    mat4.translate(matrix, matrix,[this.center.x, this.center.y, this.center.z]); //translate para o centro
+	mat4.rotate(matrix, matrix, this.curr_ang, [0,1,0]); //para fazer rotate e preciso primeiro por em rad
+	mat4.translate(matrix, matrix,[0,0,this.radius]); //para fazer o moviment circular é preciso ir fazendo translate de raio
+	this.matrix = matrix;
 }
 
 CircularAnimation.prototype.getMatrix = function()
 {
     return this.matrix;
+}
+
+CircularAnimation.prototype.getCopy = function () {
+    return new CircularAnimation(this.center, this.radius, this.startang2, this.rotang2, this.velocity2);
 }

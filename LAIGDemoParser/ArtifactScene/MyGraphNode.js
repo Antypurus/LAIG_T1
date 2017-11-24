@@ -17,7 +17,7 @@ function MyGraphNode(graph, nodeID)
     // IDs of leaf nodes.
     this.leaves = [];
 
-    this.animations = [];
+    this.animations = new ComboAnimation([]);
 
     // The material ID.
     this.materialID = null ;
@@ -44,7 +44,7 @@ MyGraphNode.prototype.addChild = function(nodeID)
 
 MyGraphNode.prototype.addAnimation = function(animationID) 
 {
-    this.animations.push(animationID);
+    this.animations.addAnimation(animationID);
 }
 
 /**
@@ -55,4 +55,8 @@ MyGraphNode.prototype.addLeaf = function(leaf)
     this.leaves.push(leaf);
 }
 
+
+MyGraphNode.prototype.updateAnimations = function (currTime) {
+    this.animations.update(currTime);
+}
 

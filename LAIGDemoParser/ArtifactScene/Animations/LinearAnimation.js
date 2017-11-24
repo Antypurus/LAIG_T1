@@ -22,6 +22,7 @@ function LinearAnimation(velocity, controlPoints) {
 
   this.secondsElapsed = 0;
   this.prevTime = 0;
+  this.finish = false;
 
   this.setUp();
 }
@@ -60,6 +61,8 @@ LinearAnimation.prototype.setUp = function () {
 };
 
 LinearAnimation.prototype.update = function (currTime) {
+  if(this.finish)
+    return;
   var timeElapsed = 0;
 
   timeElapsed = currTime / 1000 - this.prevTime;
@@ -75,13 +78,6 @@ LinearAnimation.prototype.update = function (currTime) {
     console.log("dx:" + this.deltaX + " vx:" + this.vx[this.currStep]);
     console.log("dy:" + this.deltaY + " vy:" + this.vy[this.currStep]);
     console.log("dz:" + this.deltaZ + " vz:" + this.vz[this.currStep]);
-
-    mat4.identity(this.matrix);
-    mat4.translate(this.matrix, this.matrix, [
-      this.deltaX,
-      this.deltaY,
-      this.deltaZ
-    ]);
 
     let vec = [];
     vec.push(
@@ -149,6 +145,23 @@ LinearAnimation.prototype.update = function (currTime) {
   }
 };
 
-LinearAnimation.prototype.applyAnimation = function () {
-  return this.matrix;
+LinearAnimation.prototype.applyAnimation = function (matrix)
+{
+  	if(this.finish)
+		return;
+    mat4.translate(matrix, matrix, [
+        this.deltaX,
+        this.deltaY,
+        this.deltaZ
+    ]);
+    this.matrix = matrix;
 };
+
+LinearAnimation.prototype.getCopy = function () {
+    return new LinearAnimation(this.velocity, this.controlPoints.slice());
+}
+
+LinearAnimation.prototype.getMatrix = function()
+{
+    return this.matrix;
+}
