@@ -140,8 +140,6 @@ BezierAnimation.prototype.update = function(currTime)
 
 BezierAnimation.prototype.applyAnimation = function(matrix)
 {
-	if(this.finish)
-		return;
     mat4.translate(matrix, matrix,this.translationVector);
 }
 
