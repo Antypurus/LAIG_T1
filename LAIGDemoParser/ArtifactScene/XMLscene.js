@@ -10,6 +10,8 @@ function XMLscene(interface) {
   this.interface = interface;
   this.initiaConfig = null;
 
+  this.filterColor = [255.0, 0.0, 0.0];
+
   this.scaleFactor = 5.0;
   this.attenuation = 500.0;
 
@@ -208,4 +210,5 @@ XMLscene.prototype.bindTimeFactor = function(currTime) {
   var normalizedTime = Math.abs(Math.sin(currTime / this.attenuation)/2+0.5);
   this.alternateShader.setUniformsValues({ timeFactor: normalizedTime });
   this.alternateShader.setUniformsValues({ scaleFactor: this.scaleFactor });
+  this.alternateShader.setUniformsValues({ color: vec3.fromValues(this.filterColor[0]/255.0,this.filterColor[1]/255.0,this.filterColor[2]/255.0) });
 };

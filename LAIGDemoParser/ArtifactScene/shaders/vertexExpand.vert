@@ -8,9 +8,11 @@ uniform mat4 uNMatrix;
 
 varying vec2 vTextureCoord;
 varying float normalizedTimeFactor;
+varying vec3 filterColor;
 
 uniform float timeFactor;
 uniform float scaleFactor;
+uniform vec3 color;
 
 void main() {
     float normScale = timeFactor * (scaleFactor) + 0.01;
@@ -18,4 +20,5 @@ void main() {
 
 	vTextureCoord = aTextureCoord;
     normalizedTimeFactor = timeFactor;
+    filterColor =color;
 }
