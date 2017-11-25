@@ -155,7 +155,7 @@ XMLscene.prototype.display = function() {
   // Apply transformations corresponding to the camera position relative to the origin
   this.applyViewMatrix();
 
-  this.setActiveShader(this.alternateShader);
+ // this.setActiveShader(this.alternateShader);
   this.pushMatrix();
 
   if (this.graph.loadedOk) {
@@ -188,7 +188,7 @@ XMLscene.prototype.display = function() {
   }
 
   this.popMatrix();
-  this.setActiveShader(this.defaultShader);
+  //this.setActiveShader(this.defaultShader);
 
   // ---- END Background, camera and axis setup
 };

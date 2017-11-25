@@ -10,6 +10,8 @@ function MyGraphNode(graph, nodeID)
     this.graph = graph;
 
     this.nodeID = nodeID;
+
+    this.parentID = null;
     
     // IDs of child nodes.
     this.children = [];
@@ -29,6 +31,10 @@ function MyGraphNode(graph, nodeID)
     this.selectable = false;
 
     this.hasPassed = false;
+
+    //wheter or not the node is selectable
+    this.isSelectable = false;
+    this.isSelected = true;
 
     this.transformMatrix = mat4.create();
     mat4.identity(this.transformMatrix);

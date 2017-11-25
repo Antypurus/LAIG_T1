@@ -1344,8 +1344,22 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             
             this.log("Processing node "+nodeID);
 
+            //figure out if the node is selectable true
+            var selectable = this.reader.getString(children[i], 'selectable',false);
+            console.log("nodename:"+nodeID+" selec:"+selectable);
+            if(selectable==null){
+                selectable=false;
+            }
+            if(selectable=="true" || selectable=="TRUE"){
+                selectable=true;
+            }else{
+                selectable=false;
+            }
+
             // Creates node.
             this.nodes[nodeID] = new MyGraphNode(this,nodeID);
+
+            this.nodes[nodeID].isSelectable = selectable;
 
             // Gathers child nodes.
             var nodeSpecs = children[i].children;
@@ -1698,7 +1712,7 @@ MySceneGraph.prototype.updateAnimations = function (currTime)
     }
 };
 
-
+var usingAlternateShader = false;
 /**
  * Displays the scene, processing each node, starting in the root node.
  * 
@@ -1720,7 +1734,6 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
     if(NODE != null){
         
     //multiplies the transformation matrix with the current node transformation matrix
-   
 
     //checks if the current node material is not null, if it is null it uses the fathers material, otherwise it uses its own
     if(NODE.materialID != "null")
@@ -1770,12 +1783,17 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
     }
 
         //puts in a variable the material to be applied
-		var materialToApply = this.materials[matID];
+        var materialToApply = this.materials[matID];
 
         //recursively calls the display of the current node children
         for(var i = 0; i < NODE.children.length; i++)
         {
             this.scene.pushMatrix();
+            if(NODE.isSelectable){
+                this.nodes[NODE.children[i]].isSelectable=NODE.isSelectable;
+                this.nodes[NODE.children[i]].isSelected=NODE.isSelected;
+            }
+            this.nodes[NODE.children[i]].parentID=nodeID;
             this.displayScene(NODE.children[i], textID, matID); //sends the childrens nodes, the current texture id and the current material id
             this.scene.popMatrix();
         }
@@ -1792,6 +1810,10 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         if(textToApply != null)
             textToApply.bind();
 
+        if(NODE.isSelectable && NODE.isSelected && !usingAlternateShader){
+            this.scene.setActiveShader(this.scene.alternateShader);
+            usingAlternateShader = true;
+        }
         //if the amplifications factor are different from null it checks if it a triangle or rectangle and if so it calls the function to scale their text coords else it just displays
         if(ampS != null && ampT != null && ampS > 0 && ampT > 0)
         {
@@ -1806,6 +1828,11 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         else
         {
             NODE.leaves[j].display(); //displays all of N's leaves
+        }
+
+        if(NODE.children.length==0 && NODE.isSelected && usingAlternateShader){
+            this.scene.setActiveShader(this.scene.defaultShader);
+            usingAlternateShader = false;
         }
     }     
     }
