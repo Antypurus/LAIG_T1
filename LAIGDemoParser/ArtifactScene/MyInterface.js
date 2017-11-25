@@ -43,6 +43,7 @@ MyInterface.prototype.addLightsGroup = function(lights) {
     for (var key in lights) {
         if (lights.hasOwnProperty(key)) {
             this.scene.lightValues[key] = lights[key][0];
+            console.log("GUI:"+key);
             group.add(this.scene.lightValues, key);
         }
     }

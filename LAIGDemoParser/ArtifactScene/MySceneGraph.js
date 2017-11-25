@@ -1314,6 +1314,8 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
  */
 MySceneGraph.prototype.parseNodes = function(nodesNode) {
     
+    var group = this.scene.interface.gui.addFolder("Selectable Nodes");
+    group.open();
     // Traverses nodes.
     var children = nodesNode.children;
     
@@ -1346,18 +1348,18 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 
             //figure out if the node is selectable true
             var selectable = this.reader.getString(children[i], 'selectable',false);
-            console.log("nodename:"+nodeID+" selec:"+selectable);
+            // Creates node.
+            this.nodes[nodeID] = new MyGraphNode(this,nodeID);
+
             if(selectable==null){
                 selectable=false;
             }
             if(selectable=="true" || selectable=="TRUE"){
                 selectable=true;
+                group.add(this.nodes[nodeID],"isSelected").name(nodeID);
             }else{
                 selectable=false;
             }
-
-            // Creates node.
-            this.nodes[nodeID] = new MyGraphNode(this,nodeID);
 
             this.nodes[nodeID].isSelectable = selectable;
 
