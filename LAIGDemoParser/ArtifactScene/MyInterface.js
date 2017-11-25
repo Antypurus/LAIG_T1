@@ -25,7 +25,7 @@ MyInterface.prototype.init = function(application) {
     this.gui = new dat.GUI();
 
     // add a oup of controls (and open/expand by defult)
-    this.gui.addColor(this.scene, 'filterColor').name("Selected Node Filter Color");
+    this.gui.addColor(this.scene, 'filterColor').name("Filter Color");
     
     return true;
 };
