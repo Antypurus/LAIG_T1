@@ -155,6 +155,70 @@
     </MATERIAL>       
 </MATERIALS>
 
+<ANIMATIONS>
+	<!-- A default animation -->
+	<ANIMATION id = "defaultAnimation" speed = "1" type = "linear">
+		<controlpoint xx = "0" yy = "0" zz = "1" />
+		<controlpoint xx = "1" yy = "5" zz = "0" />
+	</ANIMATION>
+	
+	<ANIMATION id = "animFixCore" speed = "1" type = "linear">
+		<controlpoint xx = "0" yy = "0" zz = "1" />
+		<controlpoint xx = "0" yy = "0" zz = "0" />
+	</ANIMATION>
+	
+	<ANIMATION id = "animTraps" speed = "2" type = "linear">
+		<controlpoint xx = "0" yy = "0" zz = "0" />
+		<controlpoint xx = "0" yy = "0" zz = "11" />
+	</ANIMATION>
+	
+		<ANIMATION id = "animTraps2" speed = "2" type = "linear">
+		<controlpoint xx = "0" yy = "0" zz = "11" />
+		<controlpoint xx = "0" yy = "0" zz = "1" />
+	</ANIMATION>
+
+	
+    <ANIMATION id="animcirc" speed="1" type="circular"
+		centerx="0" centery="0" centerz="0"
+		radius="1" startang="0" rotang="360"
+	/>
+	
+	<ANIMATION id="animbezier" speed="1" type="bezier">
+		<controlpoint xx="1" yy="5" zz="0" />
+		<controlpoint xx="2" yy="3" zz="0" />
+		<controlpoint xx="3" yy="2" zz="0" />
+		<controlpoint xx="0" yy="0" zz="0" />
+	</ANIMATION>
+	
+	<ANIMATION id="animbezier2" speed="1" type="bezier">
+		<controlpoint xx="0" yy="0" zz="0" />
+		<controlpoint xx="-1" yy="3" zz="0" />
+		<controlpoint xx="-2" yy="2" zz="0" />
+		<controlpoint xx="1" yy="5" zz="0" />
+	</ANIMATION>
+	
+	<ANIMATION id="animbezier3" speed="1" type="bezier">
+		<controlpoint xx="1" yy="5" zz="0" />
+		<controlpoint xx="2" yy="3" zz="0" />
+		<controlpoint xx="3" yy="2" zz="0" />
+		<controlpoint xx="0" yy="0" zz="0" />
+	</ANIMATION>
+
+	<ANIMATION id="animcombo" type="combo">
+		<SPANREF id="animcirc" />
+		<SPANREF id="defaultAnimation" />
+		<SPANREF id="animbezier" />
+		<SPANREF id="animbezier2" />
+		<SPANREF id="animbezier3" />
+	</ANIMATION>
+	
+	<ANIMATION id="trapsCombo1" type="combo">
+		<SPANREF id="animTraps" />
+		<SPANREF id="animTraps2" />
+	</ANIMATION>
+	
+</ANIMATIONS>
+
 <!-- The nodes -->
 <NODES>
 
@@ -316,6 +380,9 @@
 		<MATERIAL id = "null"/>
 		<TEXTURE id = "null"/>
 		<TRANSLATION x= "15" y="5" z ="5"/>
+		<ANIMATIONREFS>
+			<ANIMATIONREF id="animcombo" />
+		</ANIMATIONREFS>
 		<DESCENDANTS>
 			<LEAF id="LegLess tablelight1" type = "sphere" args = "1 30 30" />
 		</DESCENDANTS>
@@ -326,6 +393,9 @@
 		<MATERIAL id = "null"/>
 		<TEXTURE id = "null"/>
 		<TRANSLATION x= "15" y="5" z ="15"/>
+		<ANIMATIONREFS>
+			<ANIMATIONREF id="animcombo" />
+		</ANIMATIONREFS>
 		<DESCENDANTS>
 			<LEAF id="LegLess tablelight2" type = "sphere" args = "1 30 30" />
 		</DESCENDANTS>
@@ -336,6 +406,9 @@
 		<MATERIAL id = "null"/>
 		<TEXTURE id = "null"/>
 		<TRANSLATION x= "5" y="5" z ="5"/>
+		<ANIMATIONREFS>
+			<ANIMATIONREF id="animcombo" />
+		</ANIMATIONREFS>
 		<DESCENDANTS>
 			<LEAF id="LegLess tablelight3" type = "sphere" args = "1 30 30" />
 		</DESCENDANTS>
@@ -346,6 +419,9 @@
 		<MATERIAL id = "null"/>
 		<TEXTURE id = "null"/>
 		<TRANSLATION x= "5" y="5" z ="15"/>
+		<ANIMATIONREFS>
+			<ANIMATIONREF id="animcombo" />
+		</ANIMATIONREFS>
 		<DESCENDANTS>
 			<LEAF id="LegLess tablelight4" type = "sphere" args = "1 30 30" />
 		</DESCENDANTS>
@@ -356,6 +432,10 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <TRANSLATION x="9.9" y="5" z="10"/>
+	  <ANIMATIONREFS>
+			<ANIMATIONREF id="animcirc" />
+			<ANIMATIONREF id = "animFixCore" />
+	  </ANIMATIONREFS>
       <DESCENDANTS>
         <LEAF id="sphere_core" type="sphere" args="2 50 50"/>
       </DESCENDANTS>
@@ -379,6 +459,7 @@
       <MATERIAL id="null" />
       <TEXTURE id="banco" />
       <TRANSLATION x="18" y="0" z="0"/>
+
       <DESCENDANTS>
         <NODEREF id="trap"/>
       </DESCENDANTS>
@@ -634,6 +715,8 @@
     <NODE id="trap">
       <MATERIAL id="null" />
       <TEXTURE id="null" />
+	 
+
       <DESCENDANTS>
         <NODEREF id="trap_p0"/>
         <NODEREF id="trap_p1"/>
@@ -645,6 +728,9 @@
       <MATERIAL id="null" />
       <TEXTURE id="null" />
       <SCALE sx="0.5" sy="0.5" sz="1.5"/>
+	  	  	  <ANIMATIONREFS>
+			<ANIMATIONREF id="trapsCombo1" />
+		</ANIMATIONREFS>
       <DESCENDANTS>
         <NODEREF id="cube"/>
       </DESCENDANTS>
@@ -655,6 +741,9 @@
       <TEXTURE id="null" />
       <TRANSLATION x="0.8" y="0" z="0"/>
       <SCALE sx="0.5" sy="0.5" sz="1.5"/>
+	  	  	  	  <ANIMATIONREFS>
+			<ANIMATIONREF id="trapsCombo1" />
+		</ANIMATIONREFS>
       <DESCENDANTS>
         <NODEREF id="cube"/>
       </DESCENDANTS>
