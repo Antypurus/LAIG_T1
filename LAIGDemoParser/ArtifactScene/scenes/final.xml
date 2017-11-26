@@ -241,7 +241,7 @@
     </NODE>
 	
     <!-- The Artifact Node -->
-    <NODE id="artifact">
+    <NODE id="artifact" selectable = "true">
       <MATERIAL id="artifactMaterial" />
       <TEXTURE id="artifact" />
       <DESCENDANTS>
@@ -308,7 +308,7 @@
     </NODE>
 	
 	<!--The Tables node -->
-	<NODE id="tables">
+	<NODE id="tables" selectable = "true">
 		<MATERIAL id="null"/>
 		<TEXTURE id ="pedestalPic"/>
 		<DESCENDANTS>
