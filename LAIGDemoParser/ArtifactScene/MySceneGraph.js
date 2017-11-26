@@ -1752,7 +1752,7 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         let matrix = mat4.create();
         mat4.identity(matrix);
         NODE.animations.applyAnimation(matrix);
-  this.scene.multMatrix(matrix);
+		this.scene.multMatrix(matrix);
         //let matrix = NODE.animations.getMatrix();
        
     }

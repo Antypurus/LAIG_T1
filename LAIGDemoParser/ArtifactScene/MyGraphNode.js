@@ -19,7 +19,7 @@ function MyGraphNode(graph, nodeID)
     // IDs of leaf nodes.
     this.leaves = [];
 
-    this.animations = new ComboAnimation([]);
+    this.animations = new ComboAnimation([]); //every node with animations will have it's animations inside a combo animation, to facilitate transformations
 
     // The material ID.
     this.materialID = null ;
@@ -48,7 +48,7 @@ MyGraphNode.prototype.addChild = function(nodeID)
     this.children.push(nodeID);
 }
 
-MyGraphNode.prototype.addAnimation = function(animationID) 
+MyGraphNode.prototype.addAnimation = function(animationID)  //when parsing the nodes with animations, it calls this function that pushes the animationID to the array of ids inside the combo animation
 {
     this.animations.addAnimation(animationID);
 }

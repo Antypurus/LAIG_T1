@@ -139,7 +139,6 @@ BezierAnimation.prototype.update = function(currTime)
             moving_way[2] = this.translationVector[2] - lastTranslationVector[2];
             this.azimuth = Vecs.angleBetweenVecs([1, 0, 0], moving_way);
             this.rotateAxis = Vecs.vecCrossProduct([1, 0, 0], moving_way);
-            console.log(this.translationVector);
 
 
         }

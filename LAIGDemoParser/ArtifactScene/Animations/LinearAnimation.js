@@ -61,18 +61,18 @@ LinearAnimation.prototype.nextStep = function ()
 
    var temp_delta = delta;
    temp_delta[1] = 0;
-   this.azimuth = Vecs.angleBetweenVecs([1,0,0], temp_delta);
+   this.azimuth = Vecs.angleBetweenVecs([1,0,0], temp_delta); //calls the function to calculate the angle between vectors
    if (!(this.azimuth == 0 || this.azimuth == (180 * DEGREE_TO_RAD)))
-        this.rotateAxis = Vecs.vecCrossProduct([1, 0, 0], temp_delta);
+        this.rotateAxis = Vecs.vecCrossProduct([1, 0, 0], temp_delta); //calls the cross product calculation function
     else
         this.rotateAxis = [0,1,0];
 };
 
-LinearAnimation.prototype.update = function (elapsedTimeMS)
+LinearAnimation.prototype.update = function (currTime)
 {
 	if (this.finish == true)
 		return;
-    let elapsedTimeSec = elapsedTimeMS / 1000;
+    let elapsedTimeSec = currTime / 1000;
     this.currStepTime += elapsedTimeSec;
     if(this.currStepTime >= this.currStepTotalTime)
        {

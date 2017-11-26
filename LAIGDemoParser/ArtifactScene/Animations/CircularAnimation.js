@@ -34,14 +34,14 @@ function CircularAnimation(center, radius, startang,rotang, velocity)
 CircularAnimation.prototype = Object.create(CGFobject.prototype);
 CircularAnimation.prototype.constructor = CircularAnimation;
 
-CircularAnimation.prototype.update = function(elapsedTime) 
+CircularAnimation.prototype.update = function(currTime) 
 {
 	if(this.finish)
 		{
 			this.curr_ang = this.startang + (this.velocity * this.totalTime);
 		}
 		
-    this.currTime += elapsedTime/1000;
+    this.currTime += currTime/1000;
 
 	
     if (this.currTime <= this.totalTime)
