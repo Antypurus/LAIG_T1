@@ -393,7 +393,7 @@
     </NODE>
 
     <!-- One tree -->
-    <NODE id="arvore1">       
+    <NODE id="arvore1" selectable = "true">       
         <MATERIAL id="null" />    
         <TEXTURE id="null" />       			
 

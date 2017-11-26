@@ -34,7 +34,7 @@ function MyGraphNode(graph, nodeID)
 
     //wheter or not the node is selectable
     this.isSelectable = false;
-    this.isSelected = true;
+    this.isSelected = false;
 
     this.transformMatrix = mat4.create();
     mat4.identity(this.transformMatrix);

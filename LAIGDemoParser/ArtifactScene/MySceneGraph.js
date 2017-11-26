@@ -1723,6 +1723,7 @@ var usingAlternateShader = false;
  * @param matID id of the material used by upper node sent to children
  */
 MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationID) {
+    //console.log(this.nodes['arvore'].isSelected);
     
         var textID = textID; //creates a variable equal to the father's node texture id
         var matID = matID; //creates a variable equal to the father's node material id
@@ -1787,11 +1788,17 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         //puts in a variable the material to be applied
         var materialToApply = this.materials[matID];
 
+        if(NODE.parentID!=null){
+        if(this.nodes[NODE.parentID].isSelectable && !this.nodes[NODE.parentID].isSelected){
+            NODE.isSelected=false;
+        }
+        }
         //recursively calls the display of the current node children
         for(var i = 0; i < NODE.children.length; i++)
         {
             this.scene.pushMatrix();
-            if(NODE.isSelectable){
+            //console.log("NODE"+this.nodes[NODE.children[i]].nodeID+" isSelected"+this.nodes[NODE.children[i]].isSelected);
+            if(NODE.isSelectable && NODE.isSelected){
                 this.nodes[NODE.children[i]].isSelectable=NODE.isSelectable;
                 this.nodes[NODE.children[i]].isSelected=NODE.isSelected;
             }
@@ -1832,10 +1839,20 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
             NODE.leaves[j].display(); //displays all of N's leaves
         }
 
-        if(NODE.children.length==0 && NODE.isSelected && usingAlternateShader){
+        NODE.isSelected=false;
+        //this.resetSelected(NODE.children);
+
+        if(NODE.children.length==0 && usingAlternateShader){
             this.scene.setActiveShader(this.scene.defaultShader);
             usingAlternateShader = false;
         }
     }     
+    }
+}
+
+MySceneGraph.prototype.resetSelected =function(children){
+    for(let i=0;i<children.length;++i){
+        this.nodes[children[i]].isSelected=false;
+        this.resetSelected(this.nodes[children[i]].children);
     }
 }
