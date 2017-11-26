@@ -1757,9 +1757,6 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
        
     }
 
-   
-   
-
 
     //checks if the current node has its texture set to clear, if so it doesn't apply any texture
     if(NODE.textureID == "clear")
@@ -1792,7 +1789,7 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         var materialToApply = this.materials[matID];
         var startShader =false;
         if(NODE.isSelectable && NODE.isSelected && !usingAlternateShader){
-            console.log("activating shader");
+            //console.log("activating shader");
             this.scene.setActiveShader(this.scene.alternateShader);
             usingAlternateShader = true;
             startShader = true;
@@ -1835,9 +1832,8 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         }
 
     }     
-        console.log("is Here Node id:"+nodeID+" start shader:"+startShader);
         if(startShader){
-            console.log("deactivating shader");
+            //console.log("deactivating shader");
             this.scene.setActiveShader(this.scene.defaultShader);
             usingAlternateShader = false;
             startShader = false;
