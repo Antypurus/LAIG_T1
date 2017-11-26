@@ -18,6 +18,8 @@ function CircularAnimation(center, radius, startang,rotang, velocity)
     this.rotang = rotang * (Math.PI/180);
     let aux = velocity/radius;
     this.velocity = aux;
+    if (this.rotang < 0)
+    this.velocity = -this.velocity;
 
     this.currTime = 0;
     this.firstTime = true;
@@ -57,7 +59,7 @@ CircularAnimation.prototype.applyAnimation = function(matrix)
     mat4.translate(matrix, matrix,[this.center.x, this.center.y, this.center.z]); //translate para o centro
 	mat4.rotate(matrix, matrix, this.curr_ang, [0,1,0]); //para fazer rotate e preciso primeiro por em rad
 	mat4.translate(matrix, matrix,[0,0,this.radius]); //para fazer o moviment circular é preciso ir fazendo translate de raio
-	this.matrix = matrix;
+	matrix = this.matrix;
 }
 
 CircularAnimation.prototype.getMatrix = function()

@@ -8,6 +8,8 @@ function ComboAnimation(animationsIDs)
     this.animationsIDs = animationsIDs;
     this.animations = [];
     this.currAnimationIdx = 0;
+    this.matrix = mat4.create();
+
 }
 
 ComboAnimation.prototype = Object.create(CGFobject.prototype);
@@ -22,21 +24,22 @@ ComboAnimation.prototype.update = function(currTime)
 
     let currAnimationID = this.animationsIDs[this.currAnimationIdx];
     let currAnimation = this.animations[currAnimationID];
+    if(currAnimationID == 'drift_animcirc_reset')
+     console.log(currAnimationID);
     currAnimation.update(currTime);
     if(currAnimation.finish)
-        return this.JumpToNextAnimation(currTime);
+        this.JumpToNextAnimation(currTime);
 }
 
 ComboAnimation.prototype.applyAnimation = function (matrix) {
     let currAnimationID = this.animationsIDs[this.currAnimationIdx];
     let currAnimation = this.animations[currAnimationID];
     currAnimation.applyAnimation(matrix);
+    matrix = this.matrix;
 };
 
-ComboAnimation.prototype.getMatrix = function (matrix) {
-        let currAnimationID = this.animationsIDs[this.currAnimationIdx];
-    let currAnimation = this.animations[currAnimationID];
-  return  currAnimation.getMatrix();
+ComboAnimation.prototype.getMatrix = function () {
+        return this.matrix;
 };
 
 
@@ -47,9 +50,12 @@ ComboAnimation.prototype.addAnimation = function (animationID) {
 ComboAnimation.prototype.JumpToNextAnimation = function (elapsedTimeMS)
 {
     if (this.currAnimationIdx >= this.animationsIDs.length - 1)
-        return "finished";
+    {   
+        this.finish = true;
+        return;
+    }
 
-    let elapsedTime = elapsedTimeMS;
+    let elapsedTime = elapsedTimeMS/1000;
     let currAnimationID = this.animationsIDs[this.currAnimationIdx];
     let currAnimation = this.animations[currAnimationID];
 
@@ -69,5 +75,7 @@ ComboAnimation.prototype.createCopies = function (animations)
     {
         let currID = this.animationsIDs[i];
         this.animations[currID] = animations[currID].getCopy();
+        if (this.animations[currID] instanceof ComboAnimation)
+            this.animations[currID].createCopies(animations);
     }
 }

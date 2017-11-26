@@ -28,6 +28,7 @@ serialInclude(['../lib/CGF.js',
 				'Animations/Animation.js',
 				'Animations/BezierAnimation.js',
 				'Animations/ComboAnimation.js',
+				'Vecs.js',
 
 
 main=function()

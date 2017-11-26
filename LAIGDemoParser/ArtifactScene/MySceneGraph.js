@@ -29,6 +29,7 @@ function MySceneGraph(filename, scene) {
     this.nodes = [];
     this.animationNodes = [];
     this.animationsStop = false;
+    this.matrixes = [];
     
     
     this.idRoot = null;                    // The id of the root element.
@@ -1275,8 +1276,8 @@ MySceneGraph.prototype.parseAnimations = function(animationsNode)
 
             case 'circular':
                 var centerx = Number(this.reader.getString(children[i], 'centerx'));
-                var centery = Number(this.reader.getString(children[i], 'centerx'));
-                var centerz = Number(this.reader.getString(children[i], 'centerx'));
+                var centery = Number(this.reader.getString(children[i], 'centery'));
+                var centerz = Number(this.reader.getString(children[i], 'centerz'));
                 var radius = Number(this.reader.getString(children[i], 'radius'));
                 var startang = Number(this.reader.getString(children[i], 'startang'));
                 var rotang = Number(this.reader.getString(children[i], 'rotang'));
@@ -1743,19 +1744,21 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         if(this.materials[NODE.materialID] != null)
             matID = NODE.materialID;
 
-    let matrix = mat4.create();
-    mat4.identity(matrix);
+
+     this.scene.multMatrix(NODE.transformMatrix);
 
     if(Object.keys(NODE.animations.animations).length > 0)
     {
+        let matrix = mat4.create();
+        mat4.identity(matrix);
         NODE.animations.applyAnimation(matrix);
-
+  this.scene.multMatrix(matrix);
         //let matrix = NODE.animations.getMatrix();
        
     }
 
-    this.scene.multMatrix(NODE.transformMatrix);
-     this.scene.multMatrix(matrix);
+   
+   
 
 
     //checks if the current node has its texture set to clear, if so it doesn't apply any texture
