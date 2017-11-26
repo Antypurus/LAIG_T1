@@ -1790,22 +1790,18 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
 
         //puts in a variable the material to be applied
         var materialToApply = this.materials[matID];
+        var startShader =false;
+        if(NODE.isSelectable && NODE.isSelected && !usingAlternateShader){
+            console.log("activating shader");
+            this.scene.setActiveShader(this.scene.alternateShader);
+            usingAlternateShader = true;
+            startShader = true;
+        }
 
-        if(NODE.parentID!=null){
-        if(this.nodes[NODE.parentID].isSelectable && !this.nodes[NODE.parentID].isSelected){
-            NODE.isSelected=false;
-        }
-        }
         //recursively calls the display of the current node children
         for(var i = 0; i < NODE.children.length; i++)
         {
             this.scene.pushMatrix();
-            //console.log("NODE"+this.nodes[NODE.children[i]].nodeID+" isSelected"+this.nodes[NODE.children[i]].isSelected);
-            if(NODE.isSelectable && NODE.isSelected){
-                this.nodes[NODE.children[i]].isSelectable=NODE.isSelectable;
-                this.nodes[NODE.children[i]].isSelected=NODE.isSelected;
-            }
-            this.nodes[NODE.children[i]].parentID=nodeID;
             this.displayScene(NODE.children[i], textID, matID); //sends the childrens nodes, the current texture id and the current material id
             this.scene.popMatrix();
         }
@@ -1822,10 +1818,6 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
         if(textToApply != null)
             textToApply.bind();
 
-        if(NODE.isSelectable && NODE.isSelected && !usingAlternateShader){
-            this.scene.setActiveShader(this.scene.alternateShader);
-            usingAlternateShader = true;
-        }
         //if the amplifications factor are different from null it checks if it a triangle or rectangle and if so it calls the function to scale their text coords else it just displays
         if(ampS != null && ampT != null && ampS > 0 && ampT > 0)
         {
@@ -1842,14 +1834,14 @@ MySceneGraph.prototype.displayScene = function(nodeID, textID, matID, animationI
             NODE.leaves[j].display(); //displays all of N's leaves
         }
 
-        NODE.isSelected=false;
-        //this.resetSelected(NODE.children);
-
-        if(NODE.children.length==0 && usingAlternateShader){
+    }     
+        console.log("is Here Node id:"+nodeID+" start shader:"+startShader);
+        if(startShader){
+            console.log("deactivating shader");
             this.scene.setActiveShader(this.scene.defaultShader);
             usingAlternateShader = false;
+            startShader = false;
         }
-    }     
     }
 }
 
