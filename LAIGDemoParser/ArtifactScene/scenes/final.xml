@@ -145,12 +145,27 @@
 	
 	<ANIMATION id = "animTraps" speed = "2" type = "linear">
 		<controlpoint xx = "0" yy = "0" zz = "0" />
-		<controlpoint xx = "0" yy = "0" zz = "11" />
+		<controlpoint xx = "0" yy = "0" zz = "10" />
 	</ANIMATION>
 	
 		<ANIMATION id = "animTraps2" speed = "2" type = "linear">
-		<controlpoint xx = "0" yy = "0" zz = "11" />
+		<controlpoint xx = "0" yy = "0" zz = "10" />
 		<controlpoint xx = "0" yy = "0" zz = "1" />
+	</ANIMATION>
+	
+	<ANIMATION id = "animcorelinear1" speed = "1" type = "linear">
+		<controlpoint xx = "0" yy = "0" zz = "1" />
+		<controlpoint xx = "0" yy = "0" zz = "-1" />
+		<controlpoint xx = "1" yy = "0" zz = "0" />
+		<controlpoint xx = "-1" yy = "0" zz = "0" />
+		<controlpoint xx = "0" yy = "0" zz = "1" />
+	</ANIMATION>
+	
+	
+	<ANIMATION id = "animcorelinear2" speed = "1" type = "linear">
+		<controlpoint xx = "0" yy = "0" zz = "1" />
+		<controlpoint xx = "0" yy = "1" zz = "0" />
+		<controlpoint xx = "0" yy = "0" zz = "0" />
 	</ANIMATION>
 
 	
@@ -160,8 +175,8 @@
 	/>
 	
 	<ANIMATION id="animcirc1" speed="0.0005" type="circular"
-		centerx="0" centery="0" centerz="11"
-		radius="0.001" startang="0" rotang="180"
+		centerx="0" centery="0" centerz="10"
+		radius="0.001" startang="0" rotang="-180"
 	/>
 	
 	<ANIMATION id="animbezier" speed="1" type="bezier">
@@ -198,6 +213,12 @@
 		<SPANREF id="animTraps" />
 		<SPANREF id="animcirc1" />
 		<SPANREF id="animTraps2" />
+	</ANIMATION>
+	
+	<ANIMATION id="animCore" type="combo">
+		<SPANREF id="animcorelinear1" />
+		<SPANREF id="animcirc" />
+		<SPANREF id="animcorelinear2" />
 	</ANIMATION>
 	
 </ANIMATIONS>
@@ -416,8 +437,7 @@
       <TEXTURE id="null" />
       <TRANSLATION x="9.9" y="5" z="10"/>
 	  <ANIMATIONREFS>
-			<ANIMATIONREF id="animcirc" />
-			<ANIMATIONREF id = "animFixCore" />
+			<ANIMATIONREF id="animCore" />
 	  </ANIMATIONREFS>
       <DESCENDANTS>
         <LEAF id="sphere_core" type="sphere" args="2 50 50"/>
