@@ -100,15 +100,8 @@ LinearAnimation.prototype.applyAnimation = function (matrix)
 {
     mat4.translate(matrix, matrix, this.position);
     mat4.rotate(matrix, matrix, this.azimuth, this.rotateAxis);
-
-    this.matrix = matrix;
 };
 
 LinearAnimation.prototype.getCopy = function () {
     return new LinearAnimation(this.speed, this.controlPoints.slice());
-}
-
-LinearAnimation.prototype.getMatrix = function()
-{
-    return this.matrix;
 }
