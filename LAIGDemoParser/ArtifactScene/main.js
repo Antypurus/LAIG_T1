@@ -11,29 +11,29 @@ function getUrlVars() {
     return vars;
 }
 
-serialInclude(['../lib/CGF.js', 
-				'XMLscene.js', 
-				'MySceneGraph.js',
-			 	'MyGraphNode.js', 
-			 	'MyGraphLeaf.js', 
-				'MyInterface.js',
-				'Position.js', 
-			 	'Primitives/Cylinder.js',
-			    'Primitives/Sphere.js',
-			    'Primitives/Rectangle.js',
-				'Primitives/Triangle.js',
-				'Primitives/Circle.js',
-				'Animations/LinearAnimation.js',
-				'Animations/CircularAnimation.js',
-				'Animations/Animation.js',
-				'Animations/BezierAnimation.js',
-				'Animations/ComboAnimation.js',
-				'Vecs.js',
+serialInclude([
+  "../lib/CGF.js",
+  "XMLscene.js",
+  "MySceneGraph.js",
+  "MyGraphNode.js",
+  "MyGraphLeaf.js",
+  "MyInterface.js",
+  "Position.js",
+  "Primitives/Cylinder.js",
+  "Primitives/FrogPiece.js",
+  "Primitives/Sphere.js",
+  "Primitives/Rectangle.js",
+  "Primitives/Triangle.js",
+  "Primitives/Circle.js",
+  "Animations/LinearAnimation.js",
+  "Animations/CircularAnimation.js",
+  "Animations/Animation.js",
+  "Animations/BezierAnimation.js",
+  "Animations/ComboAnimation.js",
+  "Vecs.js",
 
-
-main=function()
-{
-	// Standard application, scene and interface setup
+  (main = function() {
+    // Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
     var myInterface = new MyInterface();
     var myScene = new XMLscene(myInterface);
@@ -45,17 +45,16 @@ main=function()
 
     myInterface.setActiveCamera(myScene.camera);
 
-	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
-	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
+    // get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
+    // or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
-	var filename=getUrlVars()['file'] || "final.xml";
+    var filename = getUrlVars()["file"] || "final.xml";
 
-	// create and load graph, and associate it to scene.
-	// Check console for loading errors
-	var myGraph = new MySceneGraph(filename, myScene);
+    // create and load graph, and associate it to scene.
+    // Check console for loading errors
+    var myGraph = new MySceneGraph(filename, myScene);
 
-	// start
+    // start
     app.run();
-}
-
+  })
 ]);

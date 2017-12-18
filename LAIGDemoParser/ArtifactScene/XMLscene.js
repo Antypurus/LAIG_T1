@@ -182,6 +182,7 @@ XMLscene.prototype.display = function() {
         i++;
       }
     }
+
     //display scene
     this.graph.displayScene(this.graph.idRoot, null, null);
   } else {
