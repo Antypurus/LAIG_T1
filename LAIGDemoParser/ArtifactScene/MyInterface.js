@@ -61,13 +61,13 @@ MyInterface.prototype.addLightsGroup = function(lights) {
  * @param {string} id id to give the div your html will be contained in
  */
 MyInterface.prototype.insertElementIntoDOM = function(html, id) {
-  var fragmnet = document.createDocumentFragment(); //create a fragment to inser the div into
-  var div = document.createElement('div');  ///create a div to inser the element into
-  div.id = id;                        /// sets the div id to the specified
-  div.innerHTML = html;               // sets the inner html of the div to the specified html
-  div.style.color = '#FFFFFF';        // standard text color is white
-  div.style.position = 'absolute';    //This css modification is necessary in order to verlarp the the element with the canvas 
-  fragmnet.appendChild(div); //insert the element into the document fragment
+  var fragmnet = document.createDocumentFragment();                   //create a fragment to inser the div into
+  var div = document.createElement('div');                            //create a div to inser the element into
+  div.id = id;                                                        // sets the div id to the specified
+  div.innerHTML = html;                                               // sets the inner html of the div to the specified html
+  div.style.color = '#FFFFFF';                                        // standard text color is white
+  div.style.position = 'absolute';                                    //This css modification is necessary in order to verlarp the the element with the canvas 
+  fragmnet.appendChild(div);                                          //insert the element into the document fragment
 
-  document.body.insertBefore(fragmnet, document.body.childNodes[0]);
+  document.body.insertBefore(fragmnet, document.body.childNodes[0]);  //append the element to the beggining of the html body
 };
