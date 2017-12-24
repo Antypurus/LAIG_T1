@@ -16,8 +16,7 @@ function GameBoard(scene, startX, startY, startZ, nCells, sCell) {
   this.nCells = nCells;
   this.sCell = sCell;
 
-  this.coordinates = {};
-  this.idsToRegister = {};
+  this.hitboxes = {};
   this.idCoordMap = new Map();
 };
 
@@ -29,12 +28,10 @@ GameBoard.prototype.setUp = function() {
   for (let i = 0; i < this.nCells; ++i) {
     for (let j = i; j < this.nCells; ++j) {
       // add the upper values
-      this.coordinates.push({i, j});
-      this.idsToRegister.push('' + i + j);
+      this.hitboxes.push(new SquareHitBox(this.scene, this.sCell, '' + i + j));
       this.idCoordMap['' + i + j] = {i, j};
       // add the lower values
-      this.coordinates.push({j, i});
-      this.idsToRegister.push('' + j + i);
+      this.hitboxes.push(new SquareHitBox(this.scene, this.sCell, '' + j + i));
       this.idCoordMap['' + j + i] = {j, i};
     }
   }
