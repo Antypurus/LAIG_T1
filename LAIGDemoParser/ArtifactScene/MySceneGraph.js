@@ -1366,6 +1366,18 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
         switch (type) {
           case ('board'): {
             console.log('board node detected');
+
+            /**
+             *Obtain the various paremeter of the board , the start xyz
+             *coordinates, the number of cells in each direction and the size of
+             *each cell
+             */
+            let startX = this.reader.getFloat(children[i], 'stX');
+            let startY = this.reader.getFloat(children[i], 'stY');
+            let startZ = this.reader.getFloat(children[i], 'stZ');
+            let nCells = this.reader.getInteger(children[i], 'nCells');
+            let sCell = this.reader.getFloat(children[i], 'sCell');
+
             break;
           }
           case ('piece'): {
