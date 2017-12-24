@@ -19,7 +19,7 @@ function GameBoard(scene, startX, startY, startZ, nCells, sCell) {
   this.coordinates = {};
   this.idsToRegister = {};
   this.idCoordMap = new Map();
-}
+};
 
 /**
  * This Function sets up the different data structure required to manage the
@@ -39,4 +39,4 @@ GameBoard.prototype.setUp = function() {
     }
   }
   console.log(this.idCoordMap);
-}
+};
