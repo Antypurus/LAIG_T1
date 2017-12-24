@@ -21,6 +21,9 @@ function SquareHitBox(scene, size, id) {
 SquareHitBox.prototype = Object.create(CGFobject.prototype);
 SquareHitBox.prototype.constructor = SquareHitBox;
 
+/**
+ * Sets up the vertices and indices
+ */
 SquareHitBox.prototype.setUp = function() {
   this.vertices = [
     0, 0,         0,         this.Size, 0,         0,
