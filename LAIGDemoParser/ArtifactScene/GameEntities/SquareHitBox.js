@@ -57,6 +57,6 @@ SquareHitBox.prototype.setUp = function() {
 };
 
 SquareHitBox.prototype.initBuffers = function() {
-  this.primitiveType = this.scene.gl.TRIANGLES;
+  this.primitiveType = this.scene.gl.LINES;
   this.initGLBuffers();
 };

@@ -245,7 +245,7 @@
     </NODE>
 
         
-    <NODE id="tabuleiro" selectable = "true" type="board" stX="0" stZ="0" stY="0" nCells="8" sCell="4">
+    <NODE id="tabuleiro" selectable = "true" type="board" stX="0" stZ="0" stY="0" nCells="8" sCell="3.75">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <SCALE sx="3" sy="0.5" sz="3"/>
