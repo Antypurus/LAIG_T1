@@ -142,6 +142,7 @@ XMLscene.prototype.display = function() {
     // Applies initial transformations.
     this.multMatrix(this.graph.initialTransforms);
 
+    // reponsible for the pickable hitboxes
     if (this.gameBoard != null) {
       for (let i = 0; i < this.gameBoard.hitboxes.length; ++i) {
         this.pushMatrix();
