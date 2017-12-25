@@ -30,17 +30,19 @@ GameBoard.prototype.setUp = function() {
   for (let i = 0; i < this.nCells; ++i) {
     for (let j = i; j < this.nCells; ++j) {
       // add the upper values
-      let box1 = new SquareHitBox(this.scene, this.sCell, '' + i + j);
+      let ji = j + 1;
+      let ii = i + 1;
+      let box1 = new SquareHitBox(this.scene, this.sCell, '' + ii + ji);
       box1.translation.x = i * this.sCell;
       box1.translation.z = j * this.sCell;
       this.hitboxes.push(box1);
-      this.idCoordMap['' + i + j] = {i, j};
+      this.idCoordMap['' + ii + ji] = {ii, ji};
       // add the lower values
-      let box2 = new SquareHitBox(this.scene, this.sCell, '' + j + i);
+      let box2 = new SquareHitBox(this.scene, this.sCell, '' + ji + ii);
       box2.translation.x = j * this.sCell;
       box2.translation.z = i * this.sCell;
       this.hitboxes.push(box2);
-      this.idCoordMap['' + j + i] = {j, i};
+      this.idCoordMap['' + ji + ii] = {ji, ii};
     }
   }
   console.log(this.idCoordMap);
