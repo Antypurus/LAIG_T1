@@ -7,6 +7,8 @@ var UPDATE_TIME = 10;
 function XMLscene(interface) {
   CGFscene.call(this);
 
+  this.gameBoard = null;
+
   this.interface = interface;
   this.initiaConfig = null;
 
@@ -22,7 +24,8 @@ XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
 /**
- * Initializes the scene, setting some WebGL defaults, initializing the camera and the axis.
+ * Initializes the scene, setting some WebGL defaults, initializing the camera
+ * and the axis.
  */
 XMLscene.prototype.init = function(application) {
   CGFscene.prototype.init.call(this, application);
@@ -39,10 +42,7 @@ XMLscene.prototype.init = function(application) {
   this.axis = new CGFaxis(this);
   this.setUpdatePeriod(UPDATE_TIME);
   this.alternateShader = new CGFshader(
-    this.gl,
-    "shaders/vertexExpand.vert",
-    "shaders/fragmentRecolor.frag"
-  );
+      this.gl, 'shaders/vertexExpand.vert', 'shaders/fragmentRecolor.frag');
   this.bindTimeFactor(0.0);
 };
 
@@ -55,39 +55,25 @@ XMLscene.prototype.initLights = function() {
 
   // Reads the lights from the scene graph.
   for (var key in this.graph.lights) {
-    if (i >= 8) break; // Only eight lights allowed by WebGL.
+    if (i >= 8) break;  // Only eight lights allowed by WebGL.
 
     if (this.graph.lights.hasOwnProperty(key)) {
       var light = this.graph.lights[key];
 
       this.lights[i].setPosition(
-        light[1][0],
-        light[1][1],
-        light[1][2],
-        light[1][3]
-      );
+          light[1][0], light[1][1], light[1][2], light[1][3]);
       this.lights[i].setAmbient(
-        light[2][0],
-        light[2][1],
-        light[2][2],
-        light[2][3]
-      );
+          light[2][0], light[2][1], light[2][2], light[2][3]);
       this.lights[i].setDiffuse(
-        light[3][0],
-        light[3][1],
-        light[3][2],
-        light[3][3]
-      );
+          light[3][0], light[3][1], light[3][2], light[3][3]);
       this.lights[i].setSpecular(
-        light[4][0],
-        light[4][1],
-        light[4][2],
-        light[4][3]
-      );
+          light[4][0], light[4][1], light[4][2], light[4][3]);
 
       this.lights[i].setVisible(true);
-      if (light[0]) this.lights[i].enable();
-      else this.lights[i].disable();
+      if (light[0])
+        this.lights[i].enable();
+      else
+        this.lights[i].disable();
 
       this.lights[i].update();
 
@@ -101,16 +87,12 @@ XMLscene.prototype.initLights = function() {
  */
 XMLscene.prototype.initCameras = function() {
   this.camera = new CGFcamera(
-    0.4,
-    0.1,
-    500,
-    vec3.fromValues(15, 15, 15),
-    vec3.fromValues(0, 0, 0)
-  );
+      0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 };
 
-/* Handler called when the graph is finally loaded. 
- * As loading is asynchronous, this may be called already after the application has started the run loop
+/* Handler called when the graph is finally loaded.
+ * As loading is asynchronous, this may be called already after the application
+ * has started the run loop
  */
 XMLscene.prototype.onGraphLoaded = function() {
   this.camera.near = this.graph.near;
@@ -118,23 +100,17 @@ XMLscene.prototype.onGraphLoaded = function() {
   this.axis = new CGFaxis(this, this.graph.referenceLength);
 
   this.setGlobalAmbientLight(
-    this.graph.ambientIllumination[0],
-    this.graph.ambientIllumination[1],
-    this.graph.ambientIllumination[2],
-    this.graph.ambientIllumination[3]
-  );
+      this.graph.ambientIllumination[0], this.graph.ambientIllumination[1],
+      this.graph.ambientIllumination[2], this.graph.ambientIllumination[3]);
 
   this.gl.clearColor(
-    this.graph.background[0],
-    this.graph.background[1],
-    this.graph.background[2],
-    this.graph.background[3]
-  );
+      this.graph.background[0], this.graph.background[1],
+      this.graph.background[2], this.graph.background[3]);
 
   this.initLights();
 
   var date = new Date();
-  this.lastCurrTime = date.getTime(); //time in milliseconds
+  this.lastCurrTime = date.getTime();  // time in milliseconds
 
   // Adds lights group.
   this.interface.addLightsGroup(this.graph.lights);
@@ -154,16 +130,33 @@ XMLscene.prototype.display = function() {
   this.updateProjectionMatrix();
   this.loadIdentity();
 
-  // Apply transformations corresponding to the camera position relative to the origin
+  // Apply transformations corresponding to the camera position relative to the
+  // origin
   this.applyViewMatrix();
 
- // this.setActiveShader(this.alternateShader);
+  // this.setActiveShader(this.alternateShader);
   this.pushMatrix();
 
   if (this.graph.loadedOk) {
-    //console.log("Graph Loaded!");
+    // console.log("Graph Loaded!");
     // Applies initial transformations.
     this.multMatrix(this.graph.initialTransforms);
+
+    if (this.gameBoard != null) {
+      for (let i = 0; i < this.gameBoard.hitboxes.length; ++i) {
+        this.pushMatrix();
+
+        let hitbox = this.gameBoard.hitboxes[i];
+
+        this.translation(
+            hitbox.translation.x, hitbox.translation.y, hitbox.translation.z);
+        this.scale(hitbox.scale.x, hitbox.scale.y, hitbox.scale.z);
+
+        hitbox.display();
+
+        this.popMatrix();
+      }
+    }
 
     // Draw axis
     this.axis.display();
@@ -183,7 +176,7 @@ XMLscene.prototype.display = function() {
       }
     }
 
-    //display scene
+    // display scene
     this.graph.displayScene(this.graph.idRoot, null, null);
   } else {
     // Draw axis
@@ -191,25 +184,28 @@ XMLscene.prototype.display = function() {
   }
 
   this.popMatrix();
-  //this.setActiveShader(this.defaultShader);
+  // this.setActiveShader(this.defaultShader);
 
   // ---- END Background, camera and axis setup
 };
 
 XMLscene.prototype.update = function(currTime) {
-    if (this.graph.loadedOk)
-    {
-        this.bindTimeFactor(currTime);
-        var elapsedTime = currTime - this.lastCurrTime;
-        this.lastCurrTime = currTime;
-        this.graph.updateAnimations(elapsedTime);
-        
-    }
+  if (this.graph.loadedOk) {
+    this.bindTimeFactor(currTime);
+    var elapsedTime = currTime - this.lastCurrTime;
+    this.lastCurrTime = currTime;
+    this.graph.updateAnimations(elapsedTime);
+  }
 };
 
 XMLscene.prototype.bindTimeFactor = function(currTime) {
-  var normalizedTime = Math.abs(Math.sin(currTime / this.attenuation)/2+0.5);
-  this.alternateShader.setUniformsValues({ timeFactor: normalizedTime });
-  this.alternateShader.setUniformsValues({ scaleFactor: this.scaleFactor });
-  this.alternateShader.setUniformsValues({ color: vec3.fromValues(this.filterColor[0]/255.0,this.filterColor[1]/255.0,this.filterColor[2]/255.0) });
+  var normalizedTime =
+      Math.abs(Math.sin(currTime / this.attenuation) / 2 + 0.5);
+  this.alternateShader.setUniformsValues({timeFactor: normalizedTime});
+  this.alternateShader.setUniformsValues({scaleFactor: this.scaleFactor});
+  this.alternateShader.setUniformsValues({
+    color: vec3.fromValues(
+        this.filterColor[0] / 255.0, this.filterColor[1] / 255.0,
+        this.filterColor[2] / 255.0)
+  });
 };

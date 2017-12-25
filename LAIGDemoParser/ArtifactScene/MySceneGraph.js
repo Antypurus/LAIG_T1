@@ -1378,6 +1378,9 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             let nCells = this.reader.getInteger(children[i], 'nCells');
             let sCell = this.reader.getFloat(children[i], 'sCell');
 
+            this.scene.gameBoard = new GameBoard(
+                this.scene, startX, startY, startZ, nCells, sCell);
+
             break;
           }
           case ('piece'): {
