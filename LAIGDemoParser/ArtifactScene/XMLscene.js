@@ -44,6 +44,8 @@ XMLscene.prototype.init = function(application) {
   this.alternateShader = new CGFshader(
       this.gl, 'shaders/vertexExpand.vert', 'shaders/fragmentRecolor.frag');
   this.bindTimeFactor(0.0);
+
+  this.setPickEnabled(true);
 };
 
 /**
@@ -116,10 +118,29 @@ XMLscene.prototype.onGraphLoaded = function() {
   this.interface.addLightsGroup(this.graph.lights);
 };
 
+
+XMLscene.prototype.logPicking = function() {
+  if (this.pickMode == false) {
+    if (this.pickResults != null && this.pickResults.length > 0) {
+      for (var i = 0; i < this.pickResults.length; i++) {
+        var obj = this.pickResults[i][0];
+        if (obj) {
+          var customId = this.pickResults[i][1];
+          console.log('Picked object: ' + obj + ', with pick id ' + customId);
+        }
+      }
+      this.pickResults.splice(0, this.pickResults.length);
+    }
+  }
+};
+
 /**
  * Displays the scene.
  */
 XMLscene.prototype.display = function() {
+
+  this.logPicking();
+  this.clearPickRegistration();
   // ---- BEGIN Background, camera and axis setup
 
   // Clear image and depth buffer everytime we update the scene
@@ -148,10 +169,13 @@ XMLscene.prototype.display = function() {
         this.pushMatrix();
 
         let hitbox = this.gameBoard.hitboxes[i];
-
         this.translate(
-            hitbox.translation.x, hitbox.translation.y, hitbox.translation.z);
+            hitbox.translation.x, hitbox.translation.y - 1.5,
+            hitbox.translation.z);
         // this.scale(hitbox.scale.x, hitbox.scale.y, hitbox.scale.z);
+
+        this.registerForPick(
+            this.gameBoard.hitboxes[i].ID, this.gameBoard.hitboxes[i]);
 
         hitbox.display();
 
