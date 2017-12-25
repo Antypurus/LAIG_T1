@@ -14,6 +14,8 @@ function SquareHitBox(scene, size, id) {
   this.scale = {x: 1, y: 1, z: 1};
   this.rotaion = {x: 0, y: 0, z: 0};
 
+  this.setUp();
+
   CGFobject.call(this, scene);
   this.initBuffers();
 };
@@ -32,13 +34,29 @@ SquareHitBox.prototype.setUp = function() {
     0, this.Size, this.Size, this.Size, this.Size, this.Size
   ];
 
-  this.indice = [
+  console.log(this.vertices.length);
+
+  this.indices = [
     1, 0, 2, 1, 2, 3, 0, 4, 2, 4, 6, 2, 5, 7, 4, 7, 6, 4,
     1, 3, 7, 7, 5, 1, 2, 6, 7, 7, 3, 2, 0, 1, 4, 1, 5, 4
+  ];
+
+  this.normals =
+      [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];
+
+  this.texCoords = [
+    this.vertices[0],
+    0,
+    0,
+    0,
+    this.vertices[0],
+    this.vertices[1],
+    0,
+    this.vertices[1],
   ];
 };
 
 SquareHitBox.prototype.initBuffers = function() {
-  this.primitiveType = this.scene.gl.LINES;
+  this.primitiveType = this.scene.gl.TRIANGLES;
   this.initGLBuffers();
 };

@@ -1381,6 +1381,8 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             this.scene.gameBoard = new GameBoard(
                 this.scene, startX, startY, startZ, nCells, sCell);
 
+            console.log(this.scene.gameBoard.hitboxes.length);
+
             break;
           }
           case ('piece'): {

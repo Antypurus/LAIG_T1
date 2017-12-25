@@ -148,9 +148,9 @@ XMLscene.prototype.display = function() {
 
         let hitbox = this.gameBoard.hitboxes[i];
 
-        this.translation(
-            hitbox.translation.x, hitbox.translation.y, hitbox.translation.z);
-        this.scale(hitbox.scale.x, hitbox.scale.y, hitbox.scale.z);
+        // this.translation(
+        // hitbox.translation.x, hitbox.translation.y, hitbox.translation.z);
+        // this.scale(hitbox.scale.x, hitbox.scale.y, hitbox.scale.z);
 
         hitbox.display();
 

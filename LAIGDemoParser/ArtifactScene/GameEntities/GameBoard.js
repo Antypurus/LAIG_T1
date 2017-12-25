@@ -16,8 +16,10 @@ function GameBoard(scene, startX, startY, startZ, nCells, sCell) {
   this.nCells = nCells;
   this.sCell = sCell;
 
-  this.hitboxes = {};
+  this.hitboxes = [];
   this.idCoordMap = new Map();
+
+  this.setUp();
 };
 
 /**
@@ -32,13 +34,13 @@ GameBoard.prototype.setUp = function() {
       box1.translation.x = i;
       box1.translation.z = j;
       this.hitboxes.push(box1);
-      this.idCoordMap['' + i + j] = {i, j};
+      // this.idCoordMap['' + i + j] = {i, j};
       // add the lower values
       let box2 = new SquareHitBox(this.scene, this.sCell, '' + j + i);
       box2.translation.x = j;
       box2.translation.z = i;
       this.hitboxes.push(box2);
-      this.idCoordMap['' + j + i] = {j, i};
+      // this.idCoordMap['' + j + i] = {j, i};
     }
   }
   console.log(this.idCoordMap);
