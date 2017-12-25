@@ -31,14 +31,14 @@ GameBoard.prototype.setUp = function() {
     for (let j = i; j < this.nCells; ++j) {
       // add the upper values
       let box1 = new SquareHitBox(this.scene, this.sCell, '' + i + j);
-      box1.translation.x = i;
-      box1.translation.z = j;
+      box1.translation.x = i * this.sCell;
+      box1.translation.z = j * this.sCell;
       this.hitboxes.push(box1);
       this.idCoordMap['' + i + j] = {i, j};
       // add the lower values
       let box2 = new SquareHitBox(this.scene, this.sCell, '' + j + i);
-      box2.translation.x = j;
-      box2.translation.z = i;
+      box2.translation.x = j * this.sCell;
+      box2.translation.z = i * this.sCell;
       this.hitboxes.push(box2);
       this.idCoordMap['' + j + i] = {j, i};
     }
