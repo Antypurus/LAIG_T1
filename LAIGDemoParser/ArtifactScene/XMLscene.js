@@ -43,6 +43,8 @@ XMLscene.prototype.init = function(application) {
   this.setUpdatePeriod(UPDATE_TIME);
   this.alternateShader = new CGFshader(
       this.gl, 'shaders/vertexExpand.vert', 'shaders/fragmentRecolor.frag');
+  this.invisShader = new CGFshader(
+      this.gl, 'shaders/invisVert.vert', 'shaders/invisFrag.frag');
   this.bindTimeFactor(0.0);
 
   this.setPickEnabled(true);
@@ -165,6 +167,7 @@ XMLscene.prototype.display = function() {
 
     // reponsible for the pickable hitboxes
     if (this.gameBoard != null) {
+      this.setActiveShader(this.invisShader);
       for (let i = 0; i < this.gameBoard.hitboxes.length; ++i) {
         this.pushMatrix();
 
@@ -181,6 +184,7 @@ XMLscene.prototype.display = function() {
 
         this.popMatrix();
       }
+      this.setActiveShader(this.defaultShader);
     }
 
     // Draw axis
