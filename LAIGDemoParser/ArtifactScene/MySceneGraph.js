@@ -1797,12 +1797,14 @@ var usingAlternateShader = false;
 /**
  * Displays the scene, processing each node, starting in the root node.
  *
- * @param nodeID current node id
- * @param textID id of the texture used by upper node sent to children
- * @param matID id of the material used by upper node sent to children
+ * @param {string} nodeID current node id
+ * @param {string} textID id of the texture used by upper node sent to children
+ * @param {string} matID id of the material used by upper node sent to children
+ * @param {string} animationID animation id
+ * @param {obj} matToUse special material to use
  */
 MySceneGraph.prototype.displayScene = function(
-    nodeID, textID, matID, animationID) {
+    nodeID, textID, matID, animationID, matToUse) {
   // console.log(this.nodes['arvore'].isSelected);
 
   var textID =
@@ -1880,11 +1882,12 @@ MySceneGraph.prototype.displayScene = function(
     for (var i = 0; i < NODE.children.length; i++) {
       this.scene.pushMatrix();
       this.displayScene(
-          NODE.children[i], textID, matID);  // sends the
-                                             // childrens nodes,
-                                             // the current texture
-                                             // id and the current
-                                             // material id
+          NODE.children[i], textID, matID, animationID,
+          matToUse);  // sends the
+                      // childrens nodes,
+                      // the current texture
+                      // id and the current
+                      // material id
       this.scene.popMatrix();
     }
 
@@ -1892,7 +1895,11 @@ MySceneGraph.prototype.displayScene = function(
     // the display on the leaf primitive
     for (var j = 0; j < NODE.leaves.length; j++) {
       // applies the material
-      if (materialToApply != null) materialToApply.apply();
+      if (matToUse != null) {
+        matToUse.apply();
+      } else {
+        if (materialToApply != null) materialToApply.apply();
+      }
 
       // binds the texture
       if (textToApply != null) textToApply.bind();

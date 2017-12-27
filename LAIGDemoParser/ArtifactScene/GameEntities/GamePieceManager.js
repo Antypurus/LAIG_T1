@@ -1,3 +1,7 @@
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 /**
  *
  * @param {*} Scene
@@ -37,12 +41,14 @@ GamePieceManager.prototype.setUp = function() {
         let x = i * this.sCell + this.sCell / 2;
         let z = j * this.sCell + this.sCell / 2;
 
-        let piece1 =
-            new GamePiece(this.Scene, 'green', {x: x, y: this.startY, z: z});
+        let piece1 = new GamePiece(
+            this.Scene, this.generateRandomColor(),
+            {x: x, y: this.startY, z: z});
         this.pieces.push(piece1);
         // add the lower values
-        let piece2 =
-            new GamePiece(this.Scene, 'green', {x: z, y: this.startY, z: x});
+        let piece2 = new GamePiece(
+            this.Scene, this.generateRandomColor(),
+            {x: z, y: this.startY, z: x});
         this.pieces.push(piece2);
       }
     }
@@ -54,6 +60,31 @@ GamePieceManager.prototype.setUp = function() {
   }
   console.log('error');
   return 'error';
+};
+
+GamePieceManager.prototype.generateRandomColor = function() {
+  let rand = getRandomInt(1, 4);
+  let col = 'random';
+  switch (rand) {
+    case (1): {
+      return 'green';
+      break;
+    }
+    case (2): {
+      return 'red';
+      break;
+    }
+    case (3): {
+      return 'blue';
+      break;
+    }
+    case (4): {
+      return 'yellow';
+      break;
+    }
+    default:
+      break;
+  }
 };
 
 /**
@@ -68,7 +99,7 @@ GamePieceManager.prototype.display = function() {
     this.Scene.translate(
         piece.translation.x, piece.translation.y, piece.translation.z);
 
-    this.graph.displayScene(this.nodeID, null, null);
+    this.graph.displayScene(this.nodeID, null, null, null, piece.mat);
 
     this.Scene.popMatrix();
   }
