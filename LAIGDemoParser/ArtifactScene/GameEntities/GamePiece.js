@@ -13,6 +13,8 @@ function GamePiece(scene, color, position) {
   this.translation.y += position.y;
   this.translation.z += position.z;
 
+  this.isAlive = true;
+
   this.mat = new CGFappearance(this.scene);
 
   switch (this.Color) {

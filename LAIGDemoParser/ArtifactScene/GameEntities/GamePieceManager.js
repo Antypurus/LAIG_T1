@@ -93,15 +93,17 @@ GamePieceManager.prototype.generateRandomColor = function() {
 GamePieceManager.prototype.display = function() {
   this.graph.nodes[this.nodeID].isPiece = false;
   for (let i = 0; i < this.pieces.length; ++i) {
-    this.Scene.pushMatrix();
+    if (this.pieces[i].isAlive) {
+      this.Scene.pushMatrix();
 
-    let piece = this.pieces[i];
-    this.Scene.translate(
-        piece.translation.x, piece.translation.y, piece.translation.z);
+      let piece = this.pieces[i];
+      this.Scene.translate(
+          piece.translation.x, piece.translation.y, piece.translation.z);
 
-    this.graph.displayScene(this.nodeID, null, null, null, piece.mat);
+      this.graph.displayScene(this.nodeID, null, null, null, piece.mat);
 
-    this.Scene.popMatrix();
+      this.Scene.popMatrix();
+    }
   }
   this.graph.nodes[this.nodeID].isPiece = true;
 }
