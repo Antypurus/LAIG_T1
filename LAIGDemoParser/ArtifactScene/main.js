@@ -118,12 +118,7 @@ serialInclude([
 	  	  let body = document.getElementsByTagName("body")[0];
 		  if(gameType == 0)
 		  {
-			body.innerHTML = `<h1 id="Froglet">Froglet</h1>
-					<script id="script" src="MyInterface.js"></script>
-					<div id="optionsList">
-						<div id="Easy" onclick = "easyGame(0)"><p>Easy</p></div>
-						<div id="Hard" onclick = "hardGame(0)"><p>Hard</p></div>
-					</div>`;
+			this.play();
 		  }
 		  else if(gameType == 1)
 		  {
