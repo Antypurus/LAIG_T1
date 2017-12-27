@@ -43,6 +43,10 @@ function getUrlVars() {
   return vars;
 };
 
+function play() {
+	let body = document.getElementsByTagName("body")[0];
+	body.innerHTML = `<script id="script" src="main.js"></script>`;
+	
 serialInclude([
   '../lib/CGF.js',
   'XMLscene.js',
@@ -95,3 +99,58 @@ serialInclude([
          app.run();
        })
 ]);
+}
+
+  function playMenu()
+  {
+	  let body = document.getElementsByTagName("body")[0];
+	body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+					<script id="script" src="MyInterface.js"></script>
+					<div id="optionsList">
+						<div id="Human" onclick = "playDifficulty(0)"><p>Human vs Human</p></div>
+						<div id="HumanAI" onclick = "playDifficulty(1)"><p>Human vs AI</p></div>
+						<div id="AI" onclick = "playDifficulty(2)"><p>AI vs AI</p></div>
+					</div>`;
+  }
+  
+  function playDifficulty(gameType)
+  {
+	  	  let body = document.getElementsByTagName("body")[0];
+		  if(gameType == 0)
+		  {
+			body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+					<script id="script" src="MyInterface.js"></script>
+					<div id="optionsList">
+						<div id="Easy" onclick = "easyGame(0)"><p>Easy</p></div>
+						<div id="Hard" onclick = "hardGame(0)"><p>Hard</p></div>
+					</div>`;
+		  }
+		  else if(gameType == 1)
+		  {
+			body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+				<script id="script" src="MyInterface.js"></script>
+				<div id="optionsList">
+					<div id="Easy" onclick = "easyGame(1)"><p>Easy</p></div>
+					<div id="Hard" onclick = "hardGame(1)"><p>Hard</p></div>
+				</div>`;
+		  }
+		  else
+		  {
+			body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+				<script id="script" src="MyInterface.js"></script>
+				<div id="optionsList">
+					<div id="Easy" onclick = "easyGame(2)"><p>Easy</p></div>
+					<div id="Hard" onclick = "hardGame(2)"><p>Hard</p></div>
+				</div>`; 
+		  }
+  }
+  
+  function easyGame(gameType)
+  {
+	this.play();
+  }
+  
+  function hardGame(gameType)
+  {
+	this.play();
+  }

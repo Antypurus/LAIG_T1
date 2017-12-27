@@ -23,8 +23,7 @@ MyInterface.prototype.init = function(application) {
 
   this.gui = new dat.GUI();
   this.gui.close();
-
-  this.insertElementIntoDOM('HI', 'special id');
+  
 
   // add a oup of controls (and open/expand by defult)
   this.gui.addColor(this.scene, 'filterColor').name('Filter Color');
@@ -70,3 +69,7 @@ MyInterface.prototype.insertElementIntoDOM = function(html, id) {
   fragmnet.appendChild(div);
   document.body.insertBefore(fragmnet, document.body.childNodes[0]);
 };
+  
+  
+  
+  

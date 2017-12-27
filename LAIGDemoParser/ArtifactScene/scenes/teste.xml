@@ -254,7 +254,7 @@
 	  <TRANSLATION x="0" y="0" z="0"/>
 	  <ROTATION axis="x" angle="-34"/>
       <DESCENDANTS>
-        <LEAF id = "menuSquare" type="rectangle" args = "-28 -28 28 28"/>
+        <LEAF id = "menuSquare" type="rectangle" args = "-1 -1 1 1"/>
 		</DESCENDANTS>
 	</NODE>
   </NODES>
