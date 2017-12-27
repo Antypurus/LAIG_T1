@@ -3,66 +3,70 @@
 /**
  * MyGraphNode class, representing an intermediate node in the scene graph.
  * @constructor
-**/
+ **/
 
-function MyGraphNode(graph, nodeID) 
-{
-    this.graph = graph;
+function MyGraphNode(graph, nodeID) {
+  this.isPiece = false;
 
-    this.nodeID = nodeID;
+  this.graph = graph;
 
-    this.parentID = null;
-    
-    // IDs of child nodes.
-    this.children = [];
+  this.nodeID = nodeID;
 
-    // IDs of leaf nodes.
-    this.leaves = [];
+  this.parentID = null;
 
-    this.animations = new ComboAnimation([]); //every node with animations will have it's animations inside a combo animation, to facilitate transformations
+  // IDs of child nodes.
+  this.children = [];
 
-    // The material ID.
-    this.materialID = null ;
+  // IDs of leaf nodes.
+  this.leaves = [];
 
-    // The texture ID.
-    this.textureID = null ;
+  this.animations = new ComboAnimation([]);  // every node with animations will
+                                             // have it's animations inside a
+                                             // combo animation, to facilitate
+                                             // transformations
 
-    // The Animation Boolean defaulting at false
-    this.selectable = false;
+  // The material ID.
+  this.materialID = null;
 
-    this.hasPassed = false;
+  // The texture ID.
+  this.textureID = null;
 
-    //wheter or not the node is selectable
-    this.isSelectable = false;
-    this.isSelected = false;
+  // The Animation Boolean defaulting at false
+  this.selectable = false;
 
-    this.transformMatrix = mat4.create();
-    mat4.identity(this.transformMatrix);
-}
+  this.hasPassed = false;
+
+  // wheter or not the node is selectable
+  this.isSelectable = false;
+  this.isSelected = false;
+
+  this.transformMatrix = mat4.create();
+  mat4.identity(this.transformMatrix);
+};
 
 /**
  * Adds the reference (ID) of another node to this node's children array.
  */
-MyGraphNode.prototype.addChild = function(nodeID) 
-{
-    this.children.push(nodeID);
-}
+MyGraphNode.prototype.addChild = function(nodeID) {
+  this.children.push(nodeID);
+};
 
-MyGraphNode.prototype.addAnimation = function(animationID)  //when parsing the nodes with animations, it calls this function that pushes the animationID to the array of ids inside the combo animation
+MyGraphNode.prototype.addAnimation = function(
+    animationID)  // when parsing the nodes with animations, it
+                  // calls this function that pushes the animationID
+                  // to the array of ids inside the combo animation
 {
-    this.animations.addAnimation(animationID);
-}
+  this.animations.addAnimation(animationID);
+};
 
 /**
  * Adds a leaf to this node's leaves array.
  */
-MyGraphNode.prototype.addLeaf = function(leaf) 
-{
-    this.leaves.push(leaf);
-}
+MyGraphNode.prototype.addLeaf = function(leaf) {
+  this.leaves.push(leaf);
+};
 
 
-MyGraphNode.prototype.updateAnimations = function (currTime) {
-    this.animations.update(currTime);
-}
-
+MyGraphNode.prototype.updateAnimations = function(currTime) {
+  this.animations.update(currTime);
+};

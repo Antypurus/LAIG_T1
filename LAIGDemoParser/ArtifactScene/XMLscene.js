@@ -7,6 +7,7 @@ var UPDATE_TIME = 10;
 function XMLscene(interface) {
   CGFscene.call(this);
 
+  this.pieceMangar = null;
   this.gameBoard = null;
 
   this.interface = interface;

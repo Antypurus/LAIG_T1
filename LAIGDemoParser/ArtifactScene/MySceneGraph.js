@@ -1813,6 +1813,10 @@ MySceneGraph.prototype.displayScene = function(
   var ampT = null;
   var textToApply;
 
+  if (NODE.isPiece) {
+    return;
+  }
+
   // checks if the current node is null
   if (NODE != null) {
     // multiplies the transformation matrix with the current node transformation
