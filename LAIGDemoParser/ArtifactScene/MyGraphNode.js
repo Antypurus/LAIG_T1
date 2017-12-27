@@ -6,8 +6,6 @@
  **/
 
 function MyGraphNode(graph, nodeID) {
-  this.isPiece = false;
-
   this.graph = graph;
 
   this.nodeID = nodeID;
@@ -21,9 +19,9 @@ function MyGraphNode(graph, nodeID) {
   this.leaves = [];
 
   this.animations = new ComboAnimation([]);  // every node with animations will
-                                             // have it's animations inside a
-                                             // combo animation, to facilitate
-                                             // transformations
+  // have it's animations inside a
+  // combo animation, to facilitate
+  // transformations
 
   // The material ID.
   this.materialID = null;
@@ -39,6 +37,7 @@ function MyGraphNode(graph, nodeID) {
   // wheter or not the node is selectable
   this.isSelectable = false;
   this.isSelected = false;
+  this.isPiece = false;
 
   this.transformMatrix = mat4.create();
   mat4.identity(this.transformMatrix);

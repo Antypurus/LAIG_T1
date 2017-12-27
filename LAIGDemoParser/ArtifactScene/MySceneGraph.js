@@ -1361,6 +1361,23 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
 
       this.log('Processing node ' + nodeID);
 
+      // figure out if the node is selectable true
+      var selectable = this.reader.getString(children[i], 'selectable', false);
+      // Creates node.
+      this.nodes[nodeID] = new MyGraphNode(this, nodeID);
+
+      if (selectable == null) {
+        selectable = false;
+      }
+      if (selectable == 'true' || selectable == 'TRUE') {
+        selectable = true;
+        group.add(this.nodes[nodeID], 'isSelected').name(nodeID);
+      } else {
+        selectable = false;
+      }
+
+      this.nodes[nodeID].isSelectable = selectable;
+
       var type = this.reader.getString(children[i], 'type', false);
       if (type != null) {
         switch (type) {
@@ -1387,6 +1404,7 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
           }
           case ('piece'): {
             console.log('piece node detected');
+            this.nodes[nodeID].isPiece = true;
             break;
           }
           default: {
@@ -1395,23 +1413,6 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
           }
         }
       }
-
-      // figure out if the node is selectable true
-      var selectable = this.reader.getString(children[i], 'selectable', false);
-      // Creates node.
-      this.nodes[nodeID] = new MyGraphNode(this, nodeID);
-
-      if (selectable == null) {
-        selectable = false;
-      }
-      if (selectable == 'true' || selectable == 'TRUE') {
-        selectable = true;
-        group.add(this.nodes[nodeID], 'isSelected').name(nodeID);
-      } else {
-        selectable = false;
-      }
-
-      this.nodes[nodeID].isSelectable = selectable;
 
       // Gathers child nodes.
       var nodeSpecs = children[i].children;
@@ -1813,12 +1814,12 @@ MySceneGraph.prototype.displayScene = function(
   var ampT = null;
   var textToApply;
 
-  if (NODE.isPiece) {
-    return;
-  }
-
   // checks if the current node is null
   if (NODE != null) {
+    if (NODE.isPiece) {
+      return;
+    }
+
     // multiplies the transformation matrix with the current node transformation
     // matrix
 
