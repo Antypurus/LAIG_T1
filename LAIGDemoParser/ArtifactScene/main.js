@@ -136,7 +136,20 @@ function playDifficulty(gameType) {
 }
 
 function easyGame(gameType) {
-  this.play();
+      let JsonRequest = "startBoard";
+      console.log(JsonRequest);
+      let requestPort = 8081;
+      let request = new XMLHttpRequest();
+      request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
+      request.onload = (function (response) {     
+          this.prologResponse = JSON.parse(response.target.response);
+          if(this.prologResponse[0] === -1)
+              return;
+          console.log(this.prologResponse);
+      }).bind(this);
+      //request.onerror = onError; TODO VER O QUE FAZER
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      request.send();
 }
 
 function hardGame(gameType) {
