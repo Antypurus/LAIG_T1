@@ -317,7 +317,7 @@
     </NODE>
 	
     
-    <NODE id="frog" selectable = "true">
+    <NODE id="frog" selectable = "true" type="piece">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <DESCENDANTS>

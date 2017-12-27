@@ -9,6 +9,7 @@ function XMLscene(interface) {
 
   this.pieceMangar = null;
   this.gameBoard = null;
+  this.pieceManager = null;
 
   this.interface = interface;
   this.initiaConfig = null;
@@ -186,10 +187,18 @@ XMLscene.prototype.display = function() {
         this.popMatrix();
       }
       this.setActiveShader(this.defaultShader);
+
+      if (this.pieceManager != null) {
+        if (this.pieceManager.board == null) {
+          this.pieceManager.board = this.gameBoard;
+          this.pieceManager.setUp();
+        }
+        this.pieceManager.display();
+      }
     }
 
     // Draw axis
-    //this.axis.display();
+    // this.axis.display();
 
     var i = 0;
     for (var key in this.lightValues) {

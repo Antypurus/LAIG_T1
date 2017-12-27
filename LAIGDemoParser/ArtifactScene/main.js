@@ -44,108 +44,101 @@ function getUrlVars() {
 };
 
 function play() {
-	let body = document.getElementsByTagName("body")[0];
-	body.innerHTML = `<script id="script" src="main.js"></script>`;
-	
-serialInclude([
-  '../lib/CGF.js',
-  'XMLscene.js',
-  'MySceneGraph.js',
-  'MyGraphNode.js',
-  'MyGraphLeaf.js',
-  'MyInterface.js',
-  'Position.js',
-  'Primitives/Cylinder.js',
-  'Primitives/FrogPiece.js',
-  'Primitives/Sphere.js',
-  'Primitives/Rectangle.js',
-  'Primitives/Triangle.js',
-  'Primitives/Circle.js',
-  'Animations/LinearAnimation.js',
-  'Animations/CircularAnimation.js',
-  'Animations/Animation.js',
-  'Animations/BezierAnimation.js',
-  'Animations/ComboAnimation.js',
-  'Vecs.js',
-  'GameEntities/GameBoard.js',
-  'GameEntities/SquareHitBox.js',
+  let body = document.getElementsByTagName('body')[0];
+  body.innerHTML = `<script id="script" src="main.js"></script>`;
 
-  (main =
-       function() {
-         // Standard application, scene and interface setup
-         var app = new CGFapplication(document.body);
-         var myInterface = new MyInterface();
-         var myScene = new XMLscene(myInterface);
+  serialInclude([
+    '../lib/CGF.js',
+    'XMLscene.js',
+    'MySceneGraph.js',
+    'MyGraphNode.js',
+    'MyGraphLeaf.js',
+    'MyInterface.js',
+    'Position.js',
+    'Primitives/Cylinder.js',
+    'Primitives/FrogPiece.js',
+    'Primitives/Sphere.js',
+    'Primitives/Rectangle.js',
+    'Primitives/Triangle.js',
+    'Primitives/Circle.js',
+    'Animations/LinearAnimation.js',
+    'Animations/CircularAnimation.js',
+    'Animations/Animation.js',
+    'Animations/BezierAnimation.js',
+    'Animations/ComboAnimation.js',
+    'Vecs.js',
+    'GameEntities/GameBoard.js',
+    'GameEntities/SquareHitBox.js',
+    'GameEntities/GamePieceManager.js',
+    'GameEntities/GamePiece.js',
 
-         app.init();
+    (main =
+         function() {
+           // Standard application, scene and interface setup
+           var app = new CGFapplication(document.body);
+           var myInterface = new MyInterface();
+           var myScene = new XMLscene(myInterface);
 
-         app.setScene(myScene);
-         app.setInterface(myInterface);
+           app.init();
 
-         myInterface.setActiveCamera(myScene.camera);
+           app.setScene(myScene);
+           app.setInterface(myInterface);
 
-         // get file name provided in URL, e.g.
-         // http://localhost/myproj/?file=myfile.xml or use "demo.xml" as
-         // default (assumes files in subfolder "scenes", check MySceneGraph
-         // constructor)
+           myInterface.setActiveCamera(myScene.camera);
 
-         var filename = getUrlVars()['file'] || 'final.xml';
+           // get file name provided in URL, e.g.
+           // http://localhost/myproj/?file=myfile.xml or use "demo.xml" as
+           // default (assumes files in subfolder "scenes", check MySceneGraph
+           // constructor)
 
-         // create and load graph, and associate it to scene.
-         // Check console for loading errors
-         var myGraph = new MySceneGraph(filename, myScene);
+           var filename = getUrlVars()['file'] || 'final.xml';
 
-         // start
-         app.run();
-       })
-]);
+           // create and load graph, and associate it to scene.
+           // Check console for loading errors
+           var myGraph = new MySceneGraph(filename, myScene);
+
+           // start
+           app.run();
+         })
+  ]);
 }
 
-  function playMenu()
-  {
-	  let body = document.getElementsByTagName("body")[0];
-	body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+function playMenu() {
+  let body = document.getElementsByTagName('body')[0];
+  body.innerHTML = `<h1 id="Froglet">Froglet</h1>
 					<script id="script" src="MyInterface.js"></script>
 					<div id="optionsList">
 						<div id="Human" onclick = "playDifficulty(0)"><p>Human vs Human</p></div>
 						<div id="HumanAI" onclick = "playDifficulty(1)"><p>Human vs AI</p></div>
 						<div id="AI" onclick = "playDifficulty(2)"><p>AI vs AI</p></div>
 					</div>`;
-  }
-  
-  function playDifficulty(gameType)
-  {
-	  	  let body = document.getElementsByTagName("body")[0];
-		  if(gameType == 0)
-		  {
-			this.play();
-		  }
-		  else if(gameType == 1)
-		  {
-			body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+}
+
+function playDifficulty(gameType) {
+  let body = document.getElementsByTagName('body')[0];
+  if (gameType == 0) {
+    this.play();
+  } else if (gameType == 1) {
+    body.innerHTML = `<h1 id="Froglet">Froglet</h1>
 				<script id="script" src="MyInterface.js"></script>
 				<div id="optionsList">
 					<div id="Easy" onclick = "easyGame(1)"><p>Easy</p></div>
 					<div id="Hard" onclick = "hardGame(1)"><p>Hard</p></div>
 				</div>`;
-		  }
-		  else
-		  {
-			body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+  } else {
+    body.innerHTML = `<h1 id="Froglet">Froglet</h1>
 				<script id="script" src="MyInterface.js"></script>
 				<div id="optionsList">
 					<div id="Easy" onclick = "easyGame(2)"><p>Easy</p></div>
 					<div id="Hard" onclick = "hardGame(2)"><p>Hard</p></div>
-				</div>`; 
-		  }
+				</div>`;
   }
-  
-  function easyGame(gameType)
-  {
-	this.play();
-  }
-  
-  function hardGame(gameType)
-  {
-	this.play();
-  }
+}
+
+function easyGame(gameType) {
+  this.play();
+}
+
+function hardGame(gameType) {
+  this.play();
+}

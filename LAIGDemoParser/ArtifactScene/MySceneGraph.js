@@ -1398,13 +1398,14 @@ MySceneGraph.prototype.parseNodes = function(nodesNode) {
             this.scene.gameBoard = new GameBoard(
                 this.scene, startX, startY, startZ, nCells, sCell);
 
-            console.log(this.scene.gameBoard.hitboxes.length);
-
             break;
           }
           case ('piece'): {
             console.log('piece node detected');
             this.nodes[nodeID].isPiece = true;
+
+            this.scene.pieceManager = new GamePieceManager(this.scene, nodeID);
+
             break;
           }
           default: {

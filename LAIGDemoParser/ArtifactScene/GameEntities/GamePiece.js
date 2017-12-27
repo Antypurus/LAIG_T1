@@ -8,7 +8,7 @@ function GamePiece(scene, color, position) {
   this.scene = scene;
   this.Color = color;
   this.translation = {x: 0, y: 0, z: 0};
-  translation.x += position.x;
-  translation.y += position.y;
-  translation.z += position.z;
+  this.translation.x += position.x;
+  this.translation.y += position.y;
+  this.translation.z += position.z;
 };

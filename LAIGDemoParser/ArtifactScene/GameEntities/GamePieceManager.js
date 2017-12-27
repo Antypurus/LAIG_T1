@@ -13,7 +13,11 @@ function GamePieceManager(Scene, pieceNodeID) {
     this.board = this.Scene.board;
   }
 
-  this.pieces = {};
+  this.pieces = [];
+
+  if (this.board != null) {
+    this.setUp();
+  }
 };
 
 /**
@@ -21,28 +25,34 @@ function GamePieceManager(Scene, pieceNodeID) {
  */
 GamePieceManager.prototype.setUp = function() {
   if (this.board != null) {
-    this.nCell = this.board.nCell;
+    this.nCell = this.board.nCells;
     this.sCell = this.board.sCell;
     this.startX = this.board.startX;
     this.startY = this.board.startY;
     this.startZ = this.board.startZ;
 
-    for (let i = 0; i < this.nCells; ++i) {
-      for (let j = i; j < this.nCells; ++j) {
+    for (let i = 0; i < this.nCell; ++i) {
+      for (let j = i; j < this.nCell; ++j) {
         // add the upper values
-        let x = i * sCell;
-        let z = j * sCell;
+        let x = i * this.sCell + this.sCell / 2;
+        let z = j * this.sCell + this.sCell / 2;
 
-        this.pieces.push(
-            new GamePiece(this.Scene, 'green', {x: x, y: this.startY, z: z}));
+        let piece1 =
+            new GamePiece(this.Scene, 'green', {x: x, y: this.startY, z: z});
+        this.pieces.push(piece1);
         // add the lower values
-        this.pieces.push(
-            new GamePiece(this.Scene, 'green', {x: z, y: this.startY, z: x}));
+        let piece2 =
+            new GamePiece(this.Scene, 'green', {x: z, y: this.startY, z: x});
+        this.pieces.push(piece2);
       }
     }
+
+    return;
   } else {
+    console.log('error');
     return 'error';
   }
+  console.log('error');
   return 'error';
 };
 
@@ -56,10 +66,9 @@ GamePieceManager.prototype.display = function() {
 
     let piece = this.pieces[i];
     this.Scene.translate(
-        piece.translate.x, piece.translate.y, piece.translate.z);
+        piece.translation.x, piece.translation.y, piece.translation.z);
 
-    // this.graph.dradisplayScene(this.nodeID, null, null, null); need to finish
-    // this with the proper animations
+    this.graph.displayScene(this.nodeID, null, null);
 
     this.Scene.popMatrix();
   }
