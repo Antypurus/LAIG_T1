@@ -3,6 +3,8 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>CGFexample</title>
+	<link id="styleId" rel="stylesheet" type="text/css" href="style/style.CSS">
+
 
 <style>
 body, html {
@@ -19,20 +21,31 @@ canvas {
 </style>
 </head>
 <body style = "text-align:center;">
-    <br>
+    <br> <br> 
     <div> 
         <img src="scenes/images/froglet.png" alt="logo" /> 
     </div>
     <br> <br> 
 	<script id="script" src="main.js"></script>
 	<div id="optionsList">
-        <div id="Play" onclick = "playMenu()"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; 
-            style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Play</button></div> <br>
-        <div onclick = "playMenu()"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; 
-            style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Credits</button></div> <br>
-        <div onclick = "playMenu()"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; 
-            style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Quit</button></div>
+        <div id="Play" onclick = "playMenu()"><button class = "button"><b>Play</b></button></div> <br>
+        <div onclick = "showCredits()"><button class = "button"><b>Credits</b></button></div> <br>
+        <div onclick = "goBack()"><button class = "button"><b>Quit</b></button></div>
 	</div>
-
+    <script> 
+        function goBack() {
+            let JsonRequest = "quit";
+            console.log(JsonRequest);
+            let requestPort = 8082;
+            let request = new XMLHttpRequest();
+            request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
+            request.onload = (function (response) {     
+                window.history.back();
+            }).bind(this);
+            //request.onerror = onError; TODO VER O QUE FAZER
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            request.send();
+        } 
+    </script>
 </body>
 </html>
