@@ -10,6 +10,7 @@ function XMLscene(interface) {
   this.pieceMangar = null;
   this.gameBoard = null;
   this.pieceManager = null;
+  this.board = null;
 
   this.interface = interface;
   this.initiaConfig = null;
@@ -191,6 +192,9 @@ XMLscene.prototype.display = function() {
         if (this.pieceManager.board == null) {
           this.pieceManager.board = this.gameBoard;
           this.pieceManager.setUp();
+          if (this.board != null) {
+            this.pieceManager.colorSetUp(this.board);
+          }
         }
         this.pieceManager.display();
       }

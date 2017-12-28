@@ -43,13 +43,19 @@ function getUrlVars() {
   return vars;
 };
 
+let scene = null;
+
 function play() {
   let body = document.getElementsByTagName('body')[0];
   body.innerHTML = `<script id="script" src="main.js"></script>`;
-  //body.innerHTML +=  `<button onclick = "mainMenu()" onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; 
-    //                style = "background-color: Transparent; cursor: pointer; background-color: rgb(48, 247, 48); float:left;"><b>Quit</b></button>`;
+  // body.innerHTML +=  `<button onclick = "mainMenu()" onmouseout =
+  // "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover =
+  // "this.style.backgroundColor = 'green'";
+  //                style = "background-color: Transparent; cursor: pointer;
+  //                background-color: rgb(48, 247, 48);
+  //                float:left;"><b>Quit</b></button>`;
 
-    this.insertBackButton();
+  this.insertBackButton();
   serialInclude([
     '../lib/CGF.js',
     'XMLscene.js',
@@ -81,6 +87,7 @@ function play() {
            var app = new CGFapplication(document.body);
            var myInterface = new MyInterface();
            var myScene = new XMLscene(myInterface);
+           scene = myScene;
 
            app.init();
 
@@ -104,20 +111,19 @@ function play() {
            app.run();
          })
   ]);
-}
+};
 
-function insertBackButton()
-{
-    let backButton = document.createElement("BUTTON");
-    backButton.addEventListener("click", mainMenu);
-    backButton.className = "backButton";
-    backButton.innerHTML = "Quit Game";
-    document.getElementById("script").insertAdjacentElement('beforebegin', backButton);
-}
+function insertBackButton() {
+  let backButton = document.createElement('BUTTON');
+  backButton.addEventListener('click', mainMenu);
+  backButton.className = 'backButton';
+  backButton.innerHTML = 'Quit Game';
+  document.getElementById('script').insertAdjacentElement(
+      'beforebegin', backButton);
+};
 
 
-function mainMenu()
-{
+function mainMenu() {
   let body = document.getElementsByTagName('body')[0];
   body.innerHTML = `<br> <br> 
     <div> 
@@ -146,7 +152,7 @@ function mainMenu()
         <div onclick = "playMenu()"><button class = "button">Credits</button></div> <br>
         <div onclick = "goBack()"><button class = "button">Quit</button></div>
   </div>`;
-}
+};
 
 function playMenu() {
   let body = document.getElementsByTagName('body')[0];
@@ -161,7 +167,7 @@ function playMenu() {
             <div id="AI" onclick = "playDifficulty(2)"><button class = "button">AI vs AI</button></div> <br>
             <div onclick = "mainMenu()"><button class = "button">Go back</button></div> <br>
 					</div>`;
-}
+};
 
 function playDifficulty(gameType) {
   let body = document.getElementsByTagName('body')[0];
@@ -192,50 +198,57 @@ function playDifficulty(gameType) {
           <div onclick = "playMenu()"><button class = "button">Go back</button></div> <br>
 				</div>`;
   }
-}
+};
 
 function easyGame(gameType) {
-      let JsonRequest = "startBoard";
-      console.log(JsonRequest);
-      let requestPort = 8082;
-      let request = new XMLHttpRequest();
-      request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
-      request.onload = (function (response) {     
-          this.prologResponse = JSON.parse(response.target.response);
-          if(this.prologResponse[0] === -1)
-              return;
-              var board = "[";
-          for(var i = 0; i < this.prologResponse.length; i++)
-          {
-            if(!(i ==this.prologResponse.length - 1 ))
-              board += "[" + this.prologResponse[i] + "],";
-            else
-              board += "[" + this.prologResponse[i] + "]";
-          }
-          board += "]";
-          console.log(board);
-          game(board);
-      }).bind(this);
-      //request.onerror = onError; TODO VER O QUE FAZER
-      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      request.send();
-}
-
-function game(board)
-{
-  let JsonRequest = "firstMoveOK("+board+",1,1)";
+  let JsonRequest = 'startBoard';
   console.log(JsonRequest);
   let requestPort = 8082;
   let request = new XMLHttpRequest();
-  request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
-  request.onload = (function (response) {     
-      this.prologResponse = JSON.parse(response.target.response);
-      if(this.prologResponse[0] === -1)
-          return;
-      console.log(this.prologResponse);
-  }).bind(this);
-  //request.onerror = onError; TODO VER O QUE FAZER
-  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.open(
+      'GET',
+      'http://127.0.0.1:8082' +
+          '/' + JsonRequest,
+      true);
+  request.onload = (function(response) {
+                     this.prologResponse = JSON.parse(response.target.response);
+                     if (this.prologResponse[0] === -1) return;
+                     var board = '[';
+                     for (var i = 0; i < this.prologResponse.length; i++) {
+                       if (!(i == this.prologResponse.length - 1))
+                         board += '[' + this.prologResponse[i] + '],';
+                       else
+                         board += '[' + this.prologResponse[i] + ']';
+                     }
+                     board += ']';
+                     console.log(board);
+                     scene.board = board;
+                     game(board);
+                   }).bind(this);
+  // request.onerror = onError; TODO VER O QUE FAZER
+  request.setRequestHeader(
+      'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.send();
+};
+
+function game(board) {
+  let JsonRequest = 'firstMoveOK(' + board + ',1,1)';
+  console.log(JsonRequest);
+  let requestPort = 8082;
+  let request = new XMLHttpRequest();
+  request.open(
+      'GET',
+      'http://127.0.0.1:8082' +
+          '/' + JsonRequest,
+      true);
+  request.onload = (function(response) {
+                     this.prologResponse = JSON.parse(response.target.response);
+                     if (this.prologResponse[0] === -1) return;
+                     console.log(this.prologResponse);
+                   }).bind(this);
+  // request.onerror = onError; TODO VER O QUE FAZER
+  request.setRequestHeader(
+      'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
   request.send();
 }
 
@@ -243,9 +256,9 @@ function hardGame(gameType) {
   this.play();
 }
 
-function showCredits()
-{
+function showCredits() {
   let body = document.getElementsByTagName('body')[0];
   body.innerHTML = '<img src="scenes/images/credits.png" alt="credits">';
-  body.innerHTML += '<div onclick = "mainMenu()"><button class = "button">Go back</button></div> <br>';
-}
+  body.innerHTML +=
+      '<div onclick = "mainMenu()"><button class = "button">Go back</button></div> <br>';
+};
