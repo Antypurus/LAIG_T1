@@ -70,7 +70,6 @@ GamePieceManager.prototype.setUp = function() {
  * @param {*} colors
  */
 GamePieceManager.prototype.colorSetUp = function(colors) {
-  console.log(colors);
   for (let i = 0; i < colors.length; i++) {
     for (let j = 0; j < colors[i].length; j++) {
       if (colors[i][j] == 0) {
@@ -78,7 +77,6 @@ GamePieceManager.prototype.colorSetUp = function(colors) {
         continue;
       }
       let color = this.translateNumberToColor(colors[i][j]);
-      console.log(this.pieceMap.get('' + i + j));
       this.pieceMap.get('' + i + j).setUpColor(color);
     }
   }
