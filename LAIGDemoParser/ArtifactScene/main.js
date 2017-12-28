@@ -105,12 +105,15 @@ function play() {
 
 function playMenu() {
   let body = document.getElementsByTagName('body')[0];
-  body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+  body.innerHTML = `<br>
+          <div> 
+            <img src="scenes/images/froglet.png" alt="logo" /> 
+          </div> <br> <br>
 					<script id="script" src="MyInterface.js"></script>
 					<div id="optionsList">
-						<div id="Human" onclick = "playDifficulty(0)"><p>Human vs Human</p></div>
-						<div id="HumanAI" onclick = "playDifficulty(1)"><p>Human vs AI</p></div>
-						<div id="AI" onclick = "playDifficulty(2)"><p>AI vs AI</p></div>
+						<div id="Human" onclick = "playDifficulty(0)"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Human vs Human</button></div> <br>
+						<div id="HumanAI" onclick = "playDifficulty(1)"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Human vs AI</button></div> <br>
+						<div id="AI" onclick = "playDifficulty(2)"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">AI vs AI</button></div> <br>
 					</div>`;
 }
 
@@ -119,23 +122,29 @@ function playDifficulty(gameType) {
   if (gameType == 0) {
     this.play();
   } else if (gameType == 1) {
-    body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+    body.innerHTML = `<br>
+    <div> 
+    <img src="scenes/images/froglet.png" alt="logo" /> 
+    </div>
+    <br> <br>
 				<script id="script" src="MyInterface.js"></script>
 				<div id="optionsList">
-					<div id="Easy" onclick = "easyGame(1)"><p>Easy</p></div>
-					<div id="Hard" onclick = "hardGame(1)"><p>Hard</p></div>
+					<div id="Easy" onclick = "easyGame(1)"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Easy</button></div> <br>
+					<div id="Hard" onclick = "hardGame(1)"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Hard</button></div> <br>
 				</div>`;
   } else {
-    body.innerHTML = `<h1 id="Froglet">Froglet</h1>
+    body.innerHTML = `<br>
+    <div> 
+    <img src="scenes/images/froglet.png" alt="logo" /> 
+    </div>
+        <br> <br>
 				<script id="script" src="MyInterface.js"></script>
 				<div id="optionsList">
-					<div id="Easy" onclick = "easyGame(2)"><p>Easy</p></div>
-					<div id="Hard" onclick = "hardGame(2)"><p>Hard</p></div>
+					<div id="Easy" onclick = "easyGame(2)"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Easy</button></div> <br>
+					<div id="Hard" onclick = "hardGame(2)"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Hard</button></div> <br>
 				</div>`;
   }
 }
-
-var array = "[[1,2,2,1,1,1,3,2,1,3,1,4],[1,2,1,1,2,1,1,3,1,1,2,2],[3,4,2,2,3,1,1,2,1,1,3,1],[2,3,1,2,1,2,1,1,1,1,2,1],[3,1,2,3,2,1,2,1,2,3,1,1],[1,2,1,1,2,2,1,4,2,1,1,2],[1,1,3,2,2,1,1,3,3,1,2,1],[3,2,1,2,2,3,3,2,2,2,2,1],[3,2,2,2,4,3,2,2,1,2,1,1],[1,2,4,3,2,1,1,1,1,4,2,1],[1,1,1,3,2,1,2,2,1,1,1,1],[3,1,2,1,2,2,2,1,2,1,2,1]]";
 
 function easyGame(gameType) {
       let JsonRequest = "startBoard";

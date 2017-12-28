@@ -18,12 +18,20 @@ canvas {
 }
 </style>
 </head>
-<body>
-
-	<h1 id="Froglet">Froglet</h1>
+<body style = "text-align:center;">
+    <br>
+    <div> 
+        <img src="scenes/images/froglet.png" alt="logo" /> 
+    </div>
+    <br> <br> 
 	<script id="script" src="main.js"></script>
 	<div id="optionsList">
-		<div id="Play" onclick = "playMenu()"><p>Play</p></div>
+        <div id="Play" onclick = "playMenu()"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; 
+            style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Play</button></div> <br>
+        <div onclick = "playMenu()"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; 
+            style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Credits</button></div> <br>
+        <div onclick = "playMenu()"><button onmouseout = "this.style.backgroundColor = 'rgb(48, 247, 48)'"; onmouseover = "this.style.backgroundColor = 'green'"; 
+            style = "cursor: pointer; background-color: rgb(48, 247, 48); width: 50%; height:50px;">Quit</button></div>
 	</div>
 
 </body>
