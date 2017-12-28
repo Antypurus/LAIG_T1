@@ -22,6 +22,8 @@ function XMLscene(interface) {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ];
 
+  this.boardX = null;
+
   this.interface = interface;
   this.initiaConfig = null;
 
@@ -204,7 +206,9 @@ XMLscene.prototype.display = function() {
         }
         if (this.pieceManager.board != null) {
           if (this.boardS != null) {
-            this.pieceManager.colorSetUp(this.boardS);
+            console.log('about to set board');
+            console.log(this.boardX);
+            this.pieceManager.colorSetUp(this.boardX);
           }
           this.pieceManager.display();
         }

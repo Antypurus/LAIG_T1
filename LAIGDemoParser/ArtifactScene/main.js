@@ -43,7 +43,7 @@ function getUrlVars() {
   return vars;
 };
 
-var board = null;
+var testeBoard = null;
 var boardArray = null;
 
 function play() {
@@ -89,7 +89,7 @@ function play() {
            var myInterface = new MyInterface();
            var myScene = new XMLscene(myInterface);
            scene = myScene;
-           scene.board = boardArray;
+           scene.boardX = boardArray;
 
            app.init();
 
@@ -108,7 +108,7 @@ function play() {
            // create and load graph, and associate it to scene.
            // Check console for loading errors
            var myGraph = new MySceneGraph(filename, myScene);
-           myGraph.board = board;
+           myGraph.board = testeBoard;
 
            // start
            app.run();
@@ -204,7 +204,7 @@ function playDifficulty(gameType) {
 };
 
 function easyGame(gameType) {
- /* let JsonRequest = 'startBoard';
+  let JsonRequest = 'startBoard';
   console.log(JsonRequest);
   let requestPort = 8082;
   let request = new XMLHttpRequest();
@@ -216,14 +216,14 @@ function easyGame(gameType) {
   request.onload = (function(response) {
                      this.prologResponse = JSON.parse(response.target.response);
                      if (this.prologResponse[0] === -1) return;
-                     board = '[';
+                     testeBoard = '[';
                      for (var i = 0; i < this.prologResponse.length; i++) {
                        if (!(i == this.prologResponse.length - 1))
-                         board += '[' + this.prologResponse[i] + '],';
+                       testeBoard += '[' + this.prologResponse[i] + '],';
                        else
-                         board += '[' + this.prologResponse[i] + ']';
+                       testeBoard += '[' + this.prologResponse[i] + ']';
                      }
-                     board += ']';
+                     testeBoard += ']';
                      boardArray = this.prologResponse;
                      console.log(boardArray);
                      this.play();
@@ -231,8 +231,7 @@ function easyGame(gameType) {
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-  request.send();*/
-  this.play();
+  request.send();
 };
 
 function game(board) {
