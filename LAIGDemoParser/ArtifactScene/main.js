@@ -204,7 +204,7 @@ function playDifficulty(gameType) {
 };
 
 function easyGame(gameType) {
-  let JsonRequest = 'startBoard';
+ /* let JsonRequest = 'startBoard';
   console.log(JsonRequest);
   let requestPort = 8082;
   let request = new XMLHttpRequest();
@@ -225,12 +225,14 @@ function easyGame(gameType) {
                      }
                      board += ']';
                      boardArray = this.prologResponse;
+                     console.log(boardArray);
                      this.play();
                    }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-  request.send();
+  request.send();*/
+  this.play();
 };
 
 function game(board) {

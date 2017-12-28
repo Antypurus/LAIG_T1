@@ -196,7 +196,7 @@ XMLscene.prototype.display = function() {
         this.popMatrix();
       }
       this.setActiveShader(this.defaultShader);
-
+      
       if (this.pieceManager != null) {
         if (this.pieceManager.board == null) {
           this.pieceManager.board = this.gameBoard;
