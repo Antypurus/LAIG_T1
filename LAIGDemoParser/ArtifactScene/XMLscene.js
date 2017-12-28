@@ -12,6 +12,9 @@ function XMLscene(interface) {
   this.pieceManager = null;
   this.board = null;
 
+  this.hasClicked = false;
+  this.clickedX = 0;
+  this.clickedY = 0;
 
   this.boardS = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -144,6 +147,13 @@ XMLscene.prototype.logPicking = function() {
         if (obj) {
           var customId = this.pickResults[i][1];
           console.log('Picked object: ' + obj + ', with pick id ' + customId);
+
+          let ret = this.gameBoard.getCoords(customId);
+          if (ret != null) {
+            this.hasClicked = true;
+            this.clickedX = ret[0];
+            this.clickedY = ret[1];
+          }
         }
       }
       this.pickResults.splice(0, this.pickResults.length);
@@ -156,6 +166,15 @@ XMLscene.prototype.logPicking = function() {
  */
 XMLscene.prototype.display = function() {
   this.logPicking();
+
+  //sends to the game the clicked cell
+  if (this.hasClicked) {
+    game(this.board, this.clickedX, this.clickedY);
+    this.hasClicked = false;
+    this.clickedX = 0;
+    this.clickedY = 0;
+  }
+
   this.clearPickRegistration();
   // ---- BEGIN Background, camera and axis setup
 

@@ -36,14 +36,22 @@ GameBoard.prototype.setUp = function() {
       box1.translation.x = i * this.sCell;
       box1.translation.z = j * this.sCell;
       this.hitboxes.push(box1);
-      this.idCoordMap['' + ii + ji] = {ii, ji};
+      this.idCoordMap.set('' + ii + ji, {ii, ji});
       // add the lower values
       let box2 = new SquareHitBox(this.scene, this.sCell, '' + ji + ii);
       box2.translation.x = j * this.sCell;
       box2.translation.z = i * this.sCell;
       this.hitboxes.push(box2);
-      this.idCoordMap['' + ji + ii] = {ji, ii};
+      this.idCoordMap.set('' + ji + ii, {ji, ii});
     }
   }
   console.log(this.idCoordMap);
+};
+
+GameBoard.prototype.getCoords = function(id) {
+  if (this.idCoordMap.has(id)) {
+    return this.idCoordMap.get(id);
+  }else{
+    return null;
+  }
 };
