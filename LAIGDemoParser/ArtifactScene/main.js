@@ -43,7 +43,7 @@ function getUrlVars() {
   return vars;
 };
 
-let scene = null;
+var board = null;
 
 function play() {
   let body = document.getElementsByTagName('body')[0];
@@ -106,6 +106,7 @@ function play() {
            // create and load graph, and associate it to scene.
            // Check console for loading errors
            var myGraph = new MySceneGraph(filename, myScene);
+           myGraph.board = board;
 
            // start
            app.run();
@@ -213,7 +214,7 @@ function easyGame(gameType) {
   request.onload = (function(response) {
                      this.prologResponse = JSON.parse(response.target.response);
                      if (this.prologResponse[0] === -1) return;
-                     var board = '[';
+                     board = '[';
                      for (var i = 0; i < this.prologResponse.length; i++) {
                        if (!(i == this.prologResponse.length - 1))
                          board += '[' + this.prologResponse[i] + '],';
@@ -222,8 +223,7 @@ function easyGame(gameType) {
                      }
                      board += ']';
                      console.log(board);
-                     scene.board = board;
-                     game(board);
+                     this.play(board);
                    }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
