@@ -10,7 +10,6 @@ function XMLscene(interface) {
   this.pieceMangar = null;
   this.gameBoard = null;
   this.pieceManager = null;
-  this.board = null;
 
   /*
   this.boardS = [
@@ -153,7 +152,6 @@ XMLscene.prototype.logPicking = function() {
  * Displays the scene.
  */
 XMLscene.prototype.display = function() {
-
   this.logPicking();
   this.clearPickRegistration();
   // ---- BEGIN Background, camera and axis setup

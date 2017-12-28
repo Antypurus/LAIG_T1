@@ -106,7 +106,7 @@ function play() {
            // create and load graph, and associate it to scene.
            // Check console for loading errors
            var myGraph = new MySceneGraph(filename, myScene);
-           myGraph.board = board;
+           myGraph.gameBoard = board;
 
            // start
            app.run();

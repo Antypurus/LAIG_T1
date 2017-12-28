@@ -16,7 +16,7 @@ var NODES_INDEX = 7;
  */
 function MySceneGraph(filename, scene) {
   this.loadedOk = null;
-  this.board = null;
+  this.gameBoard = null;
 
   this.textura = null;
   this.material = null;
