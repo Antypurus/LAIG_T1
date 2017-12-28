@@ -11,6 +11,7 @@ function XMLscene(interface) {
   this.gameBoard = null;
   this.pieceManager = null;
   this.board = null;
+  this.boardString = null;
 
   this.hasClicked = false;
   this.clickedX = 0;
@@ -150,9 +151,11 @@ XMLscene.prototype.logPicking = function() {
 
           let ret = this.gameBoard.getCoords(customId);
           if (ret != null) {
+            console.log(ret["ji"]);
+            console.log(ret["ii"]);
+            this.clickedX = ret["ji"];
+            this.clickedY = ret["ii"];
             this.hasClicked = true;
-            this.clickedX = ret[0];
-            this.clickedY = ret[1];
           }
         }
       }
@@ -169,7 +172,8 @@ XMLscene.prototype.display = function() {
 
   //sends to the game the clicked cell
   if (this.hasClicked) {
-    game(this.board, this.clickedX, this.clickedY);
+    console.log(this.clickedX);
+    game(this.boardString, this.clickedX, this.clickedY);
     this.hasClicked = false;
     this.clickedX = 0;
     this.clickedY = 0;
@@ -224,8 +228,8 @@ XMLscene.prototype.display = function() {
           this.pieceManager.setUp();
         }
         if (this.pieceManager.board != null) {
-          if (this.boardS != null) {
-            this.pieceManager.colorSetUp(this.boardX);
+          if (this.board != null) {
+            this.pieceManager.colorSetUp(this.board);
           }
           this.pieceManager.display();
         }

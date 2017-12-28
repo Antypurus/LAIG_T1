@@ -45,6 +45,7 @@ function getUrlVars() {
 
 var testeBoard = null;
 var boardArray = null;
+var scene = null;
 
 function play() {
   let body = document.getElementsByTagName('body')[0];
@@ -89,7 +90,8 @@ function play() {
            var myInterface = new MyInterface();
            var myScene = new XMLscene(myInterface);
            scene = myScene;
-           scene.boardX = boardArray;
+           scene.board = boardArray;
+           scene.boardString = testeBoard;
 
            app.init();
 
@@ -234,8 +236,8 @@ function easyGame(gameType) {
   request.send();
 };
 
-function game(board) {
-  let JsonRequest = 'firstMoveOK(' + board + ',1,1)';
+function game(board,X,Y) {
+  let JsonRequest = 'firstMoveOK(' + board +',' + X +',' + Y + ')';
   console.log(JsonRequest);
   let requestPort = 8082;
   let request = new XMLHttpRequest();
@@ -247,7 +249,18 @@ function game(board) {
   request.onload = (function(response) {
                      this.prologResponse = JSON.parse(response.target.response);
                      if (this.prologResponse[0] === -1) return;
-                     console.log(this.prologResponse);
+                     testeBoard = '[';
+                     for (var i = 0; i < this.prologResponse.length; i++) {
+                       if (!(i == this.prologResponse.length - 1))
+                       testeBoard += '[' + this.prologResponse[i] + '],';
+                       else
+                       testeBoard += '[' + this.prologResponse[i] + ']';
+                     }
+                     testeBoard += ']';
+                     boardArray = this.prologResponse;
+                     console.log(testeBoard);
+                     scene.board = boardArray;
+                     scene.boardString = testeBoard;
                    }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
