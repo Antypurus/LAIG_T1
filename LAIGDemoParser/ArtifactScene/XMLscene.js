@@ -175,9 +175,8 @@ XMLscene.prototype.display = function() {
 
         let hitbox = this.gameBoard.hitboxes[i];
         this.translate(
-            hitbox.translation.x, hitbox.translation.y - 1.5,
-            hitbox.translation.z);
-        // this.scale(hitbox.scale.x, hitbox.scale.y, hitbox.scale.z);
+            hitbox.translation.x, hitbox.translation.y, hitbox.translation.z);
+        this.scale(1, 2.5, 1);
 
         this.registerForPick(
             this.gameBoard.hitboxes[i].ID, this.gameBoard.hitboxes[i]);
