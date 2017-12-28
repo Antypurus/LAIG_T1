@@ -10,6 +10,7 @@ function XMLscene(interface) {
   this.pieceMangar = null;
   this.gameBoard = null;
   this.pieceManager = null;
+  this.board = null;
 
   /*
   this.boardS = [

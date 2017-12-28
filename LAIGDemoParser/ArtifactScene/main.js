@@ -44,6 +44,7 @@ function getUrlVars() {
 };
 
 var board = null;
+var boardArray = null;
 
 function play() {
   let body = document.getElementsByTagName('body')[0];
@@ -88,6 +89,7 @@ function play() {
            var myInterface = new MyInterface();
            var myScene = new XMLscene(myInterface);
            scene = myScene;
+           scene.board = boardArray;
 
            app.init();
 
@@ -106,7 +108,7 @@ function play() {
            // create and load graph, and associate it to scene.
            // Check console for loading errors
            var myGraph = new MySceneGraph(filename, myScene);
-           myGraph.gameBoard = board;
+           myGraph.board = board;
 
            // start
            app.run();
@@ -222,8 +224,8 @@ function easyGame(gameType) {
                          board += '[' + this.prologResponse[i] + ']';
                      }
                      board += ']';
-                     console.log(board);
-                     this.play(board);
+                     boardArray = this.prologResponse;
+                     this.play();
                    }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
