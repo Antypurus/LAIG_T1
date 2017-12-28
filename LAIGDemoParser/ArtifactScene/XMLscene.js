@@ -202,12 +202,14 @@ XMLscene.prototype.display = function() {
           this.pieceManager.board = this.gameBoard;
           this.pieceManager.setUp();
         }
-        if (this.boardS != null) {
-          console.log('about to set board');
-          console.log(this.board);
-          this.pieceManager.colorSetUp(this.boardS);
+        if (this.pieceManager.board != null) {
+          if (this.boardS != null) {
+            console.log('about to set board');
+            console.log(this.board);
+            this.pieceManager.colorSetUp(this.boardS);
+          }
+          this.pieceManager.display();
         }
-        this.pieceManager.display();
       }
     }
 
