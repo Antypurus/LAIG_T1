@@ -12,6 +12,15 @@ function XMLscene(interface) {
   this.pieceManager = null;
   this.board = null;
 
+  this.boardS = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1], [1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  ];
+
   this.interface = interface;
   this.initiaConfig = null;
 
@@ -192,8 +201,8 @@ XMLscene.prototype.display = function() {
         if (this.pieceManager.board == null) {
           this.pieceManager.board = this.gameBoard;
           this.pieceManager.setUp();
-          if (this.board != null) {
-            this.pieceManager.colorSetUp(this.board);
+          if (this.boardS != null) {
+            this.pieceManager.colorSetUp(this.boardS);
           }
         }
         this.pieceManager.display();

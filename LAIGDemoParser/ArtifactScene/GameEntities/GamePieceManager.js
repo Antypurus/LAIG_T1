@@ -45,13 +45,13 @@ GamePieceManager.prototype.setUp = function() {
         let piece1 = new GamePiece(
             this.Scene, this.generateRandomColor(),
             {x: x, y: this.startY, z: z});
-        this.pieceMap[{i, j}] = piece1;
+        this.pieceMap.set('' + i + j, piece1);
         this.pieces.push(piece1);
         // add the lower values
         let piece2 = new GamePiece(
             this.Scene, this.generateRandomColor(),
             {x: z, y: this.startY, z: x});
-        this.pieceMap[{j, i}] = piece2;
+        this.pieceMap.set('' + j + i, piece2);
         this.pieces.push(piece2);
       }
     }
@@ -70,10 +70,16 @@ GamePieceManager.prototype.setUp = function() {
  * @param {*} colors
  */
 GamePieceManager.prototype.colorSetUp = function(colors) {
-  for (let i = 0; i < colors.length; ++i) {
-    for (let j = 0; j < color[i].length; ++i) {
+  console.log(colors);
+  for (let i = 0; i < colors.length; i++) {
+    for (let j = 0; j < colors[i].length; j++) {
+      if (colors[i][j] == 0) {
+        this.pieceMap.get('' + i + j).isAlive = false;
+        continue;
+      }
       let color = this.translateNumberToColor(colors[i][j]);
-      this.pieceMap[{i, j}].colorSetUp(color);
+      console.log(this.pieceMap.get('' + i + j));
+      this.pieceMap.get('' + i + j).setUpColor(color);
     }
   }
 };
