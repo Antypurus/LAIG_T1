@@ -206,8 +206,6 @@ XMLscene.prototype.display = function() {
         }
         if (this.pieceManager.board != null) {
           if (this.boardS != null) {
-            console.log('about to set board');
-            console.log(this.boardX);
             this.pieceManager.colorSetUp(this.boardX);
           }
           this.pieceManager.display();

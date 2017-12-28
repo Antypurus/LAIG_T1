@@ -13,8 +13,8 @@ function GamePieceManager(Scene, pieceNodeID) {
   this.graph = this.Scene.graph;
 
   this.board = null;
-  if (this.Scene.board != null) {
-    this.board = this.Scene.board;
+  if (this.Scene.gameBoard != null) {
+    this.board = this.Scene.gameBoard;
   }
 
   this.pieces = [];
