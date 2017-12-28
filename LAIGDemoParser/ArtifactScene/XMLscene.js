@@ -201,6 +201,7 @@ XMLscene.prototype.display = function() {
           this.pieceManager.board = this.gameBoard;
           this.pieceManager.setUp();
           if (this.board != null) {
+            console.log('about to set board');
             console.log(this.board);
             this.pieceManager.colorSetUp(this.board);
           }

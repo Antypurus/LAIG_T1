@@ -89,6 +89,7 @@ GamePieceManager.prototype.colorSetUp = function(colors) {
  */
 GamePieceManager.prototype.generateRandomColor = function() {
   let rand = getRandomInt(1, 4);
+  rand = 1;
   let col = 'random';
   switch (rand) {
     case (1): {
