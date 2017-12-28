@@ -18,6 +18,7 @@ function GamePieceManager(Scene, pieceNodeID) {
   }
 
   this.pieces = [];
+  this.pieceMap = new Map();
 
   if (this.board != null) {
     this.setUp();
@@ -44,11 +45,13 @@ GamePieceManager.prototype.setUp = function() {
         let piece1 = new GamePiece(
             this.Scene, this.generateRandomColor(),
             {x: x, y: this.startY, z: z});
+        this.pieceMap[{i, j}] = piece1;
         this.pieces.push(piece1);
         // add the lower values
         let piece2 = new GamePiece(
             this.Scene, this.generateRandomColor(),
             {x: z, y: this.startY, z: x});
+        this.pieceMap[{j, i}] = piece2;
         this.pieces.push(piece2);
       }
     }
@@ -62,6 +65,22 @@ GamePieceManager.prototype.setUp = function() {
   return 'error';
 };
 
+/**
+ *
+ * @param {*} colors
+ */
+GamePieceManager.prototype.colorSetUp = function(colors) {
+  for (let i = 0; i < colors.length; ++i) {
+    for (let j = 0; j < color[i].length; ++i) {
+      let color = this.translateNumberToColor(colors[i][j]);
+      this.pieceMap[{i, j}].colorSetUp(color);
+    }
+  }
+};
+
+/**
+ *
+ */
 GamePieceManager.prototype.generateRandomColor = function() {
   let rand = getRandomInt(1, 4);
   let col = 'random';
@@ -88,6 +107,34 @@ GamePieceManager.prototype.generateRandomColor = function() {
 };
 
 /**
+ * Translates a prolog response number to a color
+ * @param {number} num the number to translate
+ */
+GamePieceManager.prototype.translateNumberToColor = function(num) {
+  switch (num) {
+    case (1): {
+      return 'green';
+      break;
+    }
+    case (2): {
+      return 'red';
+      break;
+    }
+    case (3): {
+      return 'blue';
+      break;
+    }
+    case (4): {
+      return 'yellow';
+      break;
+    }
+    default:
+      return null;
+      break;
+  }
+};
+
+/**
  *
  */
 GamePieceManager.prototype.display = function() {
@@ -106,4 +153,4 @@ GamePieceManager.prototype.display = function() {
     }
   }
   this.graph.nodes[this.nodeID].isPiece = true;
-}
+};
