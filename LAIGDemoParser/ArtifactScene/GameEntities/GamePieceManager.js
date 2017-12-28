@@ -95,19 +95,20 @@ GamePieceManager.prototype.generateRandomColor = function() {
       return 'green';
       break;
     }
-    case (2): {
+    case (3): {
       return 'red';
       break;
     }
-    case (3): {
+    case (4): {
       return 'blue';
       break;
     }
-    case (4): {
+    case (2): {
       return 'yellow';
       break;
     }
     default:
+      return null;
       break;
   }
 };
@@ -122,15 +123,15 @@ GamePieceManager.prototype.translateNumberToColor = function(num) {
       return 'green';
       break;
     }
-    case (2): {
+    case (3): {
       return 'red';
       break;
     }
-    case (3): {
+    case (4): {
       return 'blue';
       break;
     }
-    case (4): {
+    case (2): {
       return 'yellow';
       break;
     }
