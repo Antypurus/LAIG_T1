@@ -135,21 +135,51 @@ function playDifficulty(gameType) {
   }
 }
 
+var array = "[[1,2,2,1,1,1,3,2,1,3,1,4],[1,2,1,1,2,1,1,3,1,1,2,2],[3,4,2,2,3,1,1,2,1,1,3,1],[2,3,1,2,1,2,1,1,1,1,2,1],[3,1,2,3,2,1,2,1,2,3,1,1],[1,2,1,1,2,2,1,4,2,1,1,2],[1,1,3,2,2,1,1,3,3,1,2,1],[3,2,1,2,2,3,3,2,2,2,2,1],[3,2,2,2,4,3,2,2,1,2,1,1],[1,2,4,3,2,1,1,1,1,4,2,1],[1,1,1,3,2,1,2,2,1,1,1,1],[3,1,2,1,2,2,2,1,2,1,2,1]]";
+
 function easyGame(gameType) {
       let JsonRequest = "startBoard";
       console.log(JsonRequest);
-      let requestPort = 8081;
+      let requestPort = 8082;
       let request = new XMLHttpRequest();
       request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
       request.onload = (function (response) {     
           this.prologResponse = JSON.parse(response.target.response);
           if(this.prologResponse[0] === -1)
               return;
-          console.log(this.prologResponse);
+              var board = "[";
+          for(var i = 0; i < this.prologResponse.length; i++)
+          {
+            if(!(i ==this.prologResponse.length - 1 ))
+              board += "[" + this.prologResponse[i] + "],";
+            else
+              board += "[" + this.prologResponse[i] + "]";
+          }
+          board += "]";
+          console.log(board);
+          game(board);
       }).bind(this);
       //request.onerror = onError; TODO VER O QUE FAZER
       request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
       request.send();
+}
+
+function game(board)
+{
+  let JsonRequest = "firstMoveOK("+board+",1,1)";
+  console.log(JsonRequest);
+  let requestPort = 8082;
+  let request = new XMLHttpRequest();
+  request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
+  request.onload = (function (response) {     
+      this.prologResponse = JSON.parse(response.target.response);
+      if(this.prologResponse[0] === -1)
+          return;
+      console.log(this.prologResponse);
+  }).bind(this);
+  //request.onerror = onError; TODO VER O QUE FAZER
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.send();
 }
 
 function hardGame(gameType) {
