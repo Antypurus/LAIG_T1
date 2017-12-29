@@ -74,3 +74,50 @@ HistoryKepper.prototype.redoTurn = function() {
   }
   return null;
 };
+
+/**
+ * This function return an object of the class that handles the game movie
+ */
+HistoryKepper.prototype.getGameMovie = function() {
+  let movie = new GameMovie(this.history);
+  return movie;
+};
+
+/**
+ * Class that handles the game movie
+ * @param {array} history the full history of the game
+ */
+function GameMovie(history) {
+  this.atTurn = 0;
+  this.history = history;
+};
+
+/**
+ * Start playing the game movie , return the start state of the board
+ */
+GameMovie.prototype.Play = function() {
+  return this.history[0];
+};
+
+/**
+ * Obtains the next play of the game movie
+ */
+GameMovie.prototype.NextStep = function() {
+  this.atTurn++;
+  return this.history[this.atTurn];
+};
+
+/**
+ * Allows to set the current turn of the game movie , returning the
+ * corresponding turn move
+ * @param {number} turn the turn to set to
+ */
+GameMovie.prototype.setTurn = function(turn) {
+  if (turn < 0 || turn >= this.history.length) {
+    return null;
+  } else {
+    this.atTurn = turn;
+    return this.history[this.atTurn];
+  }
+  return null;
+};
