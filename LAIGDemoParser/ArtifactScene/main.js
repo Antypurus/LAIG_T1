@@ -54,10 +54,15 @@ var gameDifficulty = null;
 function play() {
   let body = document.getElementsByTagName('body')[0];
   body.innerHTML = `<script id="script" src="main.js"></script>
-                    <h1 id = "player1" style = "color: white; position: absolute; margin-left: 9em;">&#8680 `+ player1 + `</h1>
-                    <h1 id = "player2" style = "color: white; position: absolute; margin-left: 30em;">` + player2 + `</h1>`;
+        <h1 id = "player1" style = "color: white; position: absolute; margin-left: 9em; margin-top:2em;">&#8680 `+ player1.name + `</h1>
+        <h1 style = "color: white; position: absolute; margin-left: 15em;">`+ "Score" + `</h1>
+        <h1 id = "player1score" style = "color: white; position: absolute; margin-left: 16em; margin-top:2em;">`+ player1.score + `</h1>
+        <h1 id = "player2" style = "color: white; position: absolute; margin-left: 30em; margin-top:2em;">` + player2.name + `</h1>
+        <h1 style = "color: white; position: absolute; margin-left: 26em;">`+ "Score" + `</h1>
+        <h1 id = "player2score" style = "color: white; position: absolute; margin-left: 27em; margin-top:2em;">` + player2.score + `</h1>`;
 
   this.insertBackButton();
+
   serialInclude([
     '../lib/CGF.js',
     'XMLscene.js',
@@ -66,6 +71,7 @@ function play() {
     'MyGraphLeaf.js',
     'MyInterface.js',
     'Position.js',
+    'player.js',
     'Primitives/Cylinder.js',
     'Primitives/FrogPiece.js',
     'Primitives/Sphere.js',
@@ -93,7 +99,7 @@ function play() {
            scene.board = boardArray;
            scene.boardString = testeBoard;
            scene.player1 = player1;
-           scene.player2 = player2;
+           scene.player2 =  player2;
            scene.gameType = gameType;
            scene.gameDifficulty = gameDifficulty;
 
@@ -121,6 +127,12 @@ function play() {
          })
   ]);
 };
+
+function player(name)
+{
+    this.score = 0;
+    this.name = name;
+}
 
 function insertBackButton() {
   let backButton = document.createElement('BUTTON');
@@ -196,8 +208,8 @@ function HumanHumanFirstPlayer()
 function HumanHumanGame(firstPlayer, secondPlayer)
 {
   requestStartBoard();
-  player1 = firstPlayer;
-  player2 = secondPlayer;
+  player1 = new player(firstPlayer);
+  player2 = new player(secondPlayer);
   gameType = 0;
   gameDifficulty = 0;
   this.play();
@@ -237,8 +249,8 @@ function HumanAiFirstPlayer(difficulty)
 function humanAiGame(firstPlayer,secondPlayer,difficulty)
 {
     requestStartBoard();
-    player1 = firstPlayer;
-    player2 = secondPlayer;
+    player1 = new player(firstPlayer);
+    player2 = new player(secondPlayer);
     gameType = 1;
     gameDifficulty = difficulty;
     this.play();
@@ -278,8 +290,8 @@ function AiAiFirstPlayer(difficulty)
 function AiAiGame(firstPlayer,secondPlayer,difficulty)
 {
     requestStartBoard();
-    player1 = firstPlayer;
-    player2 = secondPlayer;
+    player1 = new player(firstPlayer);
+    player2 = new player(secondPlayer);
     gameType = 2;
     gameDifficulty = difficulty;
     this.play();
@@ -288,6 +300,47 @@ function AiAiGame(firstPlayer,secondPlayer,difficulty)
 function firstMoveHuman(board,X,Y) 
 {
   let JsonRequest = 'firstMoveOK(' + board +',' + X +',' + Y + ')';
+  makeFirstMove(JsonRequest);
+}
+
+function moveHuman()
+{
+  if(scene.currentPlayer == scene.player1)
+    scene.currentPlayer = scene.player2;
+  else
+  scene.currentPlayer = scene.player1;
+}
+
+function firstMoveCom(board, difficulty)
+{
+  if(difficulty == 1)
+  {
+    let JsonRequest = 'firstMoveCOMEasy(' + board +')';
+    makeFirstMove(JsonRequest);
+  }
+  else if(difficulty == 2)
+  {
+    let JsonRequest = 'firstMoveCOMHard(' + board +')';
+    makeFirstMove(JsonRequest);
+  }
+}
+
+function MoveCom(board, difficulty)
+{
+  if(difficulty == 1)
+  {
+    let JsonRequest = 'moveCOMEasy(' + board +')';
+    makeMove(JsonRequest);
+  }
+  else if(difficulty == 2)
+  {
+    let JsonRequest = 'moveCOMHard(' + board +')';
+    makeMove(JsonRequest);
+  }
+}
+
+function makeFirstMove(JsonRequest)
+{
   let requestPort = 8082;
   let request = new XMLHttpRequest();
   request.open(
@@ -312,9 +365,19 @@ function firstMoveHuman(board,X,Y)
                      scene.board = boardArray;
                      scene.boardString = testeBoard;
                      scene.isFirstMove = false;
-                     scene.currentPlayer = player2;
-                     document.getElementById("player1").innerHTML = scene.player1;
-                     document.getElementById("player2").innerHTML = "&#8680" + scene.player2;
+                     if(scene.currentPlayer == scene.player1)
+                     {
+                        scene.currentPlayer = scene.player2;
+                        document.getElementById("player1").innerHTML = scene.player1.name;
+                        document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
+                     }
+                     else
+                     {
+                       scene.currentPlayer = scene.player1;
+                      document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
+                      document.getElementById("player2").innerHTML = scene.player2.name;
+                     }
+                     
                    }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
@@ -322,178 +385,59 @@ function firstMoveHuman(board,X,Y)
   request.send();
 }
 
-function moveHuman()
+function makeMove(JsonRequest)
 {
-  console.log("here");
-  if(scene.currentPlayer == scene.player1)
-    scene.currentPlayer = scene.player2;
-  else
-  scene.currentPlayer = scene.player1;
-  console.log(scene.currentPlayer);
-}
+  let requestPort = 8082;
+  let request = new XMLHttpRequest();
+  request.open(
+      'GET',
+      'http://127.0.0.1:8082' +
+          '/' + JsonRequest,
+      true);
+  request.onload = (function(response) {
+                     this.prologResponse = JSON.parse(response.target.response.substr(0,response.target.response.indexOf("-")));
 
-function firstMoveCom(board, difficulty)
-{
-  if(difficulty == 1)
-  {
-    let JsonRequest = 'firstMoveCOMEasy(' + board +')';
-    let requestPort = 8082;
-    let request = new XMLHttpRequest();
-    request.open(
-        'GET',
-        'http://127.0.0.1:8082' +
-            '/' + JsonRequest,
-        true);
-    request.onload = (function(response) {
-                       this.prologResponse = JSON.parse(response.target.response);
-                       if (this.prologResponse[0] === -1) return;
-                       if (this.prologResponse[0] == "no") scene.isFirstMove = true;
-                       if (this.prologResponse[0] == "Syntax Error") scene.isFirstMove = true;
-                       testeBoard = '[';
-                       for (var i = 0; i < this.prologResponse.length; i++) {
-                         if (!(i == this.prologResponse.length - 1))
-                         testeBoard += '[' + this.prologResponse[i] + '],';
-                         else
-                         testeBoard += '[' + this.prologResponse[i] + ']';
-                       }
-                       testeBoard += ']';
-                       boardArray = this.prologResponse;
-                       scene.board = boardArray;
-                       scene.boardString = testeBoard;
-                       scene.isFirstMove = false;
-                       scene.currentPlayer = player2;
-                       document.getElementById("player1").innerHTML = scene.player1;
-                       document.getElementById("player2").innerHTML = "&#8680" + scene.player2;
-                       
-                     }).bind(this);
-    // request.onerror = onError; TODO VER O QUE FAZER
-    request.setRequestHeader(
-        'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send();
-  }
-  else
-  {
-    let JsonRequest = 'firstMoveCOMHard(' + board +')';
-    let requestPort = 8082;
-    let request = new XMLHttpRequest();
-    request.open(
-        'GET',
-        'http://127.0.0.1:8082' +
-            '/' + JsonRequest,
-        true);
-    request.onload = (function(response) {
-                       this.prologResponse = JSON.parse(response.target.response);
-                       if (this.prologResponse[0] === -1) return;
-                       if (this.prologResponse[0] == "no") scene.isFirstMove = true;
-                       if (this.prologResponse[0] == "Syntax Error") scene.isFirstMove = true;
-                       testeBoard = '[';
-                       for (var i = 0; i < this.prologResponse.length; i++) {
-                         if (!(i == this.prologResponse.length - 1))
-                         testeBoard += '[' + this.prologResponse[i] + '],';
-                         else
-                         testeBoard += '[' + this.prologResponse[i] + ']';
-                       }
-                       testeBoard += ']';
-                       boardArray = this.prologResponse;
-                       scene.board = boardArray;
-                       scene.boardString = testeBoard;
-                       scene.isFirstMove = false;
-                       scene.currentPlayer = player2;
-                       document.getElementById("player1").innerHTML = scene.player1;
-                       document.getElementById("player2").innerHTML = "&#8680" + scene.player2;
-                     }).bind(this);
-    // request.onerror = onError; TODO VER O QUE FAZER
-    request.setRequestHeader(
-        'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send();
-  }
-}
-
-function MoveCom(board, difficulty)
-{
-  if(difficulty == 1)
-  {
-    let JsonRequest = 'moveCOMEasy(' + board +')';
-    console.log(JsonRequest);
-    let requestPort = 8082;
-    let request = new XMLHttpRequest();
-    request.open(
-        'GET',
-        'http://127.0.0.1:8082' +
-            '/' + JsonRequest,
-        true);
-    request.onload = (function(response) {
-                       this.prologResponse = JSON.parse(response.target.response);
-                       if (this.prologResponse[0] === -1) return;
-                       if (this.prologResponse[0] == "no") scene.isFirstMove = true;
-                       if (this.prologResponse[0] == "Syntax Error") scene.isFirstMove = true;
-                       testeBoard = '[';
-                       for (var i = 0; i < this.prologResponse.length; i++) {
-                         if (!(i == this.prologResponse.length - 1))
-                         testeBoard += '[' + this.prologResponse[i] + '],';
-                         else
-                         testeBoard += '[' + this.prologResponse[i] + ']';
-                       }
-                       testeBoard += ']';
-                       boardArray = this.prologResponse;
-                       scene.board = boardArray;
-                       scene.boardString = testeBoard;
-                       scene.isFirstMove = false;
-                       if(scene.currentPlayer == scene.player1)
-                       {
-                          scene.currentPlayer = scene.player2;
-                          document.getElementById("player1").innerHTML = scene.player1;
-                          document.getElementById("player2").innerHTML = "&#8680" + scene.player2;
-                       }
-                       else
-                       {
-                         scene.currentPlayer = scene.player1;
-                        document.getElementById("player1").innerHTML =  "&#8680" + scene.player1;
-                        document.getElementById("player2").innerHTML = scene.player2;
-                       }
-                       
-                     }).bind(this);
-    // request.onerror = onError; TODO VER O QUE FAZER
-    request.setRequestHeader(
-        'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send();
-  }
-  else
-  {
-    let JsonRequest = 'firstMoveCOMHard(' + board +')';
-    let requestPort = 8082;
-    let request = new XMLHttpRequest();
-    request.open(
-        'GET',
-        'http://127.0.0.1:8082' +
-            '/' + JsonRequest,
-        true);
-    request.onload = (function(response) {
-                       this.prologResponse = JSON.parse(response.target.response);
-                       if (this.prologResponse[0] === -1) return;
-                       if (this.prologResponse[0] == "no") scene.isFirstMove = true;
-                       if (this.prologResponse[0] == "Syntax Error") scene.isFirstMove = true;
-                       testeBoard = '[';
-                       for (var i = 0; i < this.prologResponse.length; i++) {
-                         if (!(i == this.prologResponse.length - 1))
-                         testeBoard += '[' + this.prologResponse[i] + '],';
-                         else
-                         testeBoard += '[' + this.prologResponse[i] + ']';
-                       }
-                       testeBoard += ']';
-                       boardArray = this.prologResponse;
-                       scene.board = boardArray;
-                       scene.boardString = testeBoard;
-                       scene.isFirstMove = false;
-                       scene.currentPlayer = player2;
-                       document.getElementById("player1").innerHTML = scene.player1;
-                       document.getElementById("player2").innerHTML = "&#8680" + scene.player2;
-                     }).bind(this);
-    // request.onerror = onError; TODO VER O QUE FAZER
-    request.setRequestHeader(
-        'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send();
-  }
+                     if (this.prologResponse[0] === -1) return;
+                     else if (this.prologResponse[0] == "no") return;
+                     else if (this.prologResponse[0] == "Syntax Error") return;
+                     else 
+                     {
+                        testeBoard = '[';
+                        for (var i = 0; i < this.prologResponse.length; i++) {
+                          if (!(i == this.prologResponse.length - 1))
+                          testeBoard += '[' + this.prologResponse[i] + '],';
+                          else
+                          testeBoard += '[' + this.prologResponse[i] + ']';
+                        }
+                        testeBoard += ']';
+                        boardArray = this.prologResponse;
+                        scene.board = boardArray;
+                        scene.boardString = testeBoard;
+                        if(scene.currentPlayer == scene.player1)
+                        {
+                            scene.currentPlayer = scene.player2;
+                            document.getElementById("player1").innerHTML = scene.player1.name;
+                            document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
+                            scene.player1.score += Number(response.target.response.substr(response.target.response.indexOf("-") + 1,1));
+                            player1.score = scene.player1.score;
+                            document.getElementById("player1score").innerHTML = scene.player1.score;
+                        }
+                        else
+                        {
+                            scene.currentPlayer = scene.player1;
+                            document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
+                            document.getElementById("player2").innerHTML = scene.player2.name;
+                            scene.player2.score += Number(response.target.response.substr(response.target.response.indexOf("-") + 1,1));
+                            player2.score = scene.player2.score;
+                            document.getElementById("player2score").innerHTML = scene.player2.score;
+                        }
+                      }
+                     
+                   }).bind(this);
+  // request.onerror = onError; TODO VER O QUE FAZER
+  request.setRequestHeader(
+      'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.send();
 }
 
 function showCredits() {
