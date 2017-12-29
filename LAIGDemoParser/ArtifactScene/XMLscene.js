@@ -159,8 +159,8 @@ XMLscene.prototype.logPicking = function() {
 
           let ret = this.gameBoard.getCoords(customId);
           if (ret != null) {
-            this.clickedX = ret["ji"];
-            this.clickedY = ret["ii"];
+            this.clickedX = ret['ji'];
+            this.clickedY = ret['ii'];
             this.hasClicked = true;
           }
         }
@@ -176,28 +176,24 @@ XMLscene.prototype.logPicking = function() {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
-  if((this.gameType == 1 || this.gameType == 2) && this.currentPlayer.indexOf("CPU") !== -1)
-  {
-    if(this.isFirstMove)
+  if ((this.gameType == 1 || this.gameType == 2) &&
+      this.currentPlayer.indexOf('CPU') !== -1) {
+    if (this.isFirstMove)
       firstMoveCom(this.boardString, this.gameDifficulty);
     else
       MoveCom(this.boardString, this.gameDifficulty);
-  }
-  else if(this.gameType == 1  && this.currentPlayer.indexOf("Human") !== -1)
-  {
+  } else if (this.gameType == 1 && this.currentPlayer.indexOf('Human') !== -1) {
     if (this.hasClicked) {
-      if(this.isFirstMove){
+      if (this.isFirstMove) {
         moveHuman(this.boardString, this.clickedX, this.clickedY);
         this.hasClicked = false;
         this.clickedX = 0;
         this.clickedY = 0;
       }
     }
-  }
-  else
-  {
+  } else {
     if (this.hasClicked) {
-      if(this.isFirstMove && this.gameType == 0){
+      if (this.isFirstMove && this.gameType == 0) {
         firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
         this.hasClicked = false;
         this.clickedX = 0;
@@ -205,8 +201,6 @@ XMLscene.prototype.display = function() {
       }
     }
   }
-
-  this.clearPickRegistration();
   // ---- BEGIN Background, camera and axis setup
 
   // Clear image and depth buffer everytime we update the scene
@@ -247,6 +241,7 @@ XMLscene.prototype.display = function() {
 
         this.popMatrix();
       }
+      this.clearPickRegistration();
       this.setActiveShader(this.defaultShader);
 
       if (this.pieceManager != null) {
