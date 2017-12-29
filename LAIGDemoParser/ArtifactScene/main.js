@@ -136,7 +136,7 @@ function player(name)
 
 function insertBackButton() {
   let backButton = document.createElement('BUTTON');
-  backButton.addEventListener('click', mainMenu);
+  backButton.addEventListener("click", function refresh() {location.reload()});
   backButton.className = 'backButton';
   backButton.innerHTML = 'Quit Game';
   document.getElementById('script').insertAdjacentElement(
@@ -349,19 +349,14 @@ function makeFirstMove(JsonRequest)
           '/' + JsonRequest,
       true);
   request.onload = (function(response) {
-                     this.prologResponse = JSON.parse(response.target.response);
-                     if (this.prologResponse[0] === -1) return;
-                     if (this.prologResponse[0] == "no") scene.isFirstMove = true;
-                     if (this.prologResponse[0] == "Syntax Error") scene.isFirstMove = true;
-                     testeBoard = '[';
-                     for (var i = 0; i < this.prologResponse.length; i++) {
-                       if (!(i == this.prologResponse.length - 1))
-                       testeBoard += '[' + this.prologResponse[i] + '],';
-                       else
-                       testeBoard += '[' + this.prologResponse[i] + ']';
-                     }
-                     testeBoard += ']';
-                     boardArray = this.prologResponse;
+    let respondeSplit = response.target.response.split("-");  
+
+                     if (respondeSplit[0] === -1) return;
+                     if (respondeSplit[0] == "no") scene.isFirstMove = true;
+                     if (respondeSplit[0] == "Syntax Error") scene.isFirstMove = true;
+                     testeBoard = (JSON.stringify(respondeSplit[0]));
+                     testeBoard = testeBoard.replace(/['"]+/g, '');
+                     boardArray = respondeSplit[0];
                      scene.board = boardArray;
                      scene.boardString = testeBoard;
                      scene.isFirstMove = false;
@@ -395,41 +390,55 @@ function makeMove(JsonRequest)
           '/' + JsonRequest,
       true);
   request.onload = (function(response) {
-                     this.prologResponse = JSON.parse(response.target.response.substr(0,response.target.response.indexOf("-")));
+                  let respondeSplit = response.target.response.split("-");     
 
-                     if (this.prologResponse[0] === -1) return;
-                     else if (this.prologResponse[0] == "no") return;
-                     else if (this.prologResponse[0] == "Syntax Error") return;
+                     if (respondeSplit[0] === -1) return;
+                     else if (respondeSplit[0] == "no") return;
+                     else if (respondeSplit[0] == "Syntax Error") return;
                      else 
                      {
-                        testeBoard = '[';
-                        for (var i = 0; i < this.prologResponse.length; i++) {
-                          if (!(i == this.prologResponse.length - 1))
-                          testeBoard += '[' + this.prologResponse[i] + '],';
-                          else
-                          testeBoard += '[' + this.prologResponse[i] + ']';
-                        }
-                        testeBoard += ']';
-                        boardArray = this.prologResponse;
+                        testeBoard = (JSON.stringify(respondeSplit[0]));
+                        testeBoard = testeBoard.replace(/['"]+/g, '');
+                        boardArray = JSON.parse(respondeSplit[0]);
                         scene.board = boardArray;
                         scene.boardString = testeBoard;
                         if(scene.currentPlayer == scene.player1)
                         {
+                          if(respondeSplit[6] == "s")
+                            {
+                              scene.currentPlayer = scene.player1;
+                              scene.player1.score += JSON.parse(respondeSplit[5]);
+                              player1.score = scene.player1.score;
+                              document.getElementById("player1score").innerHTML = scene.player1.score;
+                            }
+                          else
+                          {
                             scene.currentPlayer = scene.player2;
                             document.getElementById("player1").innerHTML = scene.player1.name;
                             document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
-                            scene.player1.score += Number(response.target.response.substr(response.target.response.indexOf("-") + 1,1));
+                            scene.player1.score += JSON.parse(respondeSplit[5]);
                             player1.score = scene.player1.score;
                             document.getElementById("player1score").innerHTML = scene.player1.score;
+                          }
                         }
                         else
                         {
+                          if(respondeSplit[6] == "s")
+                          {
+                            scene.currentPlayer = scene.player2;
+                            scene.player1.score +=  JSON.parse(respondeSplit[5]);
+                            player2.score = scene.player1.score;
+                            document.getElementById("player2score").innerHTML = scene.player2.score;
+                          }
+                          else
+                          {
                             scene.currentPlayer = scene.player1;
                             document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
                             document.getElementById("player2").innerHTML = scene.player2.name;
-                            scene.player2.score += Number(response.target.response.substr(response.target.response.indexOf("-") + 1,1));
+                            scene.player2.score +=  JSON.parse(respondeSplit[5]);
                             player2.score = scene.player2.score;
                             document.getElementById("player2score").innerHTML = scene.player2.score;
+                          }
                         }
                       }
                      
