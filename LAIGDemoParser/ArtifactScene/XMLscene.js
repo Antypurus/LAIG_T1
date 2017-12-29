@@ -12,6 +12,12 @@ function XMLscene(interface) {
   this.pieceManager = null;
   this.board = null;
   this.boardString = null;
+  this.player1 = null;
+  this.player2 = null;
+  this.gameType = null;
+  this.gameDifficulty = null;
+  this.isFirstMove = true;
+  this.currentPlayer = null;
 
   this.hasClicked = false;
   this.clickedX = 0;
@@ -67,6 +73,8 @@ XMLscene.prototype.init = function(application) {
   this.bindTimeFactor(0.0);
 
   this.setPickEnabled(true);
+  this.currentPlayer = this.player1;
+  console.log(this.currentPlayer);
 };
 
 /**
@@ -151,8 +159,6 @@ XMLscene.prototype.logPicking = function() {
 
           let ret = this.gameBoard.getCoords(customId);
           if (ret != null) {
-            console.log(ret["ji"]);
-            console.log(ret["ii"]);
             this.clickedX = ret["ji"];
             this.clickedY = ret["ii"];
             this.hasClicked = true;
@@ -170,13 +176,34 @@ XMLscene.prototype.logPicking = function() {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
-  //sends to the game the clicked cell
-  if (this.hasClicked) {
-    console.log(this.clickedX);
-    game(this.boardString, this.clickedX, this.clickedY);
-    this.hasClicked = false;
-    this.clickedX = 0;
-    this.clickedY = 0;
+  if((this.gameType == 1 || this.gameType == 2) && this.currentPlayer.indexOf("CPU") !== -1)
+  {
+    if(this.isFirstMove)
+      firstMoveCom(this.boardString, this.gameDifficulty);
+    else
+      MoveCom(this.boardString, this.gameDifficulty);
+  }
+  else if(this.gameType == 1  && this.currentPlayer.indexOf("Human") !== -1)
+  {
+    if (this.hasClicked) {
+      if(this.isFirstMove){
+        moveHuman(this.boardString, this.clickedX, this.clickedY);
+        this.hasClicked = false;
+        this.clickedX = 0;
+        this.clickedY = 0;
+      }
+    }
+  }
+  else
+  {
+    if (this.hasClicked) {
+      if(this.isFirstMove && this.gameType == 0){
+        firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
+        this.hasClicked = false;
+        this.clickedX = 0;
+        this.clickedY = 0;
+      }
+    }
   }
 
   this.clearPickRegistration();
