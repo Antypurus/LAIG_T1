@@ -34,6 +34,8 @@ function XMLscene(interface) {
 
   this.boardX = null;
 
+  this.audio = new Audio('frog.mp3');
+
   this.interface = interface;
   this.initiaConfig = null;
 
@@ -159,6 +161,7 @@ XMLscene.prototype.logPicking = function() {
 
           let ret = this.gameBoard.getCoords(customId);
           if (ret != null) {
+            this.audio.play();
             this.clickedX = ret['ji'];
             this.clickedY = ret['ii'];
             this.hasClicked = true;
