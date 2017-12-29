@@ -352,26 +352,29 @@ function makeFirstMove(JsonRequest)
     let respondeSplit = response.target.response.split("-");  
 
                      if (respondeSplit[0] === -1) return;
-                     if (respondeSplit[0] == "no") scene.isFirstMove = true;
-                     if (respondeSplit[0] == "Syntax Error") scene.isFirstMove = true;
-                     testeBoard = (JSON.stringify(respondeSplit[0]));
-                     testeBoard = testeBoard.replace(/['"]+/g, '');
-                     boardArray = respondeSplit[0];
-                     scene.board = boardArray;
-                     scene.boardString = testeBoard;
-                     scene.isFirstMove = false;
-                     if(scene.currentPlayer == scene.player1)
-                     {
-                        scene.currentPlayer = scene.player2;
-                        document.getElementById("player1").innerHTML = scene.player1.name;
-                        document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
-                     }
-                     else
-                     {
-                       scene.currentPlayer = scene.player1;
-                      document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
-                      document.getElementById("player2").innerHTML = scene.player2.name;
-                     }
+                     else if (respondeSplit[0] == "no") scene.isFirstMove = true;
+                     else if (respondeSplit[0] == "Syntax Error") scene.isFirstMove = true;
+                     else {
+                      testeBoard = (JSON.stringify(respondeSplit[0]));
+                      testeBoard = testeBoard.replace(/['"]+/g, '');
+                      boardArray = respondeSplit[0];
+                      scene.board = boardArray;
+                      scene.boardString = testeBoard;
+                      scene.isFirstMove = false;
+                      return;
+                      if(scene.currentPlayer == scene.player1)
+                      {
+                          scene.currentPlayer = scene.player2;
+                          document.getElementById("player1").innerHTML = scene.player1.name;
+                          document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
+                      }
+                      else
+                      {
+                        scene.currentPlayer = scene.player1;
+                        document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
+                        document.getElementById("player2").innerHTML = scene.player2.name;
+                      }
+                    }
                      
                    }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
@@ -466,19 +469,22 @@ function requestStartBoard()
       'http://127.0.0.1:8082' +
           '/' + JsonRequest,
       true);
-  request.onload = (function(response) {
-                     this.prologResponse = JSON.parse(response.target.response);
-                     if (this.prologResponse[0] === -1) return;
-                     testeBoard = '[';
-                     for (var i = 0; i < this.prologResponse.length; i++) {
-                       if (!(i == this.prologResponse.length - 1))
-                       testeBoard += '[' + this.prologResponse[i] + '],';
-                       else
-                       testeBoard += '[' + this.prologResponse[i] + ']';
-                     }
-                     testeBoard += ']';
-                     boardArray = this.prologResponse;
-                   }).bind(this);
+  request.onload = (function(response) 
+  {
+      let respondeSplit = response.target.response.split("-");     
+      
+      if (respondeSplit[0] === -1) return;
+      else if (respondeSplit[0] == "no") return;
+      else if (respondeSplit[0] == "Syntax Error") return;
+      else 
+      {
+        testeBoard = (JSON.stringify(respondeSplit[0]));
+        testeBoard = testeBoard.replace(/['"]+/g, '');
+        boardArray = JSON.parse(respondeSplit[0]);
+        scene.board = boardArray;
+        scene.boardString = testeBoard;
+      }
+    }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
