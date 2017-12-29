@@ -357,7 +357,7 @@ function makeFirstMove(JsonRequest)
                      else {
                       testeBoard = (JSON.stringify(respondeSplit[0]));
                       testeBoard = testeBoard.replace(/['"]+/g, '');
-                      boardArray = respondeSplit[0];
+                      boardArray = JSON.parse(respondeSplit[0]);
                       scene.board = boardArray;
                       scene.boardString = testeBoard;
                       scene.isFirstMove = false;
@@ -481,8 +481,6 @@ function requestStartBoard()
         testeBoard = (JSON.stringify(respondeSplit[0]));
         testeBoard = testeBoard.replace(/['"]+/g, '');
         boardArray = JSON.parse(respondeSplit[0]);
-        scene.board = boardArray;
-        scene.boardString = testeBoard;
       }
     }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
