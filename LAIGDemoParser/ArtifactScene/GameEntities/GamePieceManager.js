@@ -102,6 +102,8 @@ GamePieceManager.prototype.colorSetUp = function(colors) {
       if (colors[i][j] == 0) {
         this.pieceMap.get('' + iid + jid).isAlive = false;
         continue;
+      } else {
+        this.pieceMap.get('' + iid + jid).isAlive = true;
       }
       let color = this.translateNumberToColor(colors[i][j]);
       this.pieceMap.get('' + iid + jid).setUpColor(color);
