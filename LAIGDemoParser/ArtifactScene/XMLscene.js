@@ -170,7 +170,6 @@ XMLscene.prototype.logPicking = function() {
             this.clickedX = ret.x;
             this.clickedY = ret.y;
             this.hasClicked = true;
-            this.pieceManager.pieces[0].moveTo(2, 2);
           }
         }
       }
@@ -179,7 +178,8 @@ XMLscene.prototype.logPicking = function() {
   }
 };
 
-function checkIfGameOver(boardString) {
+function checkIfGameOver(boardString)
+{
   let JsonRequest = 'isGameOver(' + boardString + ')';
   let requestPort = 8082;
   let request = new XMLHttpRequest();
@@ -188,18 +188,15 @@ function checkIfGameOver(boardString) {
       'http://127.0.0.1:8082' +
           '/' + JsonRequest,
       true);
-  request.onload = (function(response) {
-                     let respondeSplit = response.target.response;
-                     console.log(respondeSplit[0]);
-                     if (respondeSplit[0] === -1)
-                       return;
-                     else if (respondeSplit[0] == 'no')
-                       return false;
-                     else if (respondeSplit[0] == 'Syntax Error')
-                       return false;
-                     else if (respondeSplit[0] == 'yes')
-                       return true;
-                   }).bind(this);
+  request.onload = (function(response) 
+  {
+      let respondeSplit = response.target.response;     
+      console.log(JSON.stringify(respondeSplit[0]));
+      if (respondeSplit[0] === -1) return;
+      else if (respondeSplit[0] == "n") return false;
+      else if (respondeSplit[0] == "Syntax Error") return false;
+      else if (respondeSplit[0] == "y") return true;
+    }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
@@ -212,65 +209,68 @@ function checkIfGameOver(boardString) {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
-  if (!checkIfGameOver(this.boardString)) {
-    if ((this.gameType == 1 || this.gameType == 2) &&
-        this.currentPlayer.name.indexOf('CPU') !== -1) {
-      if (this.isFirstMove)
-        firstMoveCom(this.boardString, this.gameDifficulty);
-      else
-        MoveCom(this.boardString, this.gameDifficulty);
-    } else if (
-        this.gameType == 1 && this.currentPlayer.name.indexOf('Human') !== -1) {
-      if (this.hasClicked) {
-        if (this.isFirstMove) {
-          moveHuman(this.boardString, this.clickedX, this.clickedY);
-          this.hasClicked = false;
-          this.clickedX = 0;
-          this.clickedY = 0;
-        }
-      }
-    } else {
-      if (this.hasClicked) {
-        if (this.isFirstMove && this.gameType == 0) {
-          firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
-          this.hasClicked = false;
-          this.clickedX = 0;
-          this.clickedY = 0;
+  if ((this.gameType == 1 || this.gameType == 2) &&
+      this.currentPlayer.name.indexOf('CPU') !== -1) 
+      {
 
-        } else if (!this.isFirstMove && this.gameType == 0 && this.firstClick) {
-          this.hasClicked = false;
-          this.firstClick = false;
-          this.firstX = this.clickedX;
-          this.firstY = this.clickedY;
-          console.log(this.firstY);
-          this.clickedX = 0;
-          this.clickedY = 0;
-        } else if (
-            !this.isFirstMove && this.gameType == 0 && !this.firstClick) {
-          console.log('here');
-          this.hasClicked = false;
-          var direction = '';
-          var coordXDiff = this.clickedX - this.firstX;
-          var coordYDiff = this.firstY - this.clickedY;
-          if (coordXDiff < 0)
-            direction = '\'W\'';
-          else if (coordXDiff > 0)
-            direction = '\'S\'';
-
-          if (coordYDiff < 0)
-            direction = '\'D\'';
-          else if (coordYDiff > 0)
-            direction = '\'A\'';
-          moveHuman(this.boardString, this.firstX, this.firstY, direction);
-          this.clickedX = 0;
-          this.clickedY = 0;
-          this.firstX = 0;
-          this.firstY = 0;
-          this.firstClick = true;
-        }
+          if (this.isFirstMove)
+            firstMoveCom(this.boardString, this.gameDifficulty);
+          else
+            MoveCom(this.boardString, this.gameDifficulty);
+  } else if (
+      this.gameType == 1 && this.currentPlayer.name.indexOf('Human') !== -1) {
+    if (this.hasClicked) {
+      if (this.isFirstMove) {
+        moveHuman(this.boardString, this.clickedX, this.clickedY);
+        this.hasClicked = false;
+        this.clickedX = 0;
+        this.clickedY = 0;
       }
     }
-  }
+  } else {
+    if (this.hasClicked) {
+      if (this.isFirstMove && this.gameType == 0) {
+        firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
+        this.hasClicked = false;
+        this.clickedX = 0;
+        this.clickedY = 0;
+
+      }
+      else if(!this.isFirstMove && this.gameType == 0 && this.firstClick)
+      {
+        this.hasClicked = false;
+        this.firstClick = false;
+        this.firstX = this.clickedX;
+        this.firstY = this.clickedY;
+        console.log( this.firstY);
+        this.clickedX = 0;
+        this.clickedY = 0;
+      }
+      else if(!this.isFirstMove && this.gameType == 0 && !this.firstClick)
+      {
+        console.log("here");
+        this.hasClicked = false;
+        var direction = "";
+        var coordXDiff = this.clickedX - this.firstX;
+        var coordYDiff = this.firstY - this.clickedY;
+        if(coordXDiff < 0)
+          direction = "'W'";
+        else if(coordXDiff > 0)
+          direction = "'S'";
+        
+        if(coordYDiff < 0)
+          direction = "'D'";
+        else if(coordYDiff > 0)
+          direction = "'A'";
+        moveHuman(this.boardString, this.firstX, this.firstY, direction);
+        this.clickedX = 0;
+        this.clickedY = 0;
+        this.firstX = 0;
+        this.firstY = 0;
+        this.firstClick = true;
+      }
+    }
+}
   // ---- BEGIN Background, camera and axis setup
 
   // Clear image and depth buffer everytime we update the scene
@@ -365,7 +365,6 @@ XMLscene.prototype.update = function(currTime) {
     var elapsedTime = currTime - this.lastCurrTime;
     this.lastCurrTime = currTime;
     this.graph.updateAnimations(elapsedTime);
-    this.pieceManager.update(elapsedTime);
   }
 };
 
