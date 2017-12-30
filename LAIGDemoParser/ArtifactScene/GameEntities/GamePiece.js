@@ -14,6 +14,8 @@ function GamePiece(scene, color, position) {
   this.translation.y += position.y;
   this.translation.z += position.z;
 
+  this.animation = null;
+
   this.isAlive = true;
 
   this.mat = new CGFappearance(this.scene);
@@ -89,4 +91,36 @@ GamePiece.prototype.setUpColor = function(color) {
       break;
     }
   }
+};
+
+/**
+ *
+ * @param {*} x
+ * @param {*} y
+ */
+GamePiece.prototype.moveTo = function(x, y) {
+
+  let cp = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  cp[0][0] = this.translation.x;
+  cp[0][1] = this.translation.y;
+  cp[0][2] = this.translation.z;
+
+  cp[1][0] = this.translation.x;
+  cp[1][1] = this.translation.y + 1.5;
+  cp[1][2] = this.translation.z;
+
+  let sz = this.scene.gameBoard.sCell;
+  let x = x * sz;
+  let z = y * sz;
+  let y = 0;
+
+  cp[2][0] = x;
+  cp[2][1] = y + 1.5;
+  cp[2][2] = z;
+
+  cp[3][0] = x;
+  cp[3][1] = y;
+  cp[3][2] = z;
+
+  this.animation = new BezierAnimation(1, cp);
 };

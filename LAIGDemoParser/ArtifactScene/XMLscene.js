@@ -208,32 +208,28 @@ XMLscene.prototype.display = function() {
         this.clickedX = 0;
         this.clickedY = 0;
 
-      }
-      else if(!this.isFirstMove && this.gameType == 0 && this.firstClick)
-      {
+      } else if (!this.isFirstMove && this.gameType == 0 && this.firstClick) {
         this.hasClicked = false;
         this.firstClick = false;
         this.firstX = this.clickedX;
         this.firstY = this.clickedY;
-        console.log( this.firstY);
+        console.log(this.firstY);
         this.clickedX = 0;
         this.clickedY = 0;
-      }
-      else if(!this.isFirstMove && this.gameType == 0 && !this.firstClick)
-      {
+      } else if (!this.isFirstMove && this.gameType == 0 && !this.firstClick) {
         this.hasClicked = false;
-        var direction = "";
+        var direction = '';
         var coordXDiff = this.clickedX - this.firstX;
         var coordYDiff = this.firstY - this.clickedY;
-        if(coordXDiff < 0)
-          direction = "'W'";
-        else if(coordXDiff > 0)
-          direction = "'S'";
-        
-        if(coordYDiff < 0)
-          direction = "'D'";
-        else if(coordYDiff > 0)
-          direction = "'A'";
+        if (coordXDiff < 0)
+          direction = '\'W\'';
+        else if (coordXDiff > 0)
+          direction = '\'S\'';
+
+        if (coordYDiff < 0)
+          direction = '\'D\'';
+        else if (coordYDiff > 0)
+          direction = '\'A\'';
         moveHuman(this.boardString, this.firstX, this.firstY, direction);
         this.clickedX = 0;
         this.clickedY = 0;
@@ -337,6 +333,7 @@ XMLscene.prototype.update = function(currTime) {
     var elapsedTime = currTime - this.lastCurrTime;
     this.lastCurrTime = currTime;
     this.graph.updateAnimations(elapsedTime);
+    this.pieceManager.update(elapsedTime);
   }
 };
 

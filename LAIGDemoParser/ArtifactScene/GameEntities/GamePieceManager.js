@@ -179,8 +179,17 @@ GamePieceManager.prototype.display = function() {
       this.Scene.pushMatrix();
 
       let piece = this.pieces[i];
+
       this.Scene.translate(
           piece.translation.x, piece.translation.y, piece.translation.z);
+
+      // uses the animation
+      if (piece.animation != null) {
+        let animationMatrix = mat4.create();
+        mat4.identity(animationMatrix);
+        piece.animation.applyAnimation(animationMatrix);
+        this.scene.multMatrix(animationMatrix);
+      }
 
       this.graph.displayScene(this.nodeID, null, null, null, piece.mat);
 
@@ -188,4 +197,20 @@ GamePieceManager.prototype.display = function() {
     }
   }
   this.graph.nodes[this.nodeID].isPiece = true;
+};
+
+/**
+ *
+ * @param {*} currTime
+ */
+GamePieceManager.prototype.update = function(currTime) {
+  for (let i = 0; i < this.pieces.length; ++i) {
+    let piece = this.pieces[i];
+    if (piece.animation != null) {
+      piece.animation.update(currTime);
+      if (piece.animation.finish) {
+        piece.animation = null;
+      }
+    }
+  }
 };
