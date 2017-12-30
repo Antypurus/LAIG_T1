@@ -221,6 +221,7 @@ XMLscene.prototype.display = function() {
       }
       else if(!this.isFirstMove && this.gameType == 0 && !this.firstClick)
       {
+        console.log("here");
         this.hasClicked = false;
         var direction = "";
         var coordXDiff = this.clickedX - this.firstX;
