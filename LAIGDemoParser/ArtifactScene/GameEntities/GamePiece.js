@@ -110,17 +110,17 @@ GamePiece.prototype.moveTo = function(x, y) {
   cp[1][2] = this.translation.z;
 
   let sz = this.scene.gameBoard.sCell;
-  let x = x * sz;
-  let z = y * sz;
-  let y = 0;
+  let cx = x * sz;
+  let cz = y * sz;
+  let cy = 0;
 
-  cp[2][0] = x;
-  cp[2][1] = y + 1.5;
-  cp[2][2] = z;
+  cp[2][0] = cx;
+  cp[2][1] = cy + 1.5;
+  cp[2][2] = cz;
 
-  cp[3][0] = x;
-  cp[3][1] = y;
-  cp[3][2] = z;
+  cp[3][0] = cx;
+  cp[3][1] = cy;
+  cp[3][2] = cz;
 
   this.animation = new BezierAnimation(1, cp);
 };

@@ -170,6 +170,7 @@ XMLscene.prototype.logPicking = function() {
             this.clickedX = ret.x;
             this.clickedY = ret.y;
             this.hasClicked = true;
+            this.pieceManager.pieces[0].moveTo(2, 2);
           }
         }
       }

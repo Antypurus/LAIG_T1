@@ -188,7 +188,7 @@ GamePieceManager.prototype.display = function() {
         let animationMatrix = mat4.create();
         mat4.identity(animationMatrix);
         piece.animation.applyAnimation(animationMatrix);
-        this.scene.multMatrix(animationMatrix);
+        this.Scene.multMatrix(animationMatrix);
       }
 
       this.graph.displayScene(this.nodeID, null, null, null, piece.mat);
