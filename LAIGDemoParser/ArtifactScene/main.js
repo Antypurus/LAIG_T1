@@ -305,8 +305,16 @@ function firstMoveHuman(board,X,Y)
 
 function moveHuman(board,X,Y, direction)
 {
+  if(!checkIfGameOver(scene.boardString))
+  {
   let JsonRequest = 'moveOK(' + board +',' + X +',' + Y + ',' + direction + ')';
   makeMoveHuman(JsonRequest);
+  }
+  else
+  {
+    mainMenu();
+    return;
+  }
 }
 
 function firstMoveCom(board, difficulty)
@@ -325,15 +333,22 @@ function firstMoveCom(board, difficulty)
 
 function MoveCom(board, difficulty)
 {
-  if(difficulty == 1)
+  if(!checkIfGameOver(scene.boardString))
   {
-    let JsonRequest = 'moveCOMEasy(' + board +')';
-    makeMoveCom(JsonRequest);
+    if(difficulty == 1)
+    {
+      let JsonRequest = 'moveCOMEasy(' + board +')';
+      makeMoveCom(JsonRequest);
+    }
+    else if(difficulty == 2)
+    {
+      let JsonRequest = 'moveCOMHard(' + board +')';
+      makeMoveCom(JsonRequest);
+    }
   }
-  else if(difficulty == 2)
+  else if(checkIfGameOver(scene.boardString))
   {
-    let JsonRequest = 'moveCOMHard(' + board +')';
-    makeMoveCom(JsonRequest);
+    mainMenu();
   }
 }
 
@@ -532,6 +547,11 @@ function makeMoveHuman(JsonRequest)
                             document.getElementById("player2score").innerHTML = scene.player2.score;
                           }
                         }
+                        if(checkIfGameOver(scene.boardString))
+                          {
+                            mainMenu();
+                            return;
+                          }
                       }
                       scene.pieceManager.display();
                    }).bind(this);
