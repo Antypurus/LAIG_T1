@@ -37,7 +37,7 @@ GamePieceManager.prototype.setUp = function() {
     this.startZ = this.board.startZ;
 
     for (let i = 0; i < this.nCell; ++i) {
-      for (let j = 0; j < this.nCell; ++j) {
+      for (let j = i; j < this.nCell; ++j) {
         // add the upper values
         let x = i * this.sCell + this.sCell / 2;
         let z = j * this.sCell + this.sCell / 2;
