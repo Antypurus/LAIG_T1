@@ -105,7 +105,6 @@ GamePiece.prototype.setUpColor = function(color) {
  * @param {*} y
  */
 GamePiece.prototype.moveTo = function(x, y) {
-
   if (this.animation != null) {
     return;
   } else {
@@ -138,6 +137,6 @@ GamePiece.prototype.moveTo = function(x, y) {
   this.endTranslation.y = cy;
   this.endTranslation.z = cz;
 
-  this.animation = new BezierAnimation(1, cp);
+  this.animation = new BezierAnimation(3, cp);
   this.animation.update(0);
 };

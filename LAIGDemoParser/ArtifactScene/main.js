@@ -374,13 +374,10 @@ function makeFirstMove(JsonRequest)
                       scene.board = boardArray;
                       scene.boardString = testeBoard;
                       scene.isFirstMove = false;
-                      console.log( scene.pieceManager.pieceMap);
                       let xCoord = respondeSplit[1];
                       let yCoord = respondeSplit[2];
-                      console.log(Number(xCoord));
                       if(Number(xCoord) <= 9)
                         xCoord += "00";
-                        console.log(Number(xCoord));
                       if(Number(yCoord) <= 9)
                         yCoord += "00";
 
@@ -492,17 +489,30 @@ function makeMoveHuman(JsonRequest)
   request.onload = (function(response) {
                   let respondeSplit = response.target.response.split("-");     
 
+                  let xCoord = respondeSplit[5];
+                  let yCoord = respondeSplit[6];
+                  if(Number(xCoord) <= 9)
+                    xCoord += "00";
+                  if(Number(yCoord) <= 9)
+                    yCoord += "00";
+
+                  let peca = scene.pieceManager.pieceMap.get(xCoord+ yCoord);
+                  console.log(peca);
+                  console.log(xCoord+ yCoord);
+
                      if (respondeSplit[0] === -1) return;
                      else if (respondeSplit[0] == "no") return;
                      else if (respondeSplit[0] == "Syntax Error") return;
                      else 
                      {
+                      peca.moveTo(respondeSplit[1],respondeSplit[2]);
+
                         testeBoard = (JSON.stringify(respondeSplit[0]));
                         testeBoard = testeBoard.replace(/['"]+/g, '');
                         boardArray = JSON.parse(respondeSplit[0]);
                         scene.board = boardArray;
                         scene.boardString = testeBoard;
-                        console.log(respondeSplit[4]);
+
                         if(scene.currentPlayer == scene.player1)
                         {
                           if(respondeSplit[4] == "y")

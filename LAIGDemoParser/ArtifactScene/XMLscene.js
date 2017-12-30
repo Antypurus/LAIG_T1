@@ -188,18 +188,14 @@ function checkIfGameOver(boardString) {
       'http://127.0.0.1:8082' +
           '/' + JsonRequest,
       true);
-  request.onload = (function(response) {
-                     let respondeSplit = response.target.response;
-                     console.log(JSON.stringify(respondeSplit[0]));
-                     if (respondeSplit[0] === -1)
-                       return;
-                     else if (respondeSplit[0] == 'n')
-                       return false;
-                     else if (respondeSplit[0] == 'Syntax Error')
-                       return false;
-                     else if (respondeSplit[0] == 'y')
-                       return true;
-                   }).bind(this);
+      request.onload = (function(response) 
+      {
+          let respondeSplit = response.target.response;     
+          if (respondeSplit[0] === -1) return;
+          else if (respondeSplit[0] == "n") return false;
+          else if (respondeSplit[0] == "Syntax Error") return false;
+          else if (respondeSplit[0] == "y") return true;
+        }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
