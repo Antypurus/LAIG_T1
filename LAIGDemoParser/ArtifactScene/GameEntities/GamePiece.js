@@ -29,32 +29,32 @@ function GamePiece(scene, color, position) {
   switch (this.Color) {
     case ('green'): {
       this.mat.setAmbient(0, 1, 0, 1);
-      this.mat.setDiffuse(0, 1, 0, 1);
-      this.mat.setSpecular(0, 1, 0, 1);
+      this.mat.setDiffuse(0, 0.2, 0, 1);
+      this.mat.setSpecular(0, 0.7, 0, 1);
       break;
     }
     case ('blue'): {
       this.mat.setAmbient(0, 0, 1, 1);
-      this.mat.setDiffuse(0, 0, 1, 1);
-      this.mat.setSpecular(0, 0, 1, 1);
+      this.mat.setDiffuse(0, 0, 0.2, 1);
+      this.mat.setSpecular(0, 0, 0.7, 1);
       break;
     }
     case ('yellow'): {
       this.mat.setAmbient(1, 1, 0, 1);
-      this.mat.setDiffuse(1, 1, 0, 1);
-      this.mat.setSpecular(1, 1, 0, 1);
+      this.mat.setDiffuse(0.2, 0.2, 0, 1);
+      this.mat.setSpecular(0.7, 0.7, 0, 1);
       break;
     }
     case ('red'): {
       this.mat.setAmbient(1, 0, 0, 1);
-      this.mat.setDiffuse(1, 0, 0, 1);
-      this.mat.setSpecular(1, 0, 0, 1);
+      this.mat.setDiffuse(0.2, 0, 0, 1);
+      this.mat.setSpecular(0.7, 0, 0, 1);
       break;
     }
     default: {
       this.mat.setAmbient(1, 1, 1, 1);
-      this.mat.setDiffuse(1, 1, 1, 1);
-      this.mat.setSpecular(1, 1, 1, 1);
+      this.mat.setDiffuse(0.2, 0.2, 0.2, 1);
+      this.mat.setSpecular(0.7, 0.7, 0.7, 1);
       break;
     }
   }
