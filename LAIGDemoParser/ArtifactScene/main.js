@@ -497,15 +497,14 @@ function makeMoveHuman(JsonRequest)
                     yCoord += "00";
 
                   let peca = scene.pieceManager.pieceMap.get(xCoord+ yCoord);
-                  console.log(peca);
-                  console.log(xCoord+ yCoord);
-
                      if (respondeSplit[0] === -1) return;
                      else if (respondeSplit[0] == "no") return;
                      else if (respondeSplit[0] == "Syntax Error") return;
                      else 
                      {
+                      console.log(peca);
                       peca.moveTo(respondeSplit[1],respondeSplit[2]);
+                      console.log(peca);
 
                         testeBoard = (JSON.stringify(respondeSplit[0]));
                         testeBoard = testeBoard.replace(/['"]+/g, '');
