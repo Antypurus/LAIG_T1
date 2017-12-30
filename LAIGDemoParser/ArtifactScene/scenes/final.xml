@@ -337,6 +337,16 @@
     </NODE>
 
 
+    <NODE id="frogHead" selectable = "true">
+      <MATERIAL id="piramideBase"/>
+      <TEXTURE id="null"/>
+      <TRANSLATION x="0" y="5" z="0"/>
+		  <ROTATION axis="x" angle="-90"/>
+      <DESCENDANTS>
+        <LEAF id="frogB" type = "sphere" args = "1 30 30" />
+      </DESCENDANTS>
+    </NODE>
+
 
 
 
