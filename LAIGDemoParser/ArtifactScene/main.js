@@ -419,7 +419,7 @@ function makeMoveCom(JsonRequest)
                         scene.boardString = testeBoard;
                         if(scene.currentPlayer == scene.player1)
                         {
-                          if(respondeSplit[6] == "s")
+                          if(respondeSplit[6] == "y")
                             {
                               scene.currentPlayer = scene.player1;
                               scene.player1.score += JSON.parse(respondeSplit[5]);
@@ -438,7 +438,7 @@ function makeMoveCom(JsonRequest)
                         }
                         else
                         {
-                          if(respondeSplit[6] == "s")
+                          if(respondeSplit[6] == "y")
                           {
                             scene.currentPlayer = scene.player2;
                             scene.player1.score +=  JSON.parse(respondeSplit[5]);
@@ -490,7 +490,7 @@ function makeMoveHuman(JsonRequest)
                         console.log(respondeSplit[4]);
                         if(scene.currentPlayer == scene.player1)
                         {
-                          if(respondeSplit[4] == "s")
+                          if(respondeSplit[4] == "y")
                             {
                               scene.currentPlayer = scene.player1;
                               scene.player1.score += JSON.parse(respondeSplit[3]);
@@ -509,7 +509,7 @@ function makeMoveHuman(JsonRequest)
                         }
                         else
                         {
-                          if(respondeSplit[4] == "s")
+                          if(respondeSplit[4] == "y")
                           {
                             scene.currentPlayer = scene.player2;
                             scene.player1.score +=  JSON.parse(respondeSplit[3]);

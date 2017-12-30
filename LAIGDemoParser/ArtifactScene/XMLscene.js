@@ -215,11 +215,13 @@ XMLscene.prototype.display = function() {
         this.firstClick = false;
         this.firstX = this.clickedX;
         this.firstY = this.clickedY;
+        console.log( this.firstY);
         this.clickedX = 0;
         this.clickedY = 0;
       }
       else if(!this.isFirstMove && this.gameType == 0 && !this.firstClick)
       {
+        this.hasClicked = false;
         var direction = "";
         var coordXDiff = this.clickedX - this.firstX;
         var coordYDiff = this.firstY - this.clickedY;
