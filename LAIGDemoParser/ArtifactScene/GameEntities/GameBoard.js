@@ -30,22 +30,33 @@ GameBoard.prototype.setUp = function() {
   for (let i = 0; i < this.nCells; ++i) {
     for (let j = i; j < this.nCells; ++j) {
       // add the upper values
+
       let ji = j + 1;
       let ii = i + 1;
-      let box1 = new SquareHitBox(this.scene, this.sCell, '' + ii + ji);
+
+      let iid = '' + (i + 1);
+      let jid = '' + (j + 1);
+      if (i + 1 < 10) {
+        iid = (i + 1) + '00'
+      }
+      if (j + 1 < 10) {
+        jid = (j + 1) + '00';
+      }
+
+      let box1 = new SquareHitBox(this.scene, this.sCell, '' + iid + jid);
       box1.translation.x = i * this.sCell;
       box1.translation.z = j * this.sCell;
       this.hitboxes.push(box1);
-      this.idCoordMap.set('' + ii + ji, {x: ii, y: ji});
+      this.idCoordMap.set('' + iid + jid, {x: ii, y: ji});
       // add the lower values
-      let box2 = new SquareHitBox(this.scene, this.sCell, '' + ji + ii);
+      let box2 = new SquareHitBox(this.scene, this.sCell, '' + jid + iid);
       box2.translation.x = j * this.sCell;
       box2.translation.z = i * this.sCell;
       this.hitboxes.push(box2);
-      this.idCoordMap.set('' + ji + ii, {x: ji, y: ii});
+      this.idCoordMap.set('' + jid + iid, {x: ji, y: ii});
     }
   }
-  console.log(this.idCoordMap);
+  console.log(this.hitboxes);
 };
 
 GameBoard.prototype.getCoords = function(id) {

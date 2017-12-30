@@ -255,7 +255,7 @@ XMLscene.prototype.display = function() {
         }
         if (this.pieceManager.board != null) {
           if (this.board != null) {
-            this.pieceManager.colorSetUp(this.boardS);
+            this.pieceManager.colorSetUp(this.board);
           }
           this.pieceManager.display();
         }

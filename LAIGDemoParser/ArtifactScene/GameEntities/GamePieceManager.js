@@ -36,31 +36,44 @@ GamePieceManager.prototype.setUp = function() {
     this.startY = this.board.startY;
     this.startZ = this.board.startZ;
 
-    for (let i = 0; i < this.nCell; ++i) {
-      for (let j = i; j < this.nCell; ++j) {
+    for (let i = 0; i < this.nCell; i++) {
+      for (let j = i; j < this.nCell; j++) {
         // add the upper values
         let x = i * this.sCell + this.sCell / 2;
         let z = j * this.sCell + this.sCell / 2;
 
+        let iid = '' + (i + 1);
+        let jid = '' + (j + 1);
+        if (i + 1 < 10) {
+          iid = (i + 1) + '00'
+        }
+        if (j + 1 < 10) {
+          jid = (j + 1) + '00';
+        }
+
         let piece1 = new GamePiece(
             this.Scene, this.generateRandomColor(),
             {x: x, y: this.startY, z: z});
-        this.pieceMap.set('' + i + j, piece1);
+
+        piece1.cell.x = i + 1;
+        piece1.cell.y = j + 1;
+
+        this.pieceMap.set('' + iid + jid, piece1);
         this.pieces.push(piece1);
         // add the lower values
         if (i != j) {
           let piece2 = new GamePiece(
               this.Scene, this.generateRandomColor(),
               {x: z, y: this.startY, z: x});
-          this.pieceMap.set('' + j + i, piece2);
-          if (('' + j + i) == '111') {
-            console.log('ITS HERE fdshkjlhkadsjsfhasd');
-          }
+
+          piece2.cell.x = j + 1;
+          piece2.cell.y = i + 1;
+
+          this.pieceMap.set('' + jid + iid, piece2);
           this.pieces.push(piece2);
         }
       }
     }
-    console.log(this.pieceMap);
     return;
   } else {
     console.log('error');
@@ -77,15 +90,23 @@ GamePieceManager.prototype.setUp = function() {
 GamePieceManager.prototype.colorSetUp = function(colors) {
   for (let i = 0; i < colors.length; i++) {
     for (let j = 0; j < colors[i].length; j++) {
+      let iid = '' + (i + 1);
+      let jid = '' + (j + 1);
+      if (i + 1 < 10) {
+        iid = (i + 1) + '00'
+      }
+      if (j + 1 < 10) {
+        jid = (j + 1) + '00';
+      }
+
       if (colors[i][j] == 0) {
-        this.pieceMap.get('' + i + j).isAlive = false;
+        this.pieceMap.get('' + iid + jid).isAlive = false;
         continue;
       }
       let color = this.translateNumberToColor(colors[i][j]);
-      this.pieceMap.get('' + i + j).setUpColor(color);
+      this.pieceMap.get('' + iid + jid).setUpColor(color);
     }
   }
-  this.pieceMap.get('' + 1 + 11).isAlive = false;
 };
 
 /**
