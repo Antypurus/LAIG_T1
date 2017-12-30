@@ -53,7 +53,7 @@ GamePieceManager.prototype.setUp = function() {
 
         let piece1 = new GamePiece(
             this.Scene, this.generateRandomColor(),
-            {x: x, y: this.startY, z: z});
+            {x: x, y: this.startY - 1.2, z: z});
 
         piece1.cell.x = i + 1;
         piece1.cell.y = j + 1;
@@ -64,7 +64,7 @@ GamePieceManager.prototype.setUp = function() {
         if (i != j) {
           let piece2 = new GamePiece(
               this.Scene, this.generateRandomColor(),
-              {x: z, y: this.startY, z: x});
+              {x: z, y: this.startY - 1.2, z: x});
 
           piece2.cell.x = j + 1;
           piece2.cell.y = i + 1;

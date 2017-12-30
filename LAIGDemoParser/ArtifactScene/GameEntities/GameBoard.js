@@ -44,14 +44,16 @@ GameBoard.prototype.setUp = function() {
       }
 
       let box1 = new SquareHitBox(this.scene, this.sCell, '' + iid + jid);
-      box1.translation.x = i * this.sCell;
-      box1.translation.z = j * this.sCell;
+      box1.translation.x = i * this.sCell + this.startX;
+      box1.translation.y = this.startY;
+      box1.translation.z = j * this.sCell + this.startZ;
       this.hitboxes.push(box1);
       this.idCoordMap.set('' + iid + jid, {x: ii, y: ji});
       // add the lower values
       let box2 = new SquareHitBox(this.scene, this.sCell, '' + jid + iid);
-      box2.translation.x = j * this.sCell;
-      box2.translation.z = i * this.sCell;
+      box2.translation.x = j * this.sCell + this.startX;
+      box2.translation.y = this.startY;
+      box2.translation.z = i * this.sCell + this.startY;
       this.hitboxes.push(box2);
       this.idCoordMap.set('' + jid + iid, {x: ji, y: ii});
     }
