@@ -210,6 +210,7 @@ GamePieceManager.prototype.update = function(currTime) {
     let piece = this.pieces[i];
     if (piece.animation != null) {
       notUpdate++;
+      console.log('is updating');
       piece.animation.update(currTime);
       if (piece.animation.finish) {
         piece.animation = null;
