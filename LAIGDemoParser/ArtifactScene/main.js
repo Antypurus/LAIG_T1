@@ -303,12 +303,10 @@ function firstMoveHuman(board,X,Y)
   makeFirstMove(JsonRequest);
 }
 
-function moveHuman()
+function moveHuman(board,X,Y, direction)
 {
-  if(scene.currentPlayer == scene.player1)
-    scene.currentPlayer = scene.player2;
-  else
-  scene.currentPlayer = scene.player1;
+  let JsonRequest = 'moveOK(' + board +',' + X +',' + Y + ',' + direction + ')';
+  makeMoveHuman(JsonRequest);
 }
 
 function firstMoveCom(board, difficulty)
@@ -330,12 +328,12 @@ function MoveCom(board, difficulty)
   if(difficulty == 1)
   {
     let JsonRequest = 'moveCOMEasy(' + board +')';
-    makeMove(JsonRequest);
+    makeMoveCom(JsonRequest);
   }
   else if(difficulty == 2)
   {
     let JsonRequest = 'moveCOMHard(' + board +')';
-    makeMove(JsonRequest);
+    makeMoveCom(JsonRequest);
   }
 }
 
@@ -361,7 +359,17 @@ function makeFirstMove(JsonRequest)
                       scene.board = boardArray;
                       scene.boardString = testeBoard;
                       scene.isFirstMove = false;
-                      return;
+                      console.log( scene.pieceManager.pieceMap);
+                      let xCoord = respondeSplit[1];
+                      let yCoord = respondeSplit[2];
+                      console.log(Number(xCoord));
+                      if(Number(xCoord) <= 9)
+                        xCoord += "00";
+                        console.log(Number(xCoord));
+                      if(Number(yCoord) <= 9)
+                        yCoord += "00";
+
+                      let coords = scene.pieceManager.pieceMap.get(xCoord+ yCoord).translation;
                       if(scene.currentPlayer == scene.player1)
                       {
                           scene.currentPlayer = scene.player2;
@@ -383,7 +391,11 @@ function makeFirstMove(JsonRequest)
   request.send();
 }
 
-function makeMove(JsonRequest)
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function makeMoveCom(JsonRequest)
 {
   let requestPort = 8082;
   let request = new XMLHttpRequest();
@@ -450,7 +462,80 @@ function makeMove(JsonRequest)
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
   request.send();
+
 }
+
+function makeMoveHuman(JsonRequest)
+{
+  let requestPort = 8082;
+  let request = new XMLHttpRequest();
+  request.open(
+      'GET',
+      'http://127.0.0.1:8082' +
+          '/' + JsonRequest,
+      true);
+  request.onload = (function(response) {
+                  let respondeSplit = response.target.response.split("-");     
+
+                     if (respondeSplit[0] === -1) return;
+                     else if (respondeSplit[0] == "no") return;
+                     else if (respondeSplit[0] == "Syntax Error") return;
+                     else 
+                     {
+                        testeBoard = (JSON.stringify(respondeSplit[0]));
+                        testeBoard = testeBoard.replace(/['"]+/g, '');
+                        boardArray = JSON.parse(respondeSplit[0]);
+                        scene.board = boardArray;
+                        scene.boardString = testeBoard;
+                        console.log(respondeSplit[4]);
+                        if(scene.currentPlayer == scene.player1)
+                        {
+                          if(respondeSplit[4] == "s")
+                            {
+                              scene.currentPlayer = scene.player1;
+                              scene.player1.score += JSON.parse(respondeSplit[3]);
+                              player1.score = scene.player1.score;
+                              document.getElementById("player1score").innerHTML = scene.player1.score;
+                            }
+                          else
+                          {
+                            scene.currentPlayer = scene.player2;
+                            document.getElementById("player1").innerHTML = scene.player1.name;
+                            document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
+                            scene.player1.score += JSON.parse(respondeSplit[3]);
+                            player1.score = scene.player1.score;
+                            document.getElementById("player1score").innerHTML = scene.player1.score;
+                          }
+                        }
+                        else
+                        {
+                          if(respondeSplit[4] == "s")
+                          {
+                            scene.currentPlayer = scene.player2;
+                            scene.player1.score +=  JSON.parse(respondeSplit[3]);
+                            player2.score = scene.player1.score;
+                            document.getElementById("player2score").innerHTML = scene.player2.score;
+                          }
+                          else
+                          {
+                            scene.currentPlayer = scene.player1;
+                            document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
+                            document.getElementById("player2").innerHTML = scene.player2.name;
+                            scene.player2.score +=  JSON.parse(respondeSplit[3]);
+                            player2.score = scene.player2.score;
+                            document.getElementById("player2score").innerHTML = scene.player2.score;
+                          }
+                        }
+                      }
+                      scene.pieceManager.display();
+                   }).bind(this);
+  // request.onerror = onError; TODO VER O QUE FAZER
+  request.setRequestHeader(
+      'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.send();
+
+}
+
 
 function showCredits() {
   let body = document.getElementsByTagName('body')[0];

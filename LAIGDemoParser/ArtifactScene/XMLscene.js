@@ -18,6 +18,12 @@ function XMLscene(interface) {
   this.gameDifficulty = null;
   this.isFirstMove = true;
   this.currentPlayer = null;
+  this.firstClick = true;
+
+
+
+  this.firstX = 0;
+  this.firstY = 0;
 
   this.hasClicked = false;
   this.clickedX = 0;
@@ -76,7 +82,6 @@ XMLscene.prototype.init = function(application) {
 
   this.setPickEnabled(true);
   this.currentPlayer = this.player1;
-  console.log(this.currentPlayer);
 };
 
 /**
@@ -202,6 +207,37 @@ XMLscene.prototype.display = function() {
         this.hasClicked = false;
         this.clickedX = 0;
         this.clickedY = 0;
+
+      }
+      else if(!this.isFirstMove && this.gameType == 0 && this.firstClick)
+      {
+        this.hasClicked = false;
+        this.firstClick = false;
+        this.firstX = this.clickedX;
+        this.firstY = this.clickedY;
+        this.clickedX = 0;
+        this.clickedY = 0;
+      }
+      else if(!this.isFirstMove && this.gameType == 0 && !this.firstClick)
+      {
+        var direction = "";
+        var coordXDiff = this.clickedX - this.firstX;
+        var coordYDiff = this.firstY - this.clickedY;
+        if(coordXDiff < 0)
+          direction = "'W'";
+        else if(coordXDiff > 0)
+          direction = "'S'";
+        
+        if(coordYDiff < 0)
+          direction = "'D'";
+        else if(coordYDiff > 0)
+          direction = "'A'";
+        moveHuman(this.boardString, this.firstX, this.firstY, direction);
+        this.clickedX = 0;
+        this.clickedY = 0;
+        this.firstX = 0;
+        this.firstY = 0;
+        this.firstClick = true;
       }
     }
   }
@@ -280,7 +316,7 @@ XMLscene.prototype.display = function() {
       }
     }
 
-    // display scen
+    // display scene
     this.graph.displayScene(this.graph.idRoot, null, null);
   } else {
     // Draw axis
