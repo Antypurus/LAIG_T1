@@ -48,14 +48,19 @@ GamePieceManager.prototype.setUp = function() {
         this.pieceMap.set('' + i + j, piece1);
         this.pieces.push(piece1);
         // add the lower values
-        let piece2 = new GamePiece(
-            this.Scene, this.generateRandomColor(),
-            {x: z, y: this.startY, z: x});
-        this.pieceMap.set('' + j + i, piece2);
-        this.pieces.push(piece2);
+        if (i != j) {
+          let piece2 = new GamePiece(
+              this.Scene, this.generateRandomColor(),
+              {x: z, y: this.startY, z: x});
+          this.pieceMap.set('' + j + i, piece2);
+          if (('' + j + i) == '111') {
+            console.log('ITS HERE fdshkjlhkadsjsfhasd');
+          }
+          this.pieces.push(piece2);
+        }
       }
     }
-
+    console.log(this.pieceMap);
     return;
   } else {
     console.log('error');
@@ -80,6 +85,7 @@ GamePieceManager.prototype.colorSetUp = function(colors) {
       this.pieceMap.get('' + i + j).setUpColor(color);
     }
   }
+  this.pieceMap.get('' + 1 + 11).isAlive = false;
 };
 
 /**
