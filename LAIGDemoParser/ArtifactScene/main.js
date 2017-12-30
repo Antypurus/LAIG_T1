@@ -492,6 +492,9 @@ function makeMoveHuman(JsonRequest)
                         {
                           if(respondeSplit[4] == "y")
                             {
+                              scene.firstClick = false;
+                              scene.firstX = respondeSplit[1];
+                              scene.firstY = respondeSplit[2];
                               scene.currentPlayer = scene.player1;
                               scene.player1.score += JSON.parse(respondeSplit[3]);
                               player1.score = scene.player1.score;
@@ -511,6 +514,9 @@ function makeMoveHuman(JsonRequest)
                         {
                           if(respondeSplit[4] == "y")
                           {
+                            scene.firstClick = false;
+                            scene.firstX = respondeSplit[1];
+                            scene.firstY = respondeSplit[2];
                             scene.currentPlayer = scene.player2;
                             scene.player1.score +=  JSON.parse(respondeSplit[3]);
                             player2.score = scene.player1.score;
