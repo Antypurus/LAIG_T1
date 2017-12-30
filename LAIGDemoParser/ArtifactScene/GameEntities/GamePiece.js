@@ -14,6 +14,12 @@ function GamePiece(scene, color, position) {
   this.translation.y += position.y;
   this.translation.z += position.z;
 
+  this.endTranslation = {
+    x: this.translation.x,
+    y: this.translation.y,
+    z: this.translation.z
+  };
+
   this.animation = null;
 
   this.isAlive = true;
@@ -100,27 +106,36 @@ GamePiece.prototype.setUpColor = function(color) {
  */
 GamePiece.prototype.moveTo = function(x, y) {
 
+  if (this.animation != null) {
+    return;
+  }
+
   let cp = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
-  cp[0][0] = this.translation.x;
-  cp[0][1] = this.translation.y;
-  cp[0][2] = this.translation.z;
+  cp[0][0] = 0;
+  cp[0][1] = 0;
+  cp[0][2] = 0;
 
   cp[1][0] = this.translation.x;
-  cp[1][1] = this.translation.y + 1.5;
+  cp[1][1] = this.translation.y + 3.5;
   cp[1][2] = this.translation.z;
 
   let sz = this.scene.gameBoard.sCell;
-  let cx = x * sz;
-  let cz = y * sz;
+  let cx = (x - 1) * sz;
+  let cz = (y - 1) * sz;
   let cy = 0;
 
   cp[2][0] = cx;
-  cp[2][1] = cy + 1.5;
+  cp[2][1] = cy + 3.5;
   cp[2][2] = cz;
 
   cp[3][0] = cx;
   cp[3][1] = cy;
   cp[3][2] = cz;
 
+  this.endTranslation.x = cx;
+  this.endTranslation.y = cy;
+  this.endTranslation.z = cz;
+
   this.animation = new BezierAnimation(1, cp);
+  this.animation.update(0);
 };

@@ -180,6 +180,7 @@ GamePieceManager.prototype.display = function() {
 
       let piece = this.pieces[i];
 
+
       this.Scene.translate(
           piece.translation.x, piece.translation.y, piece.translation.z);
 
