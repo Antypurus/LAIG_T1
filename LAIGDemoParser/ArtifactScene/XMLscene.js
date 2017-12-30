@@ -20,7 +20,7 @@ function XMLscene(interface) {
   this.currentPlayer = null;
   this.firstClick = true;
 
-
+  this.isAnimating = false;
 
   this.firstX = 0;
   this.firstY = 0;
@@ -290,7 +290,7 @@ XMLscene.prototype.display = function() {
           this.pieceManager.setUp();
         }
         if (this.pieceManager.board != null) {
-          if (this.board != null) {
+          if (this.board != null && !this.isAnimating) {
             this.pieceManager.colorSetUp(this.board);
           }
           this.pieceManager.display();

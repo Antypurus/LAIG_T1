@@ -108,6 +108,8 @@ GamePiece.prototype.moveTo = function(x, y) {
 
   if (this.animation != null) {
     return;
+  } else {
+    this.scene.isAnimating = true;
   }
 
   let cp = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
