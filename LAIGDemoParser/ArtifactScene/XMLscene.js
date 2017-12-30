@@ -162,8 +162,8 @@ XMLscene.prototype.logPicking = function() {
           let ret = this.gameBoard.getCoords(customId);
           if (ret != null) {
             this.audio.play();
-            this.clickedX = ret['ji'];
-            this.clickedY = ret['ii'];
+            this.clickedX = ret.x;
+            this.clickedY = ret.y;
             this.hasClicked = true;
           }
         }
@@ -179,15 +179,14 @@ XMLscene.prototype.logPicking = function() {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
-  if((this.gameType == 1 || this.gameType == 2) && this.currentPlayer.name.indexOf("CPU") !== -1)
-  {
-    if(this.isFirstMove)
+  if ((this.gameType == 1 || this.gameType == 2) &&
+      this.currentPlayer.name.indexOf('CPU') !== -1) {
+    if (this.isFirstMove)
       firstMoveCom(this.boardString, this.gameDifficulty);
     else
       MoveCom(this.boardString, this.gameDifficulty);
-  }
-  else if(this.gameType == 1  && this.currentPlayer.name.indexOf("Human") !== -1)
-  {
+  } else if (
+      this.gameType == 1 && this.currentPlayer.name.indexOf('Human') !== -1) {
     if (this.hasClicked) {
       if (this.isFirstMove) {
         moveHuman(this.boardString, this.clickedX, this.clickedY);
