@@ -245,7 +245,7 @@
     </NODE>
 
         
-    <NODE id="tabuleiro" selectable = "true" type="board" stX="0" stZ="0" stY="0" nCells="12" sCell="2.5">
+    <NODE id="tabuleiro" type="board" stX="0" stZ="0" stY="0" nCells="12" sCell="2.5">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <SCALE sx="3" sy="0.5" sz="3"/>
@@ -255,7 +255,7 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="tabuleiroGrid" selectable = "true">
+    <NODE id="tabuleiroGrid">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="grid"/> 
       <SCALE sx="10" sy="1" sz="10"/>
@@ -264,7 +264,7 @@
       </DESCENDANTS>
     </NODE>
           
-    <NODE id="tabuleiroOutline" selectable = "true">
+    <NODE id="tabuleiroOutline">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <SCALE sx="1" sy="1" sz="1"/> 
@@ -276,7 +276,7 @@
       </DESCENDANTS>
     </NODE>
                     
-    <NODE id="tabuleiroOutline1" selectable = "true">
+    <NODE id="tabuleiroOutline1">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="10" y="0" z="-1"/>
@@ -286,7 +286,7 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="tabuleiroOutline2" selectable = "true">
+    <NODE id="tabuleiroOutline2">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="-1" y="0" z="-1"/>
@@ -296,7 +296,7 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="tabuleiroOutline3" selectable = "true">
+    <NODE id="tabuleiroOutline3">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="-1" y="0" z="10"/>
@@ -306,7 +306,7 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="tabuleiroOutline4" selectable = "true">
+    <NODE id="tabuleiroOutline4">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="-1" y="0" z="-1"/>
@@ -317,7 +317,7 @@
     </NODE>
 	
     
-    <NODE id="frog" selectable = "true" type="piece">
+    <NODE id="frog" type="piece">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <DESCENDANTS>
@@ -326,7 +326,7 @@
       </DESCENDANTS>
     </NODE>
         
-    <NODE id="frogBase" selectable = "true">
+    <NODE id="frogBase">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="0" y="2" z="0"/>
@@ -337,7 +337,7 @@
     </NODE>
 
 
-    <NODE id="frogHead" selectable = "true">
+    <NODE id="frogHead">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="0" y="5" z="0"/>

@@ -20,6 +20,12 @@ function GamePiece(scene, color, position) {
     z: this.translation.z
   };
 
+  this.startTranslation = {
+    x: this.translation.x,
+    y: this.translation.y,
+    z: this.translation.z
+  };
+
   this.animation = null;
 
   this.isAlive = true;
@@ -116,26 +122,38 @@ GamePiece.prototype.moveTo = function(x, y) {
   cp[0][1] = 0;
   cp[0][2] = 0;
 
-  cp[1][0] = this.translation.x;
-  cp[1][1] = this.translation.y + 3.5;
-  cp[1][2] = this.translation.z;
+  cp[1][0] = 0;
+  cp[1][1] = 6;
+  cp[1][2] = 0;
 
   let sz = this.scene.gameBoard.sCell;
   let cx = (x - 1) * sz;
   let cz = (y - 1) * sz;
   let cy = 0;
 
+
+  cx = cx - this.translation.x;
+  cy = cy - this.translation.y;
+  cz = cz - this.translation.z;
+
+  cx += sz / 2;
+  cz += sz / 2;
+
   cp[2][0] = cx;
-  cp[2][1] = cy + 3.5;
+  cp[2][1] = cy + 6;
   cp[2][2] = cz;
 
   cp[3][0] = cx;
   cp[3][1] = cy;
   cp[3][2] = cz;
 
-  this.endTranslation.x = cx;
-  this.endTranslation.y = cy;
-  this.endTranslation.z = cz;
+  this.startTranslation.x = this.translation.x;
+  this.startTranslation.y = this.translation.y;
+  this.startTranslation.z = this.translation.z;
+
+  this.endTranslation.x = (x - 1) * sz + sz / 2;
+  this.endTranslation.y = 0;
+  this.endTranslation.z = (y - 1) * sz + sz / 2;
 
   this.animation = new BezierAnimation(3, cp);
   this.animation.update(0);

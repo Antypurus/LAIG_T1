@@ -214,7 +214,14 @@ GamePieceManager.prototype.update = function(currTime) {
       piece.animation.update(currTime);
       if (piece.animation.finish) {
         piece.animation = null;
+        piece.translation.x = piece.endTranslation.x;
+        piece.translation.y = piece.endTranslation.y;
+        piece.translation.z = piece.endTranslation.z;
       }
+    } else {
+      piece.translation.x = piece.startTranslation.x;
+      piece.translation.y = piece.startTranslation.y;
+      piece.translation.z = piece.startTranslation.z;
     }
   }
   if (notUpdate == 0) {
