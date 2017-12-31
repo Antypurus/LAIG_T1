@@ -21,6 +21,7 @@ function XMLscene(interface) {
   this.firstClick = true;
 
   this.stop = false;
+  this.once = false;
 
   this.isAnimating = false;
 
@@ -242,9 +243,22 @@ function handleSpaceInput(boardString, isFirstMove, gameDifficulty)
 XMLscene.prototype.display = function() {
   this.logPicking();
 
-  if(scene.stop) 
+  if(scene.stop && !scene.once) 
   {
-    console.log("oi");
+    scene.once = true;
+    let bestScore = 0;
+    let bestPlayer = 0;
+    if(scene.player1.score > scene.player2.score)
+    {
+      bestScore = scene.player1.score;
+      bestPlayer = scene.player1.name;
+    }
+    else
+    {
+      bestScore = scene.player2.score;
+      bestPlayer = scene.player2.name;
+    }
+
     let body = document.getElementsByTagName('body')[0];
     body.innerHTML = `<br> <br> 
     <div> 
@@ -252,25 +266,58 @@ XMLscene.prototype.display = function() {
     </div> <br> <br>
     <script id="script" src="main.js"> </script>
     <div id="optionsList">
+      <h1> The winner was ` + bestPlayer + ` with ` + bestScore + ` points! </h1>
       <div onclick = "mainMenu()"><button class = "button">Go back</button></div> <br>
     </div>`;
   }
   else if ((this.gameType == 1 || this.gameType == 2) &&
-      this.currentPlayer.name.indexOf('CPU') !== -1) {
+      this.currentPlayer.name.indexOf('CPU') !== -1 && !scene.once) {
 
+        console.log("oi");
       handleSpaceInput(this.boardString, this.isFirstMove, this.gameDifficulty);
         
 
   } else if (
       this.gameType == 1 && this.currentPlayer.name.indexOf('Human') !== -1) {
-    if (this.hasClicked) {
-      if (this.isFirstMove) {
-        moveHuman(this.boardString, this.clickedX, this.clickedY);
-        this.hasClicked = false;
-        this.clickedX = 0;
-        this.clickedY = 0;
-      }
-    }
+
+        if (this.hasClicked) {
+          if (this.isFirstMove && this.gameType == 1) {
+            console.log("oi");
+            firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
+            this.hasClicked = false;
+            this.clickedX = 0;
+            this.clickedY = 0;
+    
+          } else if (!this.isFirstMove && this.gameType == 1 && this.firstClick) {
+            this.hasClicked = false;
+            this.firstClick = false;
+            this.firstX = this.clickedX;
+            this.firstY = this.clickedY;
+            console.log(this.firstY);
+            this.clickedX = 0;
+            this.clickedY = 0;
+          } else if (!this.isFirstMove && this.gameType == 1 && !this.firstClick) {
+            this.hasClicked = false;
+            var direction = '';
+            var coordXDiff = this.clickedX - this.firstX;
+            var coordYDiff = this.firstY - this.clickedY;
+            if (coordXDiff < 0)
+              direction = '\'W\'';
+            else if (coordXDiff > 0)
+              direction = '\'S\'';
+    
+            if (coordYDiff < 0)
+              direction = '\'D\'';
+            else if (coordYDiff > 0)
+              direction = '\'A\'';
+            moveHuman(this.boardString, this.firstX, this.firstY, direction);
+            this.clickedX = 0;
+            this.clickedY = 0;
+            this.firstX = 0;
+            this.firstY = 0;
+            this.firstClick = true;
+          }
+        }
   } else {
     if (this.hasClicked) {
       if (this.isFirstMove && this.gameType == 0) {
@@ -288,7 +335,6 @@ XMLscene.prototype.display = function() {
         this.clickedX = 0;
         this.clickedY = 0;
       } else if (!this.isFirstMove && this.gameType == 0 && !this.firstClick) {
-        console.log('here');
         this.hasClicked = false;
         var direction = '';
         var coordXDiff = this.clickedX - this.firstX;
