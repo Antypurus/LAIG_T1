@@ -291,24 +291,26 @@ XMLscene.prototype.display = function() {
 
     // reponsible for the pickable hitboxes
     if (this.gameBoard != null) {
-      this.setActiveShader(this.invisShader);
-      for (let i = 0; i < this.gameBoard.hitboxes.length; ++i) {
-        this.pushMatrix();
+      if (!this.isAnimating) {
+        this.setActiveShader(this.invisShader);
+        for (let i = 0; i < this.gameBoard.hitboxes.length; ++i) {
+          this.pushMatrix();
 
-        let hitbox = this.gameBoard.hitboxes[i];
-        this.translate(
-            hitbox.translation.x, hitbox.translation.y, hitbox.translation.z);
-        this.scale(1, 2.5, 1);
+          let hitbox = this.gameBoard.hitboxes[i];
+          this.translate(
+              hitbox.translation.x, hitbox.translation.y, hitbox.translation.z);
+          this.scale(1, 2.5, 1);
 
-        this.registerForPick(
-            this.gameBoard.hitboxes[i].ID, this.gameBoard.hitboxes[i]);
+          this.registerForPick(
+              this.gameBoard.hitboxes[i].ID, this.gameBoard.hitboxes[i]);
 
-        hitbox.display();
+          hitbox.display();
 
-        this.popMatrix();
+          this.popMatrix();
+        }
+        this.setActiveShader(this.defaultShader);
       }
       this.clearPickRegistration();
-      this.setActiveShader(this.defaultShader);
 
       if (this.pieceManager != null) {
         if (this.pieceManager.board == null) {
