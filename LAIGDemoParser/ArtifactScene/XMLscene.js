@@ -20,6 +20,8 @@ function XMLscene(interface) {
   this.currentPlayer = null;
   this.firstClick = true;
 
+  this.stop = false;
+
   this.isAnimating = false;
 
   this.firstX = 0;
@@ -190,20 +192,48 @@ function checkIfGameOver(boardString) {
           '/' + JsonRequest,
       true);
   request.onload = (function(response) {
-                     let respondeSplit = response.target.response;
-                     if (respondeSplit[0] === -1)
-                       return;
-                     else if (respondeSplit[0] == 'n')
-                       return false;
-                     else if (respondeSplit[0] == 'Syntax Error')
-                       return false;
-                     else if (respondeSplit[0] == 'y')
-                       return true;
-                   }).bind(this);
+                     let responseSplit = response.target.response;
+                     console.log(responseSplit[0]);
+                     if (responseSplit[0] === -1)
+                     scene.stop = false;
+                     else if (responseSplit[0] == "n")
+                     scene.stop = false;
+                     else if (responseSplit[0] == "Syntax Error")
+                     scene.stop = false;
+                     else if (responseSplit[0] == "y")
+                     scene.stop = true;
+                     else
+                     scene.stop = true;
+                   })
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
   request.send();
+  return scene.stop;
+}
+
+function handleSpaceInput(boardString, isFirstMove, gameDifficulty)
+{
+  let body = document.getElementsByTagName('body')[0];
+  body.onkeyup = function(e){
+    if(e.keyCode == 32){
+      if (isFirstMove)
+      {
+        firstMoveCom(boardString, gameDifficulty);
+      }
+      else 
+      {
+        let stop = " ";
+        stop = checkIfGameOver(boardString);
+        scene.stop = stop;
+
+        if(!scene.stop)
+        {
+          MoveCom(boardString, gameDifficulty);
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -212,12 +242,25 @@ function checkIfGameOver(boardString) {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
-  if ((this.gameType == 1 || this.gameType == 2) &&
+  if(scene.stop) 
+  {
+    console.log("oi");
+    let body = document.getElementsByTagName('body')[0];
+    body.innerHTML = `<br> <br> 
+    <div> 
+      <img src="scenes/images/froglet.png" alt="logo" /> 
+    </div> <br> <br>
+    <script id="script" src="main.js"> </script>
+    <div id="optionsList">
+      <div onclick = "mainMenu()"><button class = "button">Go back</button></div> <br>
+    </div>`;
+  }
+  else if ((this.gameType == 1 || this.gameType == 2) &&
       this.currentPlayer.name.indexOf('CPU') !== -1) {
-    if (this.isFirstMove)
-      firstMoveCom(this.boardString, this.gameDifficulty);
-    else
-      MoveCom(this.boardString, this.gameDifficulty);
+
+      handleSpaceInput(this.boardString, this.isFirstMove, this.gameDifficulty);
+        
+
   } else if (
       this.gameType == 1 && this.currentPlayer.name.indexOf('Human') !== -1) {
     if (this.hasClicked) {
