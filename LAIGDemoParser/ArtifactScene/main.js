@@ -376,12 +376,7 @@ function makeFirstMove(JsonRequest)
                       scene.isFirstMove = false;
                       let xCoord = respondeSplit[1];
                       let yCoord = respondeSplit[2];
-                      if(Number(xCoord) <= 9)
-                        xCoord += "00";
-                      if(Number(yCoord) <= 9)
-                        yCoord += "00";
 
-                      let coords = scene.pieceManager.pieceMap.get(xCoord+ yCoord).translation;
                       if(scene.currentPlayer == scene.player1)
                       {
                           scene.currentPlayer = scene.player2;
@@ -409,21 +404,32 @@ function sleep(ms) {
 
 function makeMoveCom(JsonRequest)
 {
-  let requestPort = 8082;
-  let request = new XMLHttpRequest();
-  request.open(
-      'GET',
-      'http://127.0.0.1:8082' +
-          '/' + JsonRequest,
-      true);
-  request.onload = (function(response) {
+  if(!scene.isAnimating)
+  {
+    let requestPort = 8082;
+    let request = new XMLHttpRequest();
+    request.open(
+        'GET',
+        'http://127.0.0.1:8082' +
+            '/' + JsonRequest,
+        true);
+    request.onload = (function(response) {
                   let respondeSplit = response.target.response.split("-");     
 
+                  let xCoord = respondeSplit[1];
+                  let yCoord = respondeSplit[2];
+                  if(Number(xCoord) <= 9)
+                    xCoord += "00";
+                  if(Number(yCoord) <= 9)
+                    yCoord += "00";
+
+                  let peca = scene.pieceManager.pieceMap.get(xCoord+ yCoord);
                      if (respondeSplit[0] === -1) return;
                      else if (respondeSplit[0] == "no") return;
                      else if (respondeSplit[0] == "Syntax Error") return;
                      else 
                      {
+                      peca.moveTo(respondeSplit[3],respondeSplit[4]);
                         testeBoard = (JSON.stringify(respondeSplit[0]));
                         testeBoard = testeBoard.replace(/['"]+/g, '');
                         boardArray = JSON.parse(respondeSplit[0]);
@@ -474,7 +480,12 @@ function makeMoveCom(JsonRequest)
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
   request.send();
+  }
+}
 
+function doNothing()
+{
+  //hello;
 }
 
 function makeMoveHuman(JsonRequest)
@@ -502,9 +513,8 @@ function makeMoveHuman(JsonRequest)
                      else if (respondeSplit[0] == "Syntax Error") return;
                      else 
                      {
-                      console.log(peca);
                       peca.moveTo(respondeSplit[1],respondeSplit[2]);
-                      console.log(peca);
+
 
                         testeBoard = (JSON.stringify(respondeSplit[0]));
                         testeBoard = testeBoard.replace(/['"]+/g, '');

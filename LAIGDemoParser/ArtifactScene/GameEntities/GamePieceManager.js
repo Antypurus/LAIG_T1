@@ -217,6 +217,7 @@ GamePieceManager.prototype.update = function(currTime) {
         piece.translation.x = piece.endTranslation.x;
         piece.translation.y = piece.endTranslation.y;
         piece.translation.z = piece.endTranslation.z;
+        this.Scene.isAnimating = false;
       }
     } else {
       piece.translation.x = piece.startTranslation.x;

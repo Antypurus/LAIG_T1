@@ -156,27 +156,28 @@ XMLscene.prototype.onGraphLoaded = function() {
 
 
 XMLscene.prototype.logPicking = function() {
-  if (this.pickMode == false) {
-    if (this.pickResults != null && this.pickResults.length > 0) {
-      for (var i = 0; i < this.pickResults.length; i++) {
-        var obj = this.pickResults[i][0];
-        if (obj) {
-          var customId = this.pickResults[i][1];
-          console.log('Picked object: ' + obj + ', with pick id ' + customId);
+      if (this.pickMode == false) {
+      if (this.pickResults != null && this.pickResults.length > 0) {
+        for (var i = 0; i < this.pickResults.length; i++) {
+          var obj = this.pickResults[i][0];
+          if (obj) {
+            var customId = this.pickResults[i][1];
+            console.log('Picked object: ' + obj + ', with pick id ' + customId);
 
-          let ret = this.gameBoard.getCoords(customId);
-          if (ret != null) {
-            this.audio.play();
-            this.clickedX = ret.x;
-            this.clickedY = ret.y;
-            this.hasClicked = true;
-            // this.pieceManager.pieces[0].moveTo(2, 2);
+            let ret = this.gameBoard.getCoords(customId);
+            if (ret != null) {
+              this.audio.play();
+              this.clickedX = ret.x;
+              this.clickedY = ret.y;
+              this.hasClicked = true;
+              // this.pieceManager.pieces[0].moveTo(2, 2);
+            }
           }
         }
+        this.pickResults.splice(0, this.pickResults.length);
       }
-      this.pickResults.splice(0, this.pickResults.length);
     }
-  }
+  
 };
 
 function checkIfGameOver(boardString) {
@@ -267,6 +268,7 @@ XMLscene.prototype.display = function() {
       }
     }
   }
+
   // ---- BEGIN Background, camera and axis setup
 
   // Clear image and depth buffer everytime we update the scene
