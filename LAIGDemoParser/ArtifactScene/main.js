@@ -457,7 +457,7 @@ function sleep(ms) {
 
 function makeMoveComEasy(JsonRequest)
 {
-  if(!scene.isAnimating)
+  if(!scene.isAnimating && scene.currentPlayer.name.indexOf('Human') < 0)
   {
     let requestPort = 8082;
     let request = new XMLHttpRequest();
@@ -510,6 +510,7 @@ function makeMoveComEasy(JsonRequest)
                         }
                         else
                         {
+
                           if(responseSplit[6] == "y")
                           {
                             scene.currentPlayer = scene.player2;
@@ -519,7 +520,9 @@ function makeMoveComEasy(JsonRequest)
                           }
                           else
                           {
+                            console.log("oi");
                             scene.currentPlayer = scene.player1;
+                            console.log(scene.currentPlayer);
                             document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
                             document.getElementById("player2").innerHTML = scene.player2.name;
                             scene.player2.score +=  JSON.parse(responseSplit[5]);
@@ -539,7 +542,7 @@ function makeMoveComEasy(JsonRequest)
 
 function makeMoveComHard(JsonRequest)
 {
-  if(!scene.isAnimating)
+  if(!scene.isAnimating && scene.currentPlayer.name.indexOf('Human') < 0)
   {
     let requestPort = 8082;
     let request = new XMLHttpRequest();

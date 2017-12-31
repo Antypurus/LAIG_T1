@@ -215,22 +215,25 @@ function checkIfGameOver(boardString) {
 
 function handleSpaceInput(boardString, isFirstMove, gameDifficulty)
 {
-  let body = document.getElementsByTagName('body')[0];
-  body.onkeyup = function(e){
-    if(e.keyCode == 32){
-      if (isFirstMove)
-      {
-        firstMoveCom(boardString, gameDifficulty);
-      }
-      else 
-      {
-        let stop = " ";
-        stop = checkIfGameOver(boardString);
-        scene.stop = stop;
-
-        if(!scene.stop)
+  if(scene.currentPlayer.name.indexOf('Human') == -1)
+  {
+    let body = document.getElementsByTagName('body')[0];
+    body.onkeyup = function(e){
+      if(e.keyCode == 32){
+        if (isFirstMove)
         {
-          MoveCom(boardString, gameDifficulty);
+          firstMoveCom(boardString, gameDifficulty);
+        }
+        else 
+        {
+          let stop = " ";
+          stop = checkIfGameOver(boardString);
+          scene.stop = stop;
+
+          if(!scene.stop)
+          {
+            MoveCom(boardString, gameDifficulty);
+          }
         }
       }
     }
@@ -242,7 +245,6 @@ function handleSpaceInput(boardString, isFirstMove, gameDifficulty)
  */
 XMLscene.prototype.display = function() {
   this.logPicking();
-
   if(scene.stop && !scene.once) 
   {
     scene.once = true;
@@ -270,71 +272,32 @@ XMLscene.prototype.display = function() {
       <div onclick = "mainMenu()"><button class = "button">Go back</button></div> <br>
     </div>`;
   }
-  else if ((this.gameType == 1 || this.gameType == 2) &&
+  else if ((this.gameType == 2) &&
       this.currentPlayer.name.indexOf('CPU') !== -1 && !scene.once) {
-
-        console.log("oi");
       handleSpaceInput(this.boardString, this.isFirstMove, this.gameDifficulty);
-        
+  }
+  
+  else if(this.gameType == 1 && this.currentPlayer.name.indexOf('CPU') !== -1 && !scene.once)
+  {
+    handleSpaceInput(this.boardString, this.isFirstMove, this.gameDifficulty);
+  }
 
-  } else if (
-      this.gameType == 1 && this.currentPlayer.name.indexOf('Human') !== -1) {
-
-        if (this.hasClicked) {
-          if (this.isFirstMove && this.gameType == 1) {
-            console.log("oi");
-            firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
-            this.hasClicked = false;
-            this.clickedX = 0;
-            this.clickedY = 0;
-    
-          } else if (!this.isFirstMove && this.gameType == 1 && this.firstClick) {
-            this.hasClicked = false;
-            this.firstClick = false;
-            this.firstX = this.clickedX;
-            this.firstY = this.clickedY;
-            console.log(this.firstY);
-            this.clickedX = 0;
-            this.clickedY = 0;
-          } else if (!this.isFirstMove && this.gameType == 1 && !this.firstClick) {
-            this.hasClicked = false;
-            var direction = '';
-            var coordXDiff = this.clickedX - this.firstX;
-            var coordYDiff = this.firstY - this.clickedY;
-            if (coordXDiff < 0)
-              direction = '\'W\'';
-            else if (coordXDiff > 0)
-              direction = '\'S\'';
-    
-            if (coordYDiff < 0)
-              direction = '\'D\'';
-            else if (coordYDiff > 0)
-              direction = '\'A\'';
-            moveHuman(this.boardString, this.firstX, this.firstY, direction);
-            this.clickedX = 0;
-            this.clickedY = 0;
-            this.firstX = 0;
-            this.firstY = 0;
-            this.firstClick = true;
-          }
-        }
-  } else {
+  else {
     if (this.hasClicked) {
-      if (this.isFirstMove && this.gameType == 0) {
+      if (this.isFirstMove) {
         firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
         this.hasClicked = false;
         this.clickedX = 0;
         this.clickedY = 0;
 
-      } else if (!this.isFirstMove && this.gameType == 0 && this.firstClick) {
+      } else if (!this.isFirstMove && this.firstClick) {
         this.hasClicked = false;
         this.firstClick = false;
         this.firstX = this.clickedX;
         this.firstY = this.clickedY;
-        console.log(this.firstY);
         this.clickedX = 0;
         this.clickedY = 0;
-      } else if (!this.isFirstMove && this.gameType == 0 && !this.firstClick) {
+      } else if (!this.isFirstMove && !this.firstClick) {
         this.hasClicked = false;
         var direction = '';
         var coordXDiff = this.clickedX - this.firstX;
