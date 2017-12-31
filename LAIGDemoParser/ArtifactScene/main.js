@@ -372,6 +372,8 @@ function moveHuman(board,X,Y, direction)
 
 function firstMoveCom(board, difficulty)
 {
+  if(scene.currentPlayer.name.indexOf('Human') < 0)
+  {
     if(difficulty == 1)
     {
       let JsonRequest = 'firstMoveCOMEasy(' + board +')';
@@ -384,6 +386,7 @@ function firstMoveCom(board, difficulty)
       makeFirstMove(JsonRequest);
       this.checkOnetime = true;
     }
+  }
 }
 
 function MoveCom(board, difficulty)
@@ -641,6 +644,10 @@ function doNothing()
 
 function makeMoveHuman(JsonRequest)
 {
+  if(scene.lockSecondMove)
+  {
+    console.log("here");
+  }
   let requestPort = 8082;
   let request = new XMLHttpRequest();
   request.open(
@@ -678,6 +685,7 @@ function makeMoveHuman(JsonRequest)
                           if(responseSplit[4] == "y")
                             {
                               scene.firstClick = false;
+                              scene.lockSecondMove = true;
                               scene.firstX = responseSplit[1];
                               scene.firstY = responseSplit[2];
                               scene.currentPlayer = scene.player1;
@@ -700,6 +708,7 @@ function makeMoveHuman(JsonRequest)
                           if(responseSplit[4] == "y")
                           {
                             scene.firstClick = false;
+                            scene.lockSecondMove = true;
                             scene.firstX = responseSplit[1];
                             scene.firstY = responseSplit[2];
                             scene.currentPlayer = scene.player2;
