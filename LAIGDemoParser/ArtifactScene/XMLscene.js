@@ -294,15 +294,12 @@ XMLscene.prototype.display = function() {
   }
 
   else {
-    if(this.lockSecondMove)
-    {
+    if (this.lockSecondMove) {
       let xCoord = this.clickedX;
       let yCoord = this.clickedY;
-      if(Number(xCoord) <= 9)
-        xCoord += "00";
-      if(Number(yCoord) <= 9)
-        yCoord += "00";
-        
+      if (Number(xCoord) <= 9) xCoord += '00';
+      if (Number(yCoord) <= 9) yCoord += '00';
+
       this.selectedPiece = this.pieceManager.pieceMap.get(xCoord + yCoord);
       this.selectedPiece.isSelected = true;
     }
@@ -322,34 +319,35 @@ XMLscene.prototype.display = function() {
         this.clickedX = 0;
         this.clickedY = 0;
       }
-      
-      else if (!this.isFirstMove && !this.firstClick && (this.clickedX != this.firstX || this.clickedY != this.firstY)) {
-        if(!this.lockSecondMove)
+
+      else if (
+          !this.isFirstMove && !this.firstClick &&
+          (this.clickedX != this.firstX || this.clickedY != this.firstY)) {
+        if (!this.lockSecondMove)
           this.selectedPiece.isSelected = false;
-        else 
+        else
           this.lockSecondMove = false;
 
         this.hasClicked = false;
         var direction = '';
         var coordXDiff = this.clickedX - this.firstX;
         var coordYDiff = this.firstY - this.clickedY;
-        if (coordXDiff < -1  && coordXDiff >= -2)
+        if (coordXDiff < -1 && coordXDiff >= -2)
           direction = '\'W\'';
         else if (coordXDiff > 1 && coordXDiff <= 2)
           direction = '\'S\'';
 
-        else if (coordYDiff < -1  && coordYDiff >= -2)
+        else if (coordYDiff < -1 && coordYDiff >= -2)
           direction = '\'D\'';
         else if (coordYDiff > 1 && coordYDiff <= 2)
           direction = '\'A\'';
         else
           this.firstClick = true;
 
-        if(!this.firstClick) moveHuman(this.boardString, this.firstX, this.firstY, direction);
+        if (!this.firstClick)
+          moveHuman(this.boardString, this.firstX, this.firstY, direction);
         this.firstClick = true;
-      }
-      else if(!this.isFirstMove && !this.firstClick)
-      {
+      } else if (!this.isFirstMove && !this.firstClick) {
         this.selectedPiece.isSelected = false;
         this.hasClicked = false;
         this.firstClick = true;
@@ -453,7 +451,9 @@ XMLscene.prototype.update = function(currTime) {
     var elapsedTime = currTime - this.lastCurrTime;
     this.lastCurrTime = currTime;
     this.graph.updateAnimations(elapsedTime);
-    this.pieceManager.update(elapsedTime);
+    if (this.pieceManager != null) {
+      this.pieceManager.update(elapsedTime);
+    }
   }
 };
 
