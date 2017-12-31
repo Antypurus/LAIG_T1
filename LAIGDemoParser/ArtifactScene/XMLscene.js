@@ -25,6 +25,8 @@ function XMLscene(interface) {
   this.firstX = 0;
   this.firstY = 0;
 
+  this.selectedPiece = null;
+
   this.hasClicked = false;
   this.clickedX = 0;
   this.clickedY = 0;
@@ -156,28 +158,36 @@ XMLscene.prototype.onGraphLoaded = function() {
 
 
 XMLscene.prototype.logPicking = function() {
-      if (this.pickMode == false) {
-      if (this.pickResults != null && this.pickResults.length > 0) {
-        for (var i = 0; i < this.pickResults.length; i++) {
-          var obj = this.pickResults[i][0];
-          if (obj) {
-            var customId = this.pickResults[i][1];
-            console.log('Picked object: ' + obj + ', with pick id ' + customId);
+  if (this.pickMode == false) {
+    if (this.pickResults != null && this.pickResults.length > 0) {
+      for (var i = 0; i < this.pickResults.length; i++) {
+        var obj = this.pickResults[i][0];
+        if (obj) {
+          var customId = this.pickResults[i][1];
+          console.log('Picked object: ' + obj + ', with pick id ' + customId);
 
-            let ret = this.gameBoard.getCoords(customId);
-            if (ret != null) {
-              this.audio.play();
-              this.clickedX = ret.x;
-              this.clickedY = ret.y;
-              this.hasClicked = true;
-              // this.pieceManager.pieces[0].moveTo(2, 2);
+          let ret = this.gameBoard.getCoords(customId);
+          if (ret != null) {
+            this.audio.play();
+            this.clickedX = ret.x;
+            this.clickedY = ret.y;
+            this.hasClicked = true;
+
+            // handles the selection effect for the pieces
+            if (!this.isAnimating) {
+              if (this.selectedPiece != null) {
+                this.selectedPiece.isSelected = false;
+              }
+              this.selectedPiece = this.pieceManager.pieceMap.get(customId);
+              this.selectedPiece.isSelected = true;
             }
           }
         }
-        this.pickResults.splice(0, this.pickResults.length);
       }
+      this.pickResults.splice(0, this.pickResults.length);
     }
-  
+  }
+
 };
 
 function checkIfGameOver(boardString) {
@@ -211,6 +221,12 @@ function checkIfGameOver(boardString) {
  */
 XMLscene.prototype.display = function() {
   this.logPicking();
+
+  // deselects the piece when animation starts
+  if (this.isAnimating && this.selectedPiece != null) {
+    this.selectedPiece.isSelected = false;
+    this.selectedPiece = null;
+  }
 
   if ((this.gameType == 1 || this.gameType == 2) &&
       this.currentPlayer.name.indexOf('CPU') !== -1) {

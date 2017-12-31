@@ -180,6 +180,9 @@ GamePieceManager.prototype.display = function() {
 
       let piece = this.pieces[i];
 
+      if (piece.isSelected) {
+        this.Scene.setActiveShader(this.Scene.alternateShader);
+      }
 
       this.Scene.translate(
           piece.translation.x, piece.translation.y, piece.translation.z);
@@ -193,6 +196,10 @@ GamePieceManager.prototype.display = function() {
       }
 
       this.graph.displayScene(this.nodeID, null, null, null, piece.mat);
+
+      if (piece.isSelected) {
+        this.Scene.setActiveShader(this.Scene.defaultShader);
+      }
 
       this.Scene.popMatrix();
     }

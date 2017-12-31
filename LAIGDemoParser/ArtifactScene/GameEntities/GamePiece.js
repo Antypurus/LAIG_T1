@@ -14,6 +14,8 @@ function GamePiece(scene, color, position) {
   this.translation.y += position.y;
   this.translation.z += position.z;
 
+  this.isSelected = false;
+
   this.endTranslation = {
     x: this.translation.x,
     y: this.translation.y,
