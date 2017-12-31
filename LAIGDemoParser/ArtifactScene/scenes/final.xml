@@ -247,6 +247,7 @@
         <NODEREF id="tabuleiro"/>
         <NODEREF id="frog"/>
         <NODEREF id="cantos"/>
+        <NODEREF id="mesa"/>
       </DESCENDANTS>
     </NODE>
 
@@ -425,7 +426,31 @@
     </DESCENDANTS>
   </NODE>
 
+  <NODE id="mesa">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="pedestalPic"/>
+    <SCALE sx="40" sy="40" sz="40"/>
+    <TRANSLATION x="-14.5" y="-3.06" z="-4.5"/>
+    <DESCENDANTS>
+      <NODEREF id="table1"/>
+    </DESCENDANTS>
+  </NODE>
 
+  <NODE id="tampo">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+        <LEAF id="frogB" type = "cylinder" args = "1 2 2 50 50 1 1" />
+    </DESCENDANTS>
+  </NODE>
+
+    <NODE id="pernas">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+        <LEAF id="frogB" type = "cylinder" args = "1 2 2 50 50 1 1" />
+    </DESCENDANTS>
+  </NODE>
 
 	
 
