@@ -20,6 +20,9 @@ function XMLscene(interface) {
   this.currentPlayer = null;
   this.firstClick = true;
 
+  this.stop = false;
+  this.once = false;
+
   this.isAnimating = false;
 
   this.firstX = 0;
@@ -200,20 +203,45 @@ function checkIfGameOver(boardString) {
           '/' + JsonRequest,
       true);
   request.onload = (function(response) {
-                     let respondeSplit = response.target.response;
-                     if (respondeSplit[0] === -1)
-                       return;
-                     else if (respondeSplit[0] == 'n')
-                       return false;
-                     else if (respondeSplit[0] == 'Syntax Error')
-                       return false;
-                     else if (respondeSplit[0] == 'y')
-                       return true;
-                   }).bind(this);
+    let responseSplit = response.target.response;
+    console.log(responseSplit[0]);
+    if (responseSplit[0] === -1)
+      scene.stop = false;
+    else if (responseSplit[0] == 'n')
+      scene.stop = false;
+    else if (responseSplit[0] == 'Syntax Error')
+      scene.stop = false;
+    else if (responseSplit[0] == 'y')
+      scene.stop = true;
+    else
+      scene.stop = true;
+  })
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
   request.send();
+  return scene.stop;
+}
+
+function handleSpaceInput(boardString, isFirstMove, gameDifficulty) {
+  if (scene.currentPlayer.name.indexOf('Human') == -1) {
+    let body = document.getElementsByTagName('body')[0];
+    body.onkeyup = function(e) {
+      if (e.keyCode == 32) {
+        if (isFirstMove) {
+          firstMoveCom(boardString, gameDifficulty);
+        } else {
+          let stop = ' ';
+          stop = checkIfGameOver(boardString);
+          scene.stop = stop;
+
+          if (!scene.stop) {
+            MoveCom(boardString, gameDifficulty);
+          }
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -222,46 +250,62 @@ function checkIfGameOver(boardString) {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
-  // deselects the piece when animation starts
   if (this.isAnimating && this.selectedPiece != null) {
     this.selectedPiece.isSelected = false;
     this.selectedPiece = null;
   }
 
-  if ((this.gameType == 1 || this.gameType == 2) &&
-      this.currentPlayer.name.indexOf('CPU') !== -1) {
-    if (this.isFirstMove)
-      firstMoveCom(this.boardString, this.gameDifficulty);
-    else
-      MoveCom(this.boardString, this.gameDifficulty);
+  if (scene.stop && !scene.once) {
+    scene.once = true;
+    let bestScore = 0;
+    let bestPlayer = 0;
+    if (scene.player1.score > scene.player2.score) {
+      bestScore = scene.player1.score;
+      bestPlayer = scene.player1.name;
+    } else {
+      bestScore = scene.player2.score;
+      bestPlayer = scene.player2.name;
+    }
+
+    let body = document.getElementsByTagName('body')[0];
+    body.innerHTML = `<br> <br> 
+    <div> 
+      <img src="scenes/images/froglet.png" alt="logo" /> 
+    </div> <br> <br>
+    <script id="script" src="main.js"> </script>
+    <div id="optionsList">
+      <h1> The winner was ` +
+        bestPlayer + ` with ` + bestScore + ` points! </h1>
+      <div onclick = "mainMenu()"><button class = "button">Go back</button></div> <br>
+    </div>`;
   } else if (
-      this.gameType == 1 && this.currentPlayer.name.indexOf('Human') !== -1) {
+      (this.gameType == 2) && this.currentPlayer.name.indexOf('CPU') !== -1 &&
+      !scene.once) {
+    handleSpaceInput(this.boardString, this.isFirstMove, this.gameDifficulty);
+  }
+
+  else if (
+      this.gameType == 1 && this.currentPlayer.name.indexOf('CPU') !== -1 &&
+      !scene.once) {
+    handleSpaceInput(this.boardString, this.isFirstMove, this.gameDifficulty);
+  }
+
+  else {
     if (this.hasClicked) {
       if (this.isFirstMove) {
-        moveHuman(this.boardString, this.clickedX, this.clickedY);
-        this.hasClicked = false;
-        this.clickedX = 0;
-        this.clickedY = 0;
-      }
-    }
-  } else {
-    if (this.hasClicked) {
-      if (this.isFirstMove && this.gameType == 0) {
         firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
         this.hasClicked = false;
         this.clickedX = 0;
         this.clickedY = 0;
 
-      } else if (!this.isFirstMove && this.gameType == 0 && this.firstClick) {
+      } else if (!this.isFirstMove && this.firstClick) {
         this.hasClicked = false;
         this.firstClick = false;
         this.firstX = this.clickedX;
         this.firstY = this.clickedY;
-        console.log(this.firstY);
         this.clickedX = 0;
         this.clickedY = 0;
-      } else if (!this.isFirstMove && this.gameType == 0 && !this.firstClick) {
-        console.log('here');
+      } else if (!this.isFirstMove && !this.firstClick) {
         this.hasClicked = false;
         var direction = '';
         var coordXDiff = this.clickedX - this.firstX;

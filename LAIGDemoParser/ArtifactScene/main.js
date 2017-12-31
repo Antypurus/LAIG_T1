@@ -50,6 +50,7 @@ var player1 = null;
 var player2 = null;
 var gameType = null;
 var gameDifficulty = null;
+var checkOnetime = false;
 
 function play() {
   let body = document.getElementsByTagName('body')[0];
@@ -128,6 +129,11 @@ function play() {
   ]);
 };
 
+function unplay()
+{
+
+}
+
 function player(name)
 {
     this.score = 0;
@@ -186,7 +192,57 @@ function playMenu() {
 						<div id="HumanAI" onclick = "HumanAiDifficulty()"><button class = "button">Human vs AI</button></div> <br>
             <div id="AI" onclick = "AiAiDifficulty()"><button class = "button">AI vs AI</button></div> <br>
             <div onclick = "mainMenu()"><button class = "button">Go back</button></div> <br>
-					</div>`;
+          </div>
+          <script>
+          testPrologConnection();
+          
+          function testPrologConnection() 
+          {
+              let JsonRequest = 'test(1,2)';
+              let requestPort = 8082;
+              let request = new XMLHttpRequest();
+              request.open(
+                  'GET',
+                  'http://127.0.0.1:8082' +
+                      '/' + JsonRequest,
+                  true);
+  
+              request.onload = (function(response) 
+              {
+                  this.prologResponse = JSON.parse(response.target.response);
+                  if (this.prologResponse[0] === -1)
+                  {
+                      let body = document.getElementsByTagName('body')[0];
+                      body.innerHTML = '<h1> No connection with prolog </h1>';
+                  }
+              }).bind(this);
+  
+              request.onerror = function onError(e) {
+                  let body = document.getElementsByTagName('body')[0];
+                  body.innerHTML = '<h1> No connection with prolog </h1>';
+              }
+              request.setRequestHeader(
+              'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  
+              request.send();
+          }
+  
+  
+          function goBack() {
+              let JsonRequest = "quit";
+              console.log(JsonRequest);
+              let requestPort = 8082;
+              let request = new XMLHttpRequest();
+              request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
+              request.onload = (function (response) {     
+                  window.history.back();
+              }).bind(this);
+              //request.onerror = onError; TODO VER O QUE FAZER
+              request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+              request.send();
+          } 
+      </script>`;
+          requestStartBoard();
 };
 
 function HumanHumanFirstPlayer()
@@ -207,7 +263,6 @@ function HumanHumanFirstPlayer()
 
 function HumanHumanGame(firstPlayer, secondPlayer)
 {
-  requestStartBoard();
   player1 = new player(firstPlayer);
   player2 = new player(secondPlayer);
   gameType = 0;
@@ -248,7 +303,6 @@ function HumanAiFirstPlayer(difficulty)
 
 function humanAiGame(firstPlayer,secondPlayer,difficulty)
 {
-    requestStartBoard();
     player1 = new player(firstPlayer);
     player2 = new player(secondPlayer);
     gameType = 1;
@@ -289,7 +343,6 @@ function AiAiFirstPlayer(difficulty)
 
 function AiAiGame(firstPlayer,secondPlayer,difficulty)
 {
-    requestStartBoard();
     player1 = new player(firstPlayer);
     player2 = new player(secondPlayer);
     gameType = 2;
@@ -319,36 +372,36 @@ function moveHuman(board,X,Y, direction)
 
 function firstMoveCom(board, difficulty)
 {
-  if(difficulty == 1)
-  {
-    let JsonRequest = 'firstMoveCOMEasy(' + board +')';
-    makeFirstMove(JsonRequest);
-  }
-  else if(difficulty == 2)
-  {
-    let JsonRequest = 'firstMoveCOMHard(' + board +')';
-    makeFirstMove(JsonRequest);
-  }
+    if(difficulty == 1)
+    {
+      let JsonRequest = 'firstMoveCOMEasy(' + board +')';
+      makeFirstMove(JsonRequest);
+      this.checkOnetime = true;
+    }
+    else if(difficulty == 2)
+    {
+      let JsonRequest = 'firstMoveCOMHard(' + board +')';
+      makeFirstMove(JsonRequest);
+      this.checkOnetime = true;
+    }
 }
 
 function MoveCom(board, difficulty)
 {
-  if(!checkIfGameOver(scene.boardString))
+  if(!scene.stop)
   {
     if(difficulty == 1)
     {
+      this.checkOnetime = true;
       let JsonRequest = 'moveCOMEasy(' + board +')';
-      makeMoveCom(JsonRequest);
+      makeMoveComEasy(JsonRequest);
     }
     else if(difficulty == 2)
     {
+      this.checkOnetime = true;
       let JsonRequest = 'moveCOMHard(' + board +')';
-      makeMoveCom(JsonRequest);
+      makeMoveComHard(JsonRequest);
     }
-  }
-  else if(checkIfGameOver(scene.boardString))
-  {
-    mainMenu();
   }
 }
 
@@ -362,20 +415,19 @@ function makeFirstMove(JsonRequest)
           '/' + JsonRequest,
       true);
   request.onload = (function(response) {
-    let respondeSplit = response.target.response.split("-");  
+    let responseSplit = response.target.response.split("-");  
 
-                     if (respondeSplit[0] === -1) return;
-                     else if (respondeSplit[0] == "no") scene.isFirstMove = true;
-                     else if (respondeSplit[0] == "Syntax Error") scene.isFirstMove = true;
+                     if (responseSplit[0] === -1) return;
+                     else if (responseSplit[0] == "no") scene.isFirstMove = true;
+                     else if (responseSplit[0] == "Syntax Error") scene.isFirstMove = true;
                      else {
-                      testeBoard = (JSON.stringify(respondeSplit[0]));
+                      testeBoard = (JSON.stringify(responseSplit[0]));
                       testeBoard = testeBoard.replace(/['"]+/g, '');
-                      boardArray = JSON.parse(respondeSplit[0]);
+                      boardArray = JSON.parse(responseSplit[0]);
                       scene.board = boardArray;
                       scene.boardString = testeBoard;
-                      scene.isFirstMove = false;
-                      let xCoord = respondeSplit[1];
-                      let yCoord = respondeSplit[2];
+                      let xCoord = responseSplit[1];
+                      let yCoord = responseSplit[2];
 
                       if(scene.currentPlayer == scene.player1)
                       {
@@ -389,6 +441,7 @@ function makeFirstMove(JsonRequest)
                         document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
                         document.getElementById("player2").innerHTML = scene.player2.name;
                       }
+                      scene.isFirstMove = false;
                     }
                      
                    }).bind(this);
@@ -402,9 +455,9 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function makeMoveCom(JsonRequest)
+function makeMoveComEasy(JsonRequest)
 {
-  if(!scene.isAnimating)
+  if(!scene.isAnimating && scene.currentPlayer.name.indexOf('Human') < 0)
   {
     let requestPort = 8082;
     let request = new XMLHttpRequest();
@@ -414,33 +467,34 @@ function makeMoveCom(JsonRequest)
             '/' + JsonRequest,
         true);
     request.onload = (function(response) {
-                  let respondeSplit = response.target.response.split("-");     
+                  let responseSplit = response.target.response.split("-");     
 
-                  let xCoord = respondeSplit[1];
-                  let yCoord = respondeSplit[2];
+                  let xCoord = responseSplit[2];
+                  let yCoord = responseSplit[1];
                   if(Number(xCoord) <= 9)
                     xCoord += "00";
                   if(Number(yCoord) <= 9)
                     yCoord += "00";
 
                   let peca = scene.pieceManager.pieceMap.get(xCoord+ yCoord);
-                     if (respondeSplit[0] === -1) return;
-                     else if (respondeSplit[0] == "no") return;
-                     else if (respondeSplit[0] == "Syntax Error") return;
+                     if (responseSplit[0] === -1) scene.stop = true;
+                     else if (responseSplit[0] == "no") scene.stop = true;
+                     else if (responseSplit[0] == "Syntax Error") scene.stop = true;
+                     else if (responseSplit[0] == "Bad Request") scene.stop = true;
                      else 
                      {
-                      peca.moveTo(respondeSplit[3],respondeSplit[4]);
-                        testeBoard = (JSON.stringify(respondeSplit[0]));
+                      peca.moveTo(responseSplit[4],responseSplit[3]);
+                        testeBoard = (JSON.stringify(responseSplit[0]));
                         testeBoard = testeBoard.replace(/['"]+/g, '');
-                        boardArray = JSON.parse(respondeSplit[0]);
+                        boardArray = JSON.parse(responseSplit[0]);
                         scene.board = boardArray;
                         scene.boardString = testeBoard;
                         if(scene.currentPlayer == scene.player1)
                         {
-                          if(respondeSplit[6] == "y")
+                          if(responseSplit[6] == "y")
                             {
                               scene.currentPlayer = scene.player1;
-                              scene.player1.score += JSON.parse(respondeSplit[5]);
+                              scene.player1.score += JSON.parse(responseSplit[5]);
                               player1.score = scene.player1.score;
                               document.getElementById("player1score").innerHTML = scene.player1.score;
                             }
@@ -449,26 +503,29 @@ function makeMoveCom(JsonRequest)
                             scene.currentPlayer = scene.player2;
                             document.getElementById("player1").innerHTML = scene.player1.name;
                             document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
-                            scene.player1.score += JSON.parse(respondeSplit[5]);
+                            scene.player1.score += JSON.parse(responseSplit[5]);
                             player1.score = scene.player1.score;
                             document.getElementById("player1score").innerHTML = scene.player1.score;
                           }
                         }
                         else
                         {
-                          if(respondeSplit[6] == "y")
+
+                          if(responseSplit[6] == "y")
                           {
                             scene.currentPlayer = scene.player2;
-                            scene.player1.score +=  JSON.parse(respondeSplit[5]);
+                            scene.player1.score +=  JSON.parse(responseSplit[5]);
                             player2.score = scene.player1.score;
                             document.getElementById("player2score").innerHTML = scene.player2.score;
                           }
                           else
                           {
+                            console.log("oi");
                             scene.currentPlayer = scene.player1;
+                            console.log(scene.currentPlayer);
                             document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
                             document.getElementById("player2").innerHTML = scene.player2.name;
-                            scene.player2.score +=  JSON.parse(respondeSplit[5]);
+                            scene.player2.score +=  JSON.parse(responseSplit[5]);
                             player2.score = scene.player2.score;
                             document.getElementById("player2score").innerHTML = scene.player2.score;
                           }
@@ -482,6 +539,100 @@ function makeMoveCom(JsonRequest)
   request.send();
   }
 }
+
+function makeMoveComHard(JsonRequest)
+{
+  if(!scene.isAnimating && scene.currentPlayer.name.indexOf('Human') < 0)
+  {
+    let requestPort = 8082;
+    let request = new XMLHttpRequest();
+    request.open(
+        'GET',
+        'http://127.0.0.1:8082' +
+            '/' + JsonRequest,
+        true);
+    request.onload = (function(response) {
+                  let responseSplit = response.target.response.split("-");     
+
+                  let xCoord = responseSplit[2];
+                  let yCoord = responseSplit[1];
+                  if(Number(xCoord) <= 9)
+                    xCoord += "00";
+                  if(Number(yCoord) <= 9)
+                    yCoord += "00";
+
+                  let peca = scene.pieceManager.pieceMap.get(xCoord+ yCoord);
+                     if (responseSplit[0] === -1) return;
+                     else if (responseSplit[0] == "no") return;
+                     else if (responseSplit[0] == "Syntax Error") return;
+                     else 
+                     {
+                      let directionsArray = responseSplit[3];
+                      directionsArray = directionsArray.split(',');
+                      let xCoordToMove = Number(responseSplit[2]);
+                      let yCoordToMove = Number(responseSplit[1]);
+
+                      for(let i = 0; i < directionsArray.length; i++)
+                      {
+                        console.log(directionsArray[i]);
+                        if(directionsArray[i] == "[S]" || directionsArray[i] == "S]" || directionsArray[i] == "[S" || directionsArray[i] == "S")
+                        {
+                          xCoordToMove += 2;
+                          yCoordToMove += 0;
+                        }
+                        else if(directionsArray[i] == "[W]" || directionsArray[i] == "W]" || directionsArray[i] == "[W" || directionsArray[i] == "W")
+                        {
+                          xCoordToMove -= 2;
+                          yCoordToMove += 0;
+                        }
+                        else if(directionsArray[i] == "[D]" || directionsArray[i] == "D]" || directionsArray[i] == "[D" || directionsArray[i] == "D")
+                        {
+                          xCoordToMove += 0;
+                          yCoordToMove += 2;
+                        }
+                        else if(directionsArray[i] == "[A]" || directionsArray[i] == "A]" || directionsArray[i] == "[A" || directionsArray[i] == "A")
+                        {
+                          xCoordToMove += 0;
+                          yCoordToMove -= 2;
+                        }
+                      }
+
+                      peca.moveTo(xCoordToMove , yCoordToMove);
+
+                      testeBoard = (JSON.stringify(responseSplit[0]));
+
+                        testeBoard = testeBoard.replace(/['"]+/g, '');
+                        boardArray = JSON.parse(responseSplit[0]);
+                        scene.board = boardArray;
+                        scene.boardString = testeBoard;
+                        if(scene.currentPlayer == scene.player1)
+                        {
+                            scene.currentPlayer = scene.player2;
+                            document.getElementById("player1").innerHTML = scene.player1.name;
+                            document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
+                            scene.player1.score += JSON.parse(responseSplit[4]);
+                            player1.score = scene.player1.score;
+                            document.getElementById("player1score").innerHTML = scene.player1.score;
+                        }
+                        else
+                        {
+                          scene.currentPlayer = scene.player1;
+                          document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
+                          document.getElementById("player2").innerHTML = scene.player2.name;
+                          scene.player2.score +=  JSON.parse(responseSplit[4]);
+                          player2.score = scene.player2.score;
+                          document.getElementById("player2score").innerHTML = scene.player2.score;
+                        }
+                      }
+                     
+                   }).bind(this);
+  // request.onerror = onError; TODO VER O QUE FAZER
+  request.setRequestHeader(
+      'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  request.send();
+  }
+}
+
 
 function doNothing()
 {
@@ -498,39 +649,39 @@ function makeMoveHuman(JsonRequest)
           '/' + JsonRequest,
       true);
   request.onload = (function(response) {
-                  let respondeSplit = response.target.response.split("-");     
+                  let responseSplit = response.target.response.split("-");     
 
-                  let xCoord = respondeSplit[5];
-                  let yCoord = respondeSplit[6];
+                  let xCoord = responseSplit[5];
+                  let yCoord = responseSplit[6];
                   if(Number(xCoord) <= 9)
                     xCoord += "00";
                   if(Number(yCoord) <= 9)
                     yCoord += "00";
 
                   let peca = scene.pieceManager.pieceMap.get(xCoord+ yCoord);
-                     if (respondeSplit[0] === -1) return;
-                     else if (respondeSplit[0] == "no") return;
-                     else if (respondeSplit[0] == "Syntax Error") return;
+                     if (responseSplit[0] === -1) return;
+                     else if (responseSplit[0] == "no") return;
+                     else if (responseSplit[0] == "Syntax Error") return;
                      else 
                      {
-                      peca.moveTo(respondeSplit[1],respondeSplit[2]);
+                      peca.moveTo(responseSplit[1],responseSplit[2]);
 
 
-                        testeBoard = (JSON.stringify(respondeSplit[0]));
+                        testeBoard = (JSON.stringify(responseSplit[0]));
                         testeBoard = testeBoard.replace(/['"]+/g, '');
-                        boardArray = JSON.parse(respondeSplit[0]);
+                        boardArray = JSON.parse(responseSplit[0]);
                         scene.board = boardArray;
                         scene.boardString = testeBoard;
 
                         if(scene.currentPlayer == scene.player1)
                         {
-                          if(respondeSplit[4] == "y")
+                          if(responseSplit[4] == "y")
                             {
                               scene.firstClick = false;
-                              scene.firstX = respondeSplit[1];
-                              scene.firstY = respondeSplit[2];
+                              scene.firstX = responseSplit[1];
+                              scene.firstY = responseSplit[2];
                               scene.currentPlayer = scene.player1;
-                              scene.player1.score += JSON.parse(respondeSplit[3]);
+                              scene.player1.score += JSON.parse(responseSplit[3]);
                               player1.score = scene.player1.score;
                               document.getElementById("player1score").innerHTML = scene.player1.score;
                             }
@@ -539,20 +690,20 @@ function makeMoveHuman(JsonRequest)
                             scene.currentPlayer = scene.player2;
                             document.getElementById("player1").innerHTML = scene.player1.name;
                             document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
-                            scene.player1.score += JSON.parse(respondeSplit[3]);
+                            scene.player1.score += JSON.parse(responseSplit[3]);
                             player1.score = scene.player1.score;
                             document.getElementById("player1score").innerHTML = scene.player1.score;
                           }
                         }
                         else
                         {
-                          if(respondeSplit[4] == "y")
+                          if(responseSplit[4] == "y")
                           {
                             scene.firstClick = false;
-                            scene.firstX = respondeSplit[1];
-                            scene.firstY = respondeSplit[2];
+                            scene.firstX = responseSplit[1];
+                            scene.firstY = responseSplit[2];
                             scene.currentPlayer = scene.player2;
-                            scene.player1.score +=  JSON.parse(respondeSplit[3]);
+                            scene.player1.score +=  JSON.parse(responseSplit[3]);
                             player2.score = scene.player1.score;
                             document.getElementById("player2score").innerHTML = scene.player2.score;
                           }
@@ -561,7 +712,7 @@ function makeMoveHuman(JsonRequest)
                             scene.currentPlayer = scene.player1;
                             document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
                             document.getElementById("player2").innerHTML = scene.player2.name;
-                            scene.player2.score +=  JSON.parse(respondeSplit[3]);
+                            scene.player2.score +=  JSON.parse(responseSplit[3]);
                             player2.score = scene.player2.score;
                             document.getElementById("player2score").innerHTML = scene.player2.score;
                           }
@@ -601,16 +752,16 @@ function requestStartBoard()
       true);
   request.onload = (function(response) 
   {
-      let respondeSplit = response.target.response.split("-");     
+      let responseSplit = response.target.response.split("-");     
       
-      if (respondeSplit[0] === -1) return;
-      else if (respondeSplit[0] == "no") return;
-      else if (respondeSplit[0] == "Syntax Error") return;
+      if (responseSplit[0] === -1) return;
+      else if (responseSplit[0] == "no") return;
+      else if (responseSplit[0] == "Syntax Error") return;
       else 
       {
-        testeBoard = (JSON.stringify(respondeSplit[0]));
+        testeBoard = (JSON.stringify(responseSplit[0]));
         testeBoard = testeBoard.replace(/['"]+/g, '');
-        boardArray = JSON.parse(respondeSplit[0]);
+        boardArray = JSON.parse(responseSplit[0]);
       }
     }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER

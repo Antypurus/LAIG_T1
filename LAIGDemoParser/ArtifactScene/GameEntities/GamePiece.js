@@ -157,6 +157,6 @@ GamePiece.prototype.moveTo = function(x, y) {
   this.endTranslation.y = 0;
   this.endTranslation.z = (y - 1) * sz + sz / 2;
 
-  this.animation = new BezierAnimation(3, cp);
+  this.animation = new BezierAnimation(15, cp);
   this.animation.update(0);
 };
