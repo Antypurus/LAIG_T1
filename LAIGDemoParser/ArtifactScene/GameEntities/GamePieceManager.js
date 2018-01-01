@@ -236,3 +236,42 @@ GamePieceManager.prototype.update = function(currTime) {
     this.Scene.isAnimating = false;
   }
 };
+
+/**
+ *
+ * @param {*} sX
+ * @param {*} sY
+ * @param {*} eX
+ * @param {*} eY
+ */
+GamePieceManager.prototype.Eat = function(sX, sY, eX, eY) {
+  let dx = eX - sX;
+  let dy = eY - sY;
+
+  if ((dx != 0 && dy != 0) || (dx == 0 && dy == 0)) {
+    return 'error';
+  }
+
+  let x = 0;
+  let y = 0;
+
+  if (dx != 0) {
+    x = (sX + eX) / 2;
+    y = sY;
+  } else {
+    y = (sY + eY) / 2;
+    x = sX;
+  }
+
+  let i = x;
+  let j = y;
+
+  let iid = '' + (i + 1);
+  let jid = '' + (j + 1);
+  if (i + 1 < 10) {
+    iid = (i + 1) + '00'
+  }
+  if (j + 1 < 10) {
+    jid = (j + 1) + '00';
+  }
+};
