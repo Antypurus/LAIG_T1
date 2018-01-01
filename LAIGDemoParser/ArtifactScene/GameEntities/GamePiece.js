@@ -119,6 +119,7 @@ GamePiece.prototype.moveTo = function(x, y) {
     this.scene.isAnimating = true;
   }
 
+
   let cp = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
   cp[0][0] = 0;
   cp[0][1] = 0;
@@ -159,6 +160,11 @@ GamePiece.prototype.moveTo = function(x, y) {
 
   this.animation = new BezierAnimation(15, cp);
   this.animation.update(0);
+
+  let dx = (this.translation.x - sz / 2) / sz;
+  let dz = (this.translation.z - sz / 2) / sz;
+
+  this.scene.pieceManager.Eat(dx, dz, x - 1, y - 1);
 };
 
 GamePiece.prototype.die = function() {
@@ -179,6 +185,6 @@ GamePiece.prototype.die = function() {
   this.endTranslation.y = this.translation.y - 5;
   this.endTranslation.z = this.translation.z;
 
-  this.animation = new LinearAnimation(3, cp);
+  this.animation = new LinearAnimation(15, cp);
   this.animation.update(0);
 }

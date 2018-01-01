@@ -36,7 +36,7 @@ function XMLscene(interface) {
 
   this.undoStop = false;
   this.undoBoard = null;
-  this.undoBoardString = "";
+  this.undoBoardString = '';
 
   this.selectedPiece = null;
 
@@ -189,8 +189,6 @@ XMLscene.prototype.logPicking = function() {
             this.clickedY = ret.y;
             this.hasClicked = true;
 
-            this.pieceManager.pieces[0].die();
-
             // handles the selection effect for the pieces
             if (!this.isAnimating) {
               if (this.selectedPiece != null) {
@@ -264,46 +262,39 @@ function handleSpaceInput(boardString, isFirstMove, gameDifficulty) {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
-  if(!scene.isFirstMove)
-    {
-      if(!scene.undoStop)
-      {
-        scene.backButton = document.createElement('BUTTON');
-        scene.backButton.addEventListener("click", 
-          function refresh() 
-          {
-            let allBoard = scene.historyKeeper.undoTurn();
-            scene.board = allBoard['Board'];
-            scene.boardString = allBoard['BoardString'];
-            scene.isFirstMove = true;
-          
-            if(scene.currentPlayer == scene.player1)
-            {
-              document.getElementById("player1").innerHTML = scene.player1.name;
-              document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
-              scene.currentPlayer = scene.player2;
-            }
-            else
-            {
-              document.getElementById("player1").innerHTML =  "&#8680" +  scene.player1.name;
-              document.getElementById("player2").innerHTML = scene.player2.name;
-              scene.currentPlayer = scene.player1;
-            }
-          });
+  if (!scene.isFirstMove) {
+    if (!scene.undoStop) {
+      scene.backButton = document.createElement('BUTTON');
+      scene.backButton.addEventListener('click', function refresh() {
+        let allBoard = scene.historyKeeper.undoTurn();
+        scene.board = allBoard['Board'];
+        scene.boardString = allBoard['BoardString'];
+        scene.isFirstMove = true;
 
-          scene.backButton.className = 'undoButton';
-          scene.backButton.innerHTML = 'Undo play';
-          document.getElementById('script').insertAdjacentElement(
-              'beforebegin', scene.backButton);
-
-              scene.undoStop = true;
+        if (scene.currentPlayer == scene.player1) {
+          document.getElementById('player1').innerHTML = scene.player1.name;
+          document.getElementById('player2').innerHTML =
+              '&#8680' + scene.player2.name;
+          scene.currentPlayer = scene.player2;
+        } else {
+          document.getElementById('player1').innerHTML =
+              '&#8680' + scene.player1.name;
+          document.getElementById('player2').innerHTML = scene.player2.name;
+          scene.currentPlayer = scene.player1;
         }
+      });
 
+      scene.backButton.className = 'undoButton';
+      scene.backButton.innerHTML = 'Undo play';
+      document.getElementById('script').insertAdjacentElement(
+          'beforebegin', scene.backButton);
+
+      scene.undoStop = true;
     }
-    else if(this.passed)
-    {
-      scene.backButton.className = 'hidden';
-    }
+
+  } else if (this.passed) {
+    scene.backButton.className = 'hidden';
+  }
 
 
   if (this.isAnimating && this.selectedPiece != null) {
@@ -359,7 +350,8 @@ XMLscene.prototype.display = function() {
     }
     if (this.hasClicked) {
       if (this.isFirstMove) {
-        this.historyKeeper.addPlayHistory(this.clickedX, this.clickedY, this.board, this.boardString);
+        this.historyKeeper.addPlayHistory(
+            this.clickedX, this.clickedY, this.board, this.boardString);
         this.undoBoardString = this.boardString;
         this.undoBoard = this.board;
         this.undoStop = false;
@@ -380,11 +372,9 @@ XMLscene.prototype.display = function() {
       else if (
           !this.isFirstMove && !this.firstClick &&
           (this.clickedX != this.firstX || this.clickedY != this.firstY)) {
-        if (!this.lockSecondMove)
-          {
-            this.selectedPiece.isSelected = false;
-          }
-        else
+        if (!this.lockSecondMove) {
+          this.selectedPiece.isSelected = false;
+        } else
           this.lockSecondMove = false;
 
         this.hasClicked = false;
@@ -403,12 +393,11 @@ XMLscene.prototype.display = function() {
         else
           this.firstClick = true;
 
-        if (!this.firstClick)
-        {
+        if (!this.firstClick) {
           stop = checkIfGameOver(this.boardString);
           console.log(stop);
           scene.stop = stop;
-           moveHuman(this.boardString, this.firstX, this.firstY, direction);
+          moveHuman(this.boardString, this.firstX, this.firstY, direction);
         }
         this.firstClick = true;
       } else if (!this.isFirstMove && !this.firstClick) {
