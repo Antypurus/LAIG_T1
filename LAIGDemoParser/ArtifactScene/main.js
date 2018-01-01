@@ -117,7 +117,7 @@ function play() {
   app.setScene(myScene);
   app.setInterface(myInterface);
 
-  myInterface.setActiveCamera(myScene.camera);
+  // myInterface.setActiveCamera(myScene.camera);
 
   // get file name provided in URL, e.g.
   // http://localhost/myproj/?file=myfile.xml or use "demo.xml" as
@@ -659,7 +659,9 @@ function makeMoveHuman(JsonRequest) {
           return;
         else {
           scene.historyKeeper.addPlayHistory(
-            scene.clickedX, scene.clickedY, scene.board, scene.boardString, false, scene.player1.score, scene.player2.score, scene.currentPlayer);
+              scene.clickedX, scene.clickedY, scene.board, scene.boardString,
+              false, scene.player1.score, scene.player2.score,
+              scene.currentPlayer);
           peca.moveTo(responseSplit[1], responseSplit[2]);
 
 
