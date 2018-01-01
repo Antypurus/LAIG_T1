@@ -178,6 +178,8 @@ XMLscene.prototype.logPicking = function() {
             this.clickedY = ret.y;
             this.hasClicked = true;
 
+            this.pieceManager.pieces[0].die();
+
             // handles the selection effect for the pieces
             if (!this.isAnimating) {
               if (this.selectedPiece != null) {

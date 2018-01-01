@@ -160,3 +160,18 @@ GamePiece.prototype.moveTo = function(x, y) {
   this.animation = new BezierAnimation(15, cp);
   this.animation.update(0);
 };
+
+GamePiece.prototype.die = function() {
+  let cp = [[0, 0, 0], [0, 2, 0], [0, -5, 0]];
+
+  this.startTranslation.x = this.translation.x;
+  this.startTranslation.y = this.translation.y;
+  this.startTranslation.z = this.translation.z;
+
+  this.endTranslation.x = this.translation.x;
+  this.endTranslation.y = this.translation.y - 5;
+  this.endTranslation.z = this.translation.z;
+
+  this.animation = new LinearAnimation(3, cp);
+  this.animation.update(0);
+}
