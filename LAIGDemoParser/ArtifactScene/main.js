@@ -163,27 +163,27 @@ function insertBackButton(scene) {
     scene.isFirstMove = true;
     scene.currentPlayer = null;
     scene.firstClick = true;
-  
+
     scene.stop = false;
     scene.once = false;
     scene.passed = false;
-  
+
     scene.xFrog = 0;
     scene.yFrog = 0;
-  
+
     scene.lockSecondMove = false;
-  
+
     scene.isAnimating = false;
-  
+
     scene.firstX = 0;
     scene.firstY = 0;
-  
+
     scene.undoStop = false;
     scene.undoBoard = null;
     scene.undoBoardString = '';
-  
+
     scene.selectedPiece = null;
-  
+
     scene.hasClicked = false;
     scene.clickedX = 0;
     scene.clickedY = 0;
@@ -198,7 +198,7 @@ function insertBackButton(scene) {
     checkOnetime = false;
     scene = null;
     return mainMenu();
-    
+
 
   });
 
@@ -416,7 +416,12 @@ function AiAiGame(firstPlayer, secondPlayer, difficulty) {
   this.play();
 }
 
+let fmX = 0;
+let fmY = 0;
+
 function firstMoveHuman(board, X, Y) {
+  fmX = X;
+  fmY = Y;
   let JsonRequest = 'firstMoveOK(' + board + ',' + X + ',' + Y + ')';
   makeFirstMove(JsonRequest);
 }
@@ -476,10 +481,27 @@ function makeFirstMove(JsonRequest) {
           testeBoard = (JSON.stringify(responseSplit[0]));
           testeBoard = testeBoard.replace(/['"]+/g, '');
           boardArray = JSON.parse(responseSplit[0]);
-          scene.board = boardArray;
-          scene.boardString = testeBoard;
           let xCoord = responseSplit[1];
           let yCoord = responseSplit[2];
+
+          console.log(xCoord);
+
+          let i = xCoord - 1;
+          let j = yCoord - 1;
+
+          let iid = '' + (i + 1);
+          let jid = '' + (j + 1);
+          if (i + 1 < 10) {
+            iid = (i + 1) + '00'
+          }
+          if (j + 1 < 10) {
+            jid = (j + 1) + '00';
+          }
+
+          scene.pieceManager.pieceMap.get(iid + jid).die();
+
+          scene.board = boardArray;
+          scene.boardString = testeBoard;
 
           if (scene.currentPlayer == scene.player1) {
             scene.currentPlayer = scene.player2;
@@ -535,8 +557,6 @@ function makeMoveComEasy(JsonRequest) {
           else if (responseSplit[0] == 'Bad Request')
             scene.stop = true;
           else {
-            
-
             peca.moveTo(responseSplit[4], responseSplit[3]);
             testeBoard = (JSON.stringify(responseSplit[0]));
             testeBoard = testeBoard.replace(/['"]+/g, '');
@@ -616,7 +636,6 @@ function makeMoveComHard(JsonRequest) {
           else if (responseSplit[0] == 'Syntax Error')
             return;
           else {
-
             let directionsArray = responseSplit[3];
             directionsArray = directionsArray.split(',');
             let xCoordToMove = Number(responseSplit[2]);
@@ -708,9 +727,10 @@ function makeMoveHuman(JsonRequest) {
         else if (responseSplit[0] == 'Syntax Error')
           return;
         else {
-
           scene.historyKeeper.addPlayHistory(
-            scene.clickedX, scene.clickedY, scene.board, scene.boardString, false, scene.player1.score, scene.player2.score, scene.currentPlayer, scene.lockSecondMove);
+              scene.clickedX, scene.clickedY, scene.board, scene.boardString,
+              false, scene.player1.score, scene.player2.score,
+              scene.currentPlayer, scene.lockSecondMove);
           peca.moveTo(responseSplit[1], responseSplit[2]);
 
 
