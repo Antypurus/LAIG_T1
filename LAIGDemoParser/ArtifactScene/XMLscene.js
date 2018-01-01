@@ -336,20 +336,25 @@ XMLscene.prototype.display = function() {
         var direction = '';
         var coordXDiff = this.clickedX - this.firstX;
         var coordYDiff = this.firstY - this.clickedY;
-        if (coordXDiff < -1 && coordXDiff >= -2)
+        if (coordXDiff < -1 && coordXDiff >= -4)
           direction = '\'W\'';
-        else if (coordXDiff > 1 && coordXDiff <= 2)
+        else if (coordXDiff > 1 && coordXDiff <= 4)
           direction = '\'S\'';
 
-        else if (coordYDiff < -1 && coordYDiff >= -2)
+        else if (coordYDiff < -1 && coordYDiff >= -4)
           direction = '\'D\'';
-        else if (coordYDiff > 1 && coordYDiff <= 2)
+        else if (coordYDiff > 1 && coordYDiff <= 4)
           direction = '\'A\'';
         else
           this.firstClick = true;
 
         if (!this.firstClick)
-          moveHuman(this.boardString, this.firstX, this.firstY, direction);
+        {
+          stop = checkIfGameOver(this.boardString);
+          console.log(stop);
+          scene.stop = stop;
+           moveHuman(this.boardString, this.firstX, this.firstY, direction);
+        }
         this.firstClick = true;
       } else if (!this.isFirstMove && !this.firstClick) {
         this.selectedPiece.isSelected = false;

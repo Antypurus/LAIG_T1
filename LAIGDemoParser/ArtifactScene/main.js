@@ -506,8 +506,8 @@ function makeMoveComEasy(JsonRequest) {
             } else {
               if (responseSplit[6] == 'y') {
                 scene.currentPlayer = scene.player2;
-                scene.player1.score += JSON.parse(responseSplit[5]);
-                player2.score = scene.player1.score;
+                scene.player2.score += JSON.parse(responseSplit[5]);
+                player2.score = scene.player2.score;
                 document.getElementById('player2score').innerHTML =
                     scene.player2.score;
               } else {
@@ -624,10 +624,6 @@ function makeMoveComHard(JsonRequest) {
 }
 
 
-function doNothing() {
-  // hello;
-}
-
 function makeMoveHuman(JsonRequest)
 {
   let requestPort = 8082;
@@ -712,8 +708,8 @@ function makeMoveHuman(JsonRequest)
                             scene.xFrog = responseSplit[1];
                             scene.yFrog = responseSplit[2];
                             scene.currentPlayer = scene.player2;
-                            scene.player1.score +=  JSON.parse(responseSplit[3]);
-                            player2.score = scene.player1.score;
+                            scene.player2.score +=  JSON.parse(responseSplit[3]);
+                            player2.score = scene.player2.score;
                             document.getElementById("player2score").innerHTML = scene.player2.score;
                           }
                           else
