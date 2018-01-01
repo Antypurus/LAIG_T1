@@ -797,6 +797,10 @@ function makeMoveHuman(JsonRequest) {
                   scene.player2.score;
             }
           }
+          if(checkIfGameOver(scene.boardString))
+            {
+              mainMenu();
+            }
 
           testeBoard = (JSON.stringify(responseSplit[0]));
           testeBoard = testeBoard.replace(/['"]+/g, '');
