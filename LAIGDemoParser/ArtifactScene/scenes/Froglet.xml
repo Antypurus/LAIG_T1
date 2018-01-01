@@ -372,7 +372,7 @@
       <TRANSLATION x="0" y="3" z="0"/>
 		  <ROTATION axis="x" angle="-90"/>
       <DESCENDANTS>
-        <LEAF id="frogB" type = "sphere" args = "1.15 40 40" />
+        <LEAF id="frogB" type = "cylinder" args = "4 0.5 0.5 50 50 1 1" />
       </DESCENDANTS>
     </NODE>
 
@@ -494,6 +494,7 @@
     <MATERIAL id="piramideBase"/>
     <TEXTURE id="null"/>
     <TRANSLATION x="15" y="-2" z="45"/>
+    <ROTATION axis="y" angle="180"/>
     <DESCENDANTS>
       <NODEREF id="arvore"/>
     </DESCENDANTS>
@@ -503,6 +504,7 @@
     <MATERIAL id="piramideBase"/>
     <TEXTURE id="null"/>
     <TRANSLATION x="-15" y="-2" z="15"/>
+    <ROTATION axis="y" angle="90"/>
     <DESCENDANTS>
       <NODEREF id="arvore"/>
     </DESCENDANTS>
@@ -512,64 +514,75 @@
     <MATERIAL id="piramideBase"/>
     <TEXTURE id="null"/>
     <TRANSLATION x="45" y="-2" z="15"/>
+    <ROTATION axis="y" angle="-90"/>
     <DESCENDANTS>
       <NODEREF id="arvore"/>
     </DESCENDANTS>
   </NODE>
-
+  
   <NODE id="arvore">
     <MATERIAL id="piramideBase"/>
-    <TEXTURE id="null"/>
-    <ROTATION axis="x" angle="-90"/>
-    <SCALE sx="3" sy="3" sz="3"/>
-    <DESCENDANTS>
-      <NODEREF id="tronco"/>
-      <NODEREF id="folhas"/>
-    </DESCENDANTS>
-  </NODE>
-
-  <NODE id="folhas">
-    <MATERIAL id="diffuse"/>
-    <TEXTURE id="null"/>
-    <TRANSLATION x="0" y="0" z="1"/>
-    <DESCENDANTS>
-      <NODEREF id="folhas1"/>
-      <NODEREF id="folhas2"/>
-    </DESCENDANTS>
-  </NODE>
-
-    <NODE id="folhas1">
-    <MATERIAL id="diffuse"/>
-    <TEXTURE id="shrub"/>
-    <DESCENDANTS>
-      <LEAF id="folhasC1" type = "cylinder" args = "3 1 0 50 50 1 0" />
-    </DESCENDANTS>
-  </NODE>
-
-  <NODE id="folhas2">
-    <MATERIAL id="diffuse"/>
-    <TEXTURE id="shrub"/>
-    <TRANSLATION x="0" y="0" z="1"/>
-    <DESCENDANTS>
-        <LEAF id="folhasC2" type = "cylinder" args = "3 1 0 50 50 1 0" />
-        <NODEREF id="bolaTopo"/>
-    </DESCENDANTS>
-  </NODE>
-
-  <NODE id="tronco">
-    <MATERIAL id="diffuse"/>
     <TEXTURE id="trunk"/>
     <DESCENDANTS>
-        <LEAF id="tronco" type = "cylinder" args = "2 0.3 0.3 50 50 1 0" />
+      <NODEREF id="pole"/>
+      <NODEREF id="flagC"/>
     </DESCENDANTS>
   </NODE>
 
-  <NODE id="bolaTopo">
-    <MATERIAL id="shinny"/>
-    <TEXTURE id="laserPic"/>
-    <TRANSLATION x="0" y="0" z="3"/>
+    <NODE id="pole">
+    <MATERIAL id="piramideBase"/>
+    <ROTATION axis="x" angle="-90"/>
+    <TEXTURE id="null"/>
     <DESCENDANTS>
-        <LEAF id="est" type = "sphere" args = "0.2 30 30" />
+      <LEAF id="pl" type="cylinder" args="10 0.5 0.5 40 40 1 1"/>
+    </DESCENDANTS>
+  </NODE>
+ 
+  <NODE id="flagC">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+      <NODEREF id="holder"/>
+      <NODEREF id="flag"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="holder">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <TRANSLATION x="-2.5" y="10" z="0.5"/>
+    <SCALE sx="5" sy="0.5" sz="0.5"/>
+    <DESCENDANTS>
+      <NODEREF id="cube"/>
+    </DESCENDANTS>
+  </NODE>
+
+    <NODE id="flag">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="leaves"/>
+    <TRANSLATION x="0" y="2" z="0.75"/>
+    <SCALE sx="2.5" sy="3" sz="1"/>
+    <DESCENDANTS>
+      <NODEREF id="flagLower"/>
+      <NODEREF id="flagUpper"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="flagLower">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+      <LEAF id="fR" type="rectangle" args="-1 -1 1 3"/>
+      <LEAF id="fR2" type="rectangle" args="1 -1 -1 3"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="flagUpper">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+          <LEAF id="fT" type="triangle" args="-1 -1 0 0 -2 0 1 -1 0"/>
+          <LEAF id="fT2" type="triangle" args="1 -1 0 0 -2 0 -1 -1 0"/>
     </DESCENDANTS>
   </NODE>
 
