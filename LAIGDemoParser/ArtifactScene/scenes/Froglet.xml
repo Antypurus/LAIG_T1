@@ -4,10 +4,10 @@
 <INITIALS>
     <frustum near="0.1" far="500"/>
     <translation x="-1" y="1" z="0" />
-    <rotation axis="x" angle="0" />
+    <rotation axis="x" angle="10" />
     <rotation axis="y" angle="0" />
-    <rotation axis="z" angle="0" />
-    <scale sx="0.25" sy="0.25" sz="0.25" />
+    <rotation axis="z" angle="-10" />
+    <scale sx="0.15" sy="0.15" sz="0.15" />
     <reference length="5" />
 </INITIALS>
 
@@ -23,7 +23,7 @@
 <LIGHTS>	
 	<LIGHT id="TopRighLight">
         <enable value ="1" />
-        <position  x="15" y="5" z="5" w="1" />
+        <position x="45" y="10" z="15" w="1" />
         <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -31,24 +31,24 @@
 
 	<LIGHT id="BottomRightLight">
         <enable value ="1" />
-        <position x="15" y="5" z="15" w="1" />
-        <ambient r="0" g="0" b="0" a="1.0" />
+        <position x="-15" y="10" z="15" w="1" />
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />
     </LIGHT>
 
 	<LIGHT id="TopLeftLight">
         <enable value ="1" />
-        <position x="5" y="5" z="5" w="1" />
-        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+        <position x="15" y="10" z="-15" w="1" />
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />
     </LIGHT>
 	
 	<LIGHT id="BottomLeftLight">
         <enable value ="1" />
-        <position x="5" y="5" z="15" w="1" />
-        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+        <position x="15" y="10" z="45" w="1" />
+        <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
         <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
         <specular r="1.0" g="1.0" b="1.0" a="1.0" />
     </LIGHT>
@@ -60,6 +60,11 @@
     <!-- Street bench -->
     <TEXTURE id="banco">
         <file path="images/bank.jpg" />                
+        <amplif_factor s="1" t="1" />                           
+    </TEXTURE>
+
+    <TEXTURE id="boardTexture">
+        <file path="images/wood.jpg" />                
         <amplif_factor s="1" t="1" />                           
     </TEXTURE>
 	
@@ -98,6 +103,22 @@
     <file path="images/grid.png" />
     <amplif_factor s="1" t="1" />
   </TEXTURE>
+
+  <TEXTURE id = "trunk">
+    <file path="images/trunk-image.jpg" />
+    <amplif_factor s="1" t="1" />
+  </TEXTURE>
+
+  <TEXTURE id = "shrub">
+    <file path="images/arbusto.png" />
+    <amplif_factor s="1" t="1" />
+  </TEXTURE>  
+
+    <TEXTURE id = "leaves">
+    <file path="images/frog.png" />
+    <amplif_factor s="1" t="1" />
+  </TEXTURE>
+  
 	
 </TEXTURES>
 
@@ -118,6 +139,22 @@
         <diffuse r="1.0" g="0" b="0" a="0.5" />
         <ambient r="1" g="00" b="00" a="1" />
         <emission r="1" g="0" b="0" a="1" />
+    </MATERIAL>
+
+    <MATERIAL id="shinny">
+        <shininess value="1" />
+        <specular r="1" g="0" b="0" a="1" />
+        <diffuse r="0.1" g="0.1" b="0.1" a="1" />
+        <ambient r="0.2" g="00" b="00" a="1" />
+        <emission r="0" g="0" b="0" a="0" />
+    </MATERIAL>
+
+      <MATERIAL id="diffuse">
+        <shininess value="1" />
+        <specular r="0.2" g="0.2" b="0.2" a="1" />
+        <diffuse r="1" g="1" b="1" a="0" />
+        <ambient r="0.2" g="00" b="00" a="1" />
+        <emission r="0" g="0" b="0" a="0" />
     </MATERIAL>
 
     <MATERIAL id="wls">
@@ -240,19 +277,15 @@
       <TEXTURE id="null"/>
       <DESCENDANTS>
         <NODEREF id="tabuleiro"/>
-        <!-- <NODEREF id="artifact"/>
-        <NODEREF id="traps"/>
-        <NODEREF id="pedestal"/>
-        <NODEREF id="lasers"/>
-        <NODEREF id="room"/>
-        <NODEREF id="candeiros"/>
-		    <NODEREF id="tables"/>
-		    <NODEREF id ="tableslights"/> -->
+        <NODEREF id="frog"/>
+        <NODEREF id="cantos"/>
+        <NODEREF id="mesa"/>
+        <NODEREF id="arvores"/>
       </DESCENDANTS>
     </NODE>
 
         
-    <NODE id="tabuleiro" selectable = "true">
+    <NODE id="tabuleiro" type="board" stX="0" stZ="0" stY="0" nCells="12" sCell="2.5">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <SCALE sx="3" sy="0.5" sz="3"/>
@@ -262,7 +295,7 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="tabuleiroGrid" selectable = "true">
+    <NODE id="tabuleiroGrid">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="grid"/> 
       <SCALE sx="10" sy="1" sz="10"/>
@@ -271,9 +304,9 @@
       </DESCENDANTS>
     </NODE>
           
-    <NODE id="tabuleiroOutline" selectable = "true">
+    <NODE id="tabuleiroOutline">
       <MATERIAL id="piramideBase"/>
-      <TEXTURE id="null"/>
+      <TEXTURE id="boardTexture"/>
       <SCALE sx="1" sy="1" sz="1"/> 
       <DESCENDANTS>
         <NODEREF id="tabuleiroOutline1"/>       
@@ -283,7 +316,7 @@
       </DESCENDANTS>
     </NODE>
                     
-    <NODE id="tabuleiroOutline1" selectable = "true">
+    <NODE id="tabuleiroOutline1">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="10" y="0" z="-1"/>
@@ -293,7 +326,7 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="tabuleiroOutline2" selectable = "true">
+    <NODE id="tabuleiroOutline2">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="-1" y="0" z="-1"/>
@@ -303,7 +336,7 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="tabuleiroOutline3" selectable = "true">
+    <NODE id="tabuleiroOutline3">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="-1" y="0" z="10"/>
@@ -313,7 +346,7 @@
       </DESCENDANTS>
     </NODE>
 
-    <NODE id="tabuleiroOutline4" selectable = "true">
+    <NODE id="tabuleiroOutline4">
       <MATERIAL id="piramideBase"/>
       <TEXTURE id="null"/>
       <TRANSLATION x="-1" y="0" z="-1"/>
@@ -323,84 +356,225 @@
       </DESCENDANTS>
     </NODE>
 	
-    <!-- The Artifact Node -->
-    <NODE id="artifact" selectable = "true">
-      <MATERIAL id="artifactMaterial" />
-      <TEXTURE id="artifact" />
+    
+    <NODE id="frog" type="piece">
+      <MATERIAL id="piramideBase"/>
+      <TEXTURE id="null"/>
       <DESCENDANTS>
-        <NODEREF id="core"/>
-        <NODEREF id="piramides"/>
+        <NODEREF id="frogBase"/>
+        <NODEREF id="frogHead"/>
+      </DESCENDANTS>
+    </NODE>
+        
+    <NODE id="frogBase">
+      <MATERIAL id="piramideBase"/>
+      <TEXTURE id="null"/>
+      <TRANSLATION x="0" y="3" z="0"/>
+		  <ROTATION axis="x" angle="-90"/>
+      <DESCENDANTS>
+        <LEAF id="frogB" type = "sphere" args = "1.15 40 40" />
       </DESCENDANTS>
     </NODE>
 
-    <!-- The Traps Node -->
-    <NODE id="traps">
-      <MATERIAL id="null" />
-      <TEXTURE id="banco" />
+
+    <NODE id="frogHead">
+      <MATERIAL id="piramideBase"/>
+      <TEXTURE id="null"/>
+      <TRANSLATION x="0" y="5" z="0"/>
+		  <ROTATION axis="x" angle="-90"/>
       <DESCENDANTS>
-        <NODEREF id="trap1"/>
-        <NODEREF id="trap2"/>
+        <LEAF id="frogB" type = "sphere" args = "1 30 30" />
+        <LEAF id="frogB" type = "cylinder" args = "2 0.5 0 30 30 1 1" />
       </DESCENDANTS>
     </NODE>
 
-    <!-- The Pedestal Node -->
-    <NODE id="pedestal">
-      <MATERIAL id="null" />
-      <TEXTURE id="pedestalPic" />
-      <DESCENDANTS>
-        <NODEREF id="pCilindro"/>
-		<NODEREF id="pCilindro2"/>
-      </DESCENDANTS>
-    </NODE>
+  <NODE id="cantos">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="boardTexture"/>
+    <DESCENDANTS>
+      <NODEREF id="canto1"/>
+      <NODEREF id="canto2"/>
+      <NODEREF id="canto3"/>
+      <NODEREF id="canto4"/>
+    </DESCENDANTS>
+  </NODE>
 
-    <!-- The Lasers Node -->
-    <NODE id="lasers">
-      <MATERIAL id="lasers" />
-      <TEXTURE id="null" />
-      <DESCENDANTS>
-        <NODEREF id="l1"/>
-        <NODEREF id="l2"/>
-        <NODEREF id="l3"/>
-        <NODEREF id="l4"/>
-        <NODEREF id="l5"/>
-        <NODEREF id="l6"/>
-        <NODEREF id="l7"/>
-        <NODEREF id="l8"/>
-      </DESCENDANTS>
-    </NODE>
+  <NODE id="canto1">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+      <NODEREF id="canto"/>
+      <NODEREF id="cantoB"/>
+    </DESCENDANTS>
+  </NODE>
 
-    <!-- The Room Node -->
-    <NODE id="room">
-      <MATERIAL id="null" />
-      <TEXTURE id="pedestalPic" />
-      <DESCENDANTS>
-        <NODEREF id="ground"/>
-        <NODEREF id="wall0"/>
-        <NODEREF id="wall1"/>
-      </DESCENDANTS>
-    </NODE>
+  <NODE id="canto2">
+    <MATERIAL id="piramideBase"/>
+    <TRANSLATION x= "0" y="0" z ="33"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+      <NODEREF id="canto"/>
+      <NODEREF id="cantoB"/>
+    </DESCENDANTS>
+  </NODE>
 
-    <!-- The LAMPS Node -->
-    <NODE id="candeiros">
-      <MATERIAL id="null" />
-      <TEXTURE id="lampsPic" />
-      <DESCENDANTS>
-        <NODEREF id="c1"/>
-        <NODEREF id="c2"/>
-      </DESCENDANTS>
-    </NODE>
+  <NODE id="canto3">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+        <TRANSLATION x= "33" y="0" z ="0"/>
+    <DESCENDANTS>
+      <NODEREF id="canto"/>
+      <NODEREF id="cantoB"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="canto4">
+    <MATERIAL id="piramideBase"/>
+        <TRANSLATION x= "33" y="0" z ="33"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+      <NODEREF id="canto"/>
+      <NODEREF id="cantoB"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="canto">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+		<TRANSLATION x= "-1.5" y="0.5" z ="-1.5"/>
+    <SCALE sx="1.5" sy="2.5" sz="1.5"/>
+    <ROTATION axis="x" angle="-90"/>
+    <DESCENDANTS>
+      <NODEREF id="piramide"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="cantoB">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+		<TRANSLATION x= "-1.5" y="0" z ="-1.5"/>
+    <SCALE sx="1.5" sy="2.5" sz="1.5"/>
+    <ROTATION axis="x" angle="90"/>
+    <DESCENDANTS>
+      <NODEREF id="piramide"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="mesa">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="lampsPic"/>
+    <SCALE sx="30" sy="30" sz="30"/>
+    <TRANSLATION x="-14.5" y="-3.06" z="-4.5"/>
+    <DESCENDANTS>
+      <NODEREF id="table1"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="arvores">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <DESCENDANTS>
+      <NODEREF id="arvore1"/>
+      <NODEREF id="arvore2"/>
+      <NODEREF id="arvore3"/>
+      <NODEREF id="arvore4"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="arvore1">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <TRANSLATION x="15" y="-2" z="-15"/>
+    <DESCENDANTS>
+      <NODEREF id="arvore"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="arvore2">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <TRANSLATION x="15" y="-2" z="45"/>
+    <DESCENDANTS>
+      <NODEREF id="arvore"/>
+    </DESCENDANTS>
+  </NODE>
+  
+  <NODE id="arvore3">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <TRANSLATION x="-15" y="-2" z="15"/>
+    <DESCENDANTS>
+      <NODEREF id="arvore"/>
+    </DESCENDANTS>
+  </NODE>
+  
+  <NODE id="arvore4">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <TRANSLATION x="45" y="-2" z="15"/>
+    <DESCENDANTS>
+      <NODEREF id="arvore"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="arvore">
+    <MATERIAL id="piramideBase"/>
+    <TEXTURE id="null"/>
+    <ROTATION axis="x" angle="-90"/>
+    <SCALE sx="3" sy="3" sz="3"/>
+    <DESCENDANTS>
+      <NODEREF id="tronco"/>
+      <NODEREF id="folhas"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="folhas">
+    <MATERIAL id="diffuse"/>
+    <TEXTURE id="null"/>
+    <TRANSLATION x="0" y="0" z="1"/>
+    <DESCENDANTS>
+      <NODEREF id="folhas1"/>
+      <NODEREF id="folhas2"/>
+    </DESCENDANTS>
+  </NODE>
+
+    <NODE id="folhas1">
+    <MATERIAL id="diffuse"/>
+    <TEXTURE id="shrub"/>
+    <DESCENDANTS>
+      <LEAF id="folhasC1" type = "cylinder" args = "3 1 0 50 50 1 0" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="folhas2">
+    <MATERIAL id="diffuse"/>
+    <TEXTURE id="shrub"/>
+    <TRANSLATION x="0" y="0" z="1"/>
+    <DESCENDANTS>
+        <LEAF id="folhasC2" type = "cylinder" args = "3 1 0 50 50 1 0" />
+        <NODEREF id="bolaTopo"/>
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="tronco">
+    <MATERIAL id="diffuse"/>
+    <TEXTURE id="trunk"/>
+    <DESCENDANTS>
+        <LEAF id="tronco" type = "cylinder" args = "2 0.3 0.3 50 50 1 0" />
+    </DESCENDANTS>
+  </NODE>
+
+  <NODE id="bolaTopo">
+    <MATERIAL id="shinny"/>
+    <TEXTURE id="laserPic"/>
+    <TRANSLATION x="0" y="0" z="3"/>
+    <DESCENDANTS>
+        <LEAF id="est" type = "sphere" args = "0.2 30 30" />
+    </DESCENDANTS>
+  </NODE>
+
 	
-	<!--The Tables node -->
-	<NODE id="tables" selectable = "true">
-		<MATERIAL id="null"/>
-		<TEXTURE id ="pedestalPic"/>
-		<DESCENDANTS>
-			<NODEREF id = "table1"/>
-			<NODEREF id = "table2"/>
-			<NODEREF id = "table3"/>
-			<NODEREF id = "table4"/>
-		</DESCENDANTS>
-	</NODE>
+
 	
 	<!--The first Table node -->
 	<NODE id = "table1">
@@ -409,7 +583,7 @@
 		<TRANSLATION x= "15" y="0" z ="5"/>
 		<ROTATION axis="x" angle="-90"/>
 		<DESCENDANTS>
-			<LEAF id="LegLess table" type = "cylinder" args = "3 0.5 1.5 8 8 1 1" />
+			<LEAF id="LegLess table" type = "cylinder" args = "3 0.5 1.5 30 30 1 1" />
 		</DESCENDANTS>
 	</NODE>
 	

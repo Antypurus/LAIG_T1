@@ -36,31 +36,31 @@ function GamePiece(scene, color, position) {
 
   switch (this.Color) {
     case ('green'): {
-      this.mat.setAmbient(0, 0.1, 0, 1);
+      this.mat.setAmbient(0, 0.4, 0, 1);
       this.mat.setDiffuse(0, 0.2, 0, 1);
       this.mat.setSpecular(0, 0.7, 0, 1);
       break;
     }
     case ('blue'): {
-      this.mat.setAmbient(0, 0, 0.1, 1);
+      this.mat.setAmbient(0, 0, 0.4, 1);
       this.mat.setDiffuse(0, 0, 0.2, 1);
       this.mat.setSpecular(0, 0, 0.7, 1);
       break;
     }
     case ('yellow'): {
-      this.mat.setAmbient(0.1, 0.1, 0, 1);
+      this.mat.setAmbient(0.4, 0.4, 0, 1);
       this.mat.setDiffuse(0.2, 0.2, 0, 1);
       this.mat.setSpecular(0.7, 0.7, 0, 1);
       break;
     }
     case ('red'): {
-      this.mat.setAmbient(0.1, 0, 0, 1);
+      this.mat.setAmbient(0.4, 0, 0, 1);
       this.mat.setDiffuse(0.2, 0, 0, 1);
       this.mat.setSpecular(0.7, 0, 0, 1);
       break;
     }
     default: {
-      this.mat.setAmbient(0.1, 0.1, 0.1, 1);
+      this.mat.setAmbient(0.4, 0.4, 0.4, 1);
       this.mat.setDiffuse(0.2, 0.2, 0.2, 1);
       this.mat.setSpecular(0.7, 0.7, 0.7, 1);
       break;
@@ -75,31 +75,31 @@ function GamePiece(scene, color, position) {
 GamePiece.prototype.setUpColor = function(color) {
   switch (color) {
     case ('green'): {
-      this.mat.setAmbient(0, 0.1, 0, 1);
+      this.mat.setAmbient(0, 0.55, 0, 1);
       this.mat.setDiffuse(0, 0.2, 0, 1);
       this.mat.setSpecular(0, 0.7, 0, 1);
       break;
     }
     case ('blue'): {
-      this.mat.setAmbient(0, 0, 0.1, 1);
+      this.mat.setAmbient(0, 0, 0.55, 1);
       this.mat.setDiffuse(0, 0, 0.2, 1);
       this.mat.setSpecular(0, 0, 0.7, 1);
       break;
     }
     case ('yellow'): {
-      this.mat.setAmbient(0.1, 0.1, 0, 1);
+      this.mat.setAmbient(0.55, 0.55, 0, 1);
       this.mat.setDiffuse(0.2, 0.2, 0, 1);
       this.mat.setSpecular(0.7, 0.7, 0, 1);
       break;
     }
     case ('red'): {
-      this.mat.setAmbient(0.1, 0, 0, 1);
+      this.mat.setAmbient(0.55, 0, 0, 1);
       this.mat.setDiffuse(0.2, 0, 0, 1);
       this.mat.setSpecular(0.7, 0, 0, 1);
       break;
     }
     default: {
-      this.mat.setAmbient(0.1, 0.1, 0.1, 1);
+      this.mat.setAmbient(0.55, 0.55, 0.55, 1);
       this.mat.setDiffuse(0.2, 0.2, 0.2, 1);
       this.mat.setSpecular(0.7, 0.7, 0.7, 1);
       break;
