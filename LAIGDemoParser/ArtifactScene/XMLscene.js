@@ -23,6 +23,9 @@ function XMLscene(interface) {
   this.stop = false;
   this.once = false;
 
+  this.xFrog = 0;
+  this.yFrog = 0;
+
   this.lockSecondMove = false;
 
   this.isAnimating = false;
@@ -295,8 +298,8 @@ XMLscene.prototype.display = function() {
 
   else {
     if (this.lockSecondMove) {
-      let xCoord = this.clickedX;
-      let yCoord = this.clickedY;
+      let xCoord = this.xFrog;
+      let yCoord = this.yFrog;
       if (Number(xCoord) <= 9) xCoord += '00';
       if (Number(yCoord) <= 9) yCoord += '00';
 
@@ -324,7 +327,9 @@ XMLscene.prototype.display = function() {
           !this.isFirstMove && !this.firstClick &&
           (this.clickedX != this.firstX || this.clickedY != this.firstY)) {
         if (!this.lockSecondMove)
-          this.selectedPiece.isSelected = false;
+          {
+            this.selectedPiece.isSelected = false;
+          }
         else
           this.lockSecondMove = false;
 
@@ -354,6 +359,7 @@ XMLscene.prototype.display = function() {
       }
     }
   }
+  console.log(this.selectedPiece);
 
   // ---- BEGIN Background, camera and axis setup
 
