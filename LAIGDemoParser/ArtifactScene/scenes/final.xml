@@ -113,6 +113,11 @@
     <file path="images/arbusto.png" />
     <amplif_factor s="1" t="1" />
   </TEXTURE>  
+
+    <TEXTURE id = "leaves">
+    <file path="images/frog.png" />
+    <amplif_factor s="1" t="1" />
+  </TEXTURE>
   
 	
 </TEXTURES>
@@ -457,7 +462,7 @@
 
   <NODE id="mesa">
     <MATERIAL id="piramideBase"/>
-    <TEXTURE id="pedestalPic"/>
+    <TEXTURE id="lampsPic"/>
     <SCALE sx="30" sy="30" sz="30"/>
     <TRANSLATION x="-14.5" y="-3.06" z="-4.5"/>
     <DESCENDANTS>
