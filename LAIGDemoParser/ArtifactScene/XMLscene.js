@@ -265,11 +265,15 @@ XMLscene.prototype.display = function() {
   if (!scene.isFirstMove) {
     if (!scene.undoStop) {
       scene.backButton = document.createElement('BUTTON');
-      scene.backButton.addEventListener('click', function refresh() {
+      scene.backButton.addEventListener('click', function undo() {
+        scene.selectedPiece = false;
         let allBoard = scene.historyKeeper.undoTurn();
         scene.board = allBoard['Board'];
         scene.boardString = allBoard['BoardString'];
-        scene.isFirstMove = true;
+        if(allBoard['Firstmove'])
+          scene.isFirstMove = true;
+        else
+          scene.isFirstMove = false;
 
         if (scene.currentPlayer == scene.player1) {
           document.getElementById('player1').innerHTML = scene.player1.name;
@@ -350,8 +354,9 @@ XMLscene.prototype.display = function() {
     }
     if (this.hasClicked) {
       if (this.isFirstMove) {
+        this.selectedPiece.isSelected = false;
         this.historyKeeper.addPlayHistory(
-            this.clickedX, this.clickedY, this.board, this.boardString);
+            this.clickedX, this.clickedY, this.board, this.boardString, this.isFirstMove);
         this.undoBoardString = this.boardString;
         this.undoBoard = this.board;
         this.undoStop = false;

@@ -14,8 +14,8 @@ function HistoryKepper() {
  * @param {number} y the chosen y coordinate
  * @param {array} board the state of the board after the play
  */
-HistoryKepper.prototype.addPlayHistory = function(x, y, board, boardString) {
-  let add = {X: x, Y: y, Board: board, BoardString: boardString};
+HistoryKepper.prototype.addPlayHistory = function(x, y, board, boardString, firstmove) {
+  let add = {X: x, Y: y, Board: board, BoardString: boardString, Firstmove: firstmove};
   let len = this.History.length;
   if (length > this.lookingAtTurn) {
     this.History[this.lookingAtTurn] = add;
@@ -46,7 +46,9 @@ HistoryKepper.prototype.undoTurn = function() {
     return null;
   } else {
     this.lookingAtTurn--;
-    return this.History[this.lookingAtTurn];
+    let returnValue = this.History[this.lookingAtTurn];
+    this.History.pop();
+    return returnValue;
   }
   return null;
 };

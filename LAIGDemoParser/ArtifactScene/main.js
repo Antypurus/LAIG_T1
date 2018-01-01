@@ -658,6 +658,8 @@ function makeMoveHuman(JsonRequest) {
         else if (responseSplit[0] == 'Syntax Error')
           return;
         else {
+          scene.historyKeeper.addPlayHistory(
+            scene.clickedX, scene.clickedY, scene.board, scene.boardString, false);
           peca.moveTo(responseSplit[1], responseSplit[2]);
 
 
