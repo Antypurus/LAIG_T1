@@ -20,6 +20,29 @@
 	margin-top: 1em;
 }
 
+.undoButton
+{
+	position: absolute;
+	cursor: pointer; 
+	background-color: white;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+	margin-left: 2em;
+	margin-top: 3em;
+	width: 150px;
+}
+
+.undoButton:hover 
+{
+	background-color: red;
+	margin-left: 2em;
+	margin-top: 3em;
+}
+
+
 .button
 {
 	cursor: pointer; 
@@ -31,4 +54,9 @@
 .button:hover
 {
 	background-color: green;
+}
+
+.hidden
+{
+	display:none;
 }

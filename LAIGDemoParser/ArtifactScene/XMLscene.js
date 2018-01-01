@@ -22,6 +22,7 @@ function XMLscene(interface) {
 
   this.stop = false;
   this.once = false;
+  this.passed = false;
 
   this.xFrog = 0;
   this.yFrog = 0;
@@ -33,11 +34,18 @@ function XMLscene(interface) {
   this.firstX = 0;
   this.firstY = 0;
 
+  this.undoStop = false;
+  this.undoBoard = null;
+  this.undoBoardString = "";
+
   this.selectedPiece = null;
 
   this.hasClicked = false;
   this.clickedX = 0;
   this.clickedY = 0;
+  this.backButton = null;
+
+  this.historyKeeper = new HistoryKepper();
 
   this.boardS = [
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -254,6 +262,48 @@ function handleSpaceInput(boardString, isFirstMove, gameDifficulty) {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
+  if(!scene.isFirstMove)
+    {
+      if(!scene.undoStop)
+      {
+        scene.backButton = document.createElement('BUTTON');
+        scene.backButton.addEventListener("click", 
+          function refresh() 
+          {
+            let allBoard = scene.historyKeeper.undoTurn();
+            scene.board = allBoard['Board'];
+            scene.boardString = allBoard['BoardString'];
+            scene.isFirstMove = true;
+          
+            if(scene.currentPlayer == scene.player1)
+            {
+              document.getElementById("player1").innerHTML = scene.player1.name;
+              document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
+              scene.currentPlayer = scene.player2;
+            }
+            else
+            {
+              document.getElementById("player1").innerHTML =  "&#8680" +  scene.player1.name;
+              document.getElementById("player2").innerHTML = scene.player2.name;
+              scene.currentPlayer = scene.player1;
+            }
+          });
+
+          scene.backButton.className = 'undoButton';
+          scene.backButton.innerHTML = 'Undo play';
+          document.getElementById('script').insertAdjacentElement(
+              'beforebegin', scene.backButton);
+
+              scene.undoStop = true;
+        }
+
+    }
+    else if(this.passed)
+    {
+      scene.backButton.className = 'hidden';
+    }
+
+
   if (this.isAnimating && this.selectedPiece != null) {
     this.selectedPiece.isSelected = false;
     this.selectedPiece = null;
@@ -307,6 +357,12 @@ XMLscene.prototype.display = function() {
     }
     if (this.hasClicked) {
       if (this.isFirstMove) {
+        this.passed = true;
+        console.log(this.boardString);
+        this.historyKeeper.addPlayHistory(this.clickedX, this.clickedY, this.board, this.boardString);
+        this.undoBoardString = this.boardString;
+        this.undoBoard = this.board;
+        this.undoStop = false;
         this.selectedPiece.isSelected = false;
         firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
         this.hasClicked = false;

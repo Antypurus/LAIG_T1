@@ -68,12 +68,14 @@ serialInclude([
   'Animations/BezierAnimation.js',
   'Animations/ComboAnimation.js',
   'Vecs.js',
+  'GameEntities/HistoryKepper.js',
   'GameEntities/GameBoard.js',
   'GameEntities/SquareHitBox.js',
   'GameEntities/GamePieceManager.js',
   'GameEntities/GamePiece.js', 'player.js']);
 
 var filenameToLoad = 'final.xml';
+
 
 function play() {
   let body = document.getElementsByTagName('body')[0];
@@ -144,13 +146,18 @@ function player(name) {
 
 function insertBackButton() {
   let backButton = document.createElement('BUTTON');
-  backButton.addEventListener("click", function refresh() {mainMenu()});
+  backButton.addEventListener("click", 
+    function refresh() 
+    {
+      mainMenu();
+
+     });
+
   backButton.className = 'backButton';
   backButton.innerHTML = 'Quit Game';
   document.getElementById('script').insertAdjacentElement(
       'beforebegin', backButton);
 };
-
 
 function mainMenu() {
   let body = document.getElementsByTagName('body')[0];
