@@ -209,7 +209,6 @@ function checkIfGameOver(boardString) {
       true);
   request.onload = (function(response) {
     let responseSplit = response.target.response;
-    console.log(responseSplit[0]);
     if (responseSplit[0] === -1)
       scene.stop = false;
     else if (responseSplit[0] == 'n')
@@ -359,7 +358,6 @@ XMLscene.prototype.display = function() {
       }
     }
   }
-  console.log(this.selectedPiece);
 
   // ---- BEGIN Background, camera and axis setup
 

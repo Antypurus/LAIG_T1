@@ -243,7 +243,6 @@ function playMenu() {
   
           function goBack() {
               let JsonRequest = "quit";
-              console.log(JsonRequest);
               let requestPort = 8082;
               let request = new XMLHttpRequest();
               request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
@@ -512,9 +511,7 @@ function makeMoveComEasy(JsonRequest) {
                 document.getElementById('player2score').innerHTML =
                     scene.player2.score;
               } else {
-                console.log('oi');
                 scene.currentPlayer = scene.player1;
-                console.log(scene.currentPlayer);
                 document.getElementById('player1').innerHTML =
                     '&#8680' + scene.player1.name;
                 document.getElementById('player2').innerHTML =
@@ -567,7 +564,6 @@ function makeMoveComHard(JsonRequest) {
             let yCoordToMove = Number(responseSplit[1]);
 
             for (let i = 0; i < directionsArray.length; i++) {
-              console.log(directionsArray[i]);
               if (directionsArray[i] == '[S]' || directionsArray[i] == 'S]' ||
                   directionsArray[i] == '[S' || directionsArray[i] == 'S') {
                 xCoordToMove += 2;
@@ -696,7 +692,6 @@ function makeMoveHuman(JsonRequest)
                             scene.lockSecondMove = false;
                             scene.selectedPiece = scene.pieceManager.pieceMap.get(xCoord + yCoord);
                             scene.selectedPiece.isSelected = false;
-                            console.log(scene.selectedPiece);
 
                             scene.currentPlayer = scene.player2;
                             document.getElementById("player1").innerHTML = scene.player1.name;
@@ -723,7 +718,6 @@ function makeMoveHuman(JsonRequest)
                           }
                           else
                           {
-                            console.log(scene.selectedPiece);
                             scene.xFrog = responseSplit[1];
                             scene.yFrog = responseSplit[2];
                             let xCoord = scene.xFrog;
