@@ -446,6 +446,7 @@ function makeFirstMove(JsonRequest) {
             document.getElementById('player2').innerHTML = scene.player2.name;
           }
           scene.isFirstMove = false;
+          scene.passed = true;
         }
 
       }).bind(this);

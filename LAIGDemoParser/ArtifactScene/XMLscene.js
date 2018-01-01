@@ -359,13 +359,10 @@ XMLscene.prototype.display = function() {
     }
     if (this.hasClicked) {
       if (this.isFirstMove) {
-        this.passed = true;
-        console.log(this.boardString);
         this.historyKeeper.addPlayHistory(this.clickedX, this.clickedY, this.board, this.boardString);
         this.undoBoardString = this.boardString;
         this.undoBoard = this.board;
         this.undoStop = false;
-        this.selectedPiece.isSelected = false;
         firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
         this.hasClicked = false;
         this.clickedX = 0;
