@@ -485,20 +485,12 @@ function makeFirstMove(JsonRequest) {
           let yCoord = responseSplit[2];
 
           console.log(xCoord);
+          if (Number(xCoord) <= 9) xCoord += '00';
+          if (Number(yCoord) <= 9) yCoord += '00';
 
-          let i = xCoord - 1;
-          let j = yCoord - 1;
+          let peca = scene.pieceManager.pieceMap.get(xCoord + yCoord);
 
-          let iid = '' + (i + 1);
-          let jid = '' + (j + 1);
-          if (i + 1 < 10) {
-            iid = (i + 1) + '00'
-          }
-          if (j + 1 < 10) {
-            jid = (j + 1) + '00';
-          }
-
-          scene.pieceManager.pieceMap.get(iid + jid).die();
+          peca.die();
 
           scene.board = boardArray;
           scene.boardString = testeBoard;
