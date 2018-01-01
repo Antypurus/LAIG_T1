@@ -69,6 +69,11 @@ function XMLscene(interface) {
   this.attenuation = 500.0;
 
   this.lightValues = {};
+
+  this.altCamera = null;
+
+  this.currAngle = 0;
+  this.finalAngle = DEGREE_TO_RAD * 360;
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
@@ -143,7 +148,7 @@ XMLscene.prototype.initLights = function() {
  */
 XMLscene.prototype.initCameras = function() {
   this.camera = new CGFcamera(
-      0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+      0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(2.5, 0, 2.5));
 };
 
 /* Handler called when the graph is finally loaded.
@@ -538,6 +543,19 @@ XMLscene.prototype.display = function() {
   // ---- END Background, camera and axis setup
 };
 
+XMLscene.prototype.moveCam = function(elapsedTime) {
+  if (this.currAngle < this.finalAngle) {
+    let angVel = 0.7;
+    let angStep = angVel * elapsedTime / 1000;
+    let temp = this.currAngle;
+    this.currAngle += angStep;
+    if (this.currAngle >= this.finalAngle) {
+      angStep = this.finalAngle - temp;
+    }
+    this.camera.orbit([0, 1, 0], angStep);
+  }
+};
+
 XMLscene.prototype.update = function(currTime) {
   if (this.graph.loadedOk) {
     this.bindTimeFactor(currTime);
@@ -547,6 +565,7 @@ XMLscene.prototype.update = function(currTime) {
     if (this.pieceManager != null) {
       this.pieceManager.update(elapsedTime);
     }
+    this.moveCam(elapsedTime);
   }
 };
 
