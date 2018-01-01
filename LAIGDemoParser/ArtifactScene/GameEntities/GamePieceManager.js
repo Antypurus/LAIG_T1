@@ -274,4 +274,8 @@ GamePieceManager.prototype.Eat = function(sX, sY, eX, eY) {
   if (j + 1 < 10) {
     jid = (j + 1) + '00';
   }
+
+  let id = iid + jid;
+
+  this.pieceMap.get(id).die();
 };
