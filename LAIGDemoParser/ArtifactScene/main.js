@@ -135,6 +135,13 @@ function play() {
            app.run();
 };
 
+
+function player(name) {
+  this.score = 0;
+  this.name = name;
+}
+
+
 function insertBackButton() {
   let backButton = document.createElement('BUTTON');
   backButton.addEventListener("click", function refresh() {mainMenu()});
