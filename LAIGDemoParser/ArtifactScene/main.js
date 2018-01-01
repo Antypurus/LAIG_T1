@@ -24,7 +24,7 @@ serialInclude = function(a) {
       include(d, function() {
         serialInclude([]);
       });
-    } 
+    }
   } else
     b.log('Finished.');
 };
@@ -72,7 +72,10 @@ serialInclude([
   'GameEntities/GameBoard.js',
   'GameEntities/SquareHitBox.js',
   'GameEntities/GamePieceManager.js',
-  'GameEntities/GamePiece.js', 'player.js']);
+  'GameEntities/GamePiece.js',
+  'player.js',
+  'GameEntities/HistoryKepper.js'
+]);
 
 var filenameToLoad = 'final.xml';
 
@@ -97,44 +100,44 @@ function play() {
   this.insertBackButton();
 
 
-           // Standard application, scene and interface setup
-           var app = new CGFapplication(document.body);
-           var myInterface = new MyInterface();
-           var myScene = new XMLscene(myInterface);
-           scene = myScene;
-           scene.board = boardArray;
-           scene.boardString = testeBoard;
-           scene.player1 = player1;
-           scene.player2 = player2;
-           scene.gameType = gameType;
-           scene.gameDifficulty = gameDifficulty;
+  // Standard application, scene and interface setup
+  var app = new CGFapplication(document.body);
+  var myInterface = new MyInterface();
+  var myScene = new XMLscene(myInterface);
+  scene = myScene;
+  scene.board = boardArray;
+  scene.boardString = testeBoard;
+  scene.player1 = player1;
+  scene.player2 = player2;
+  scene.gameType = gameType;
+  scene.gameDifficulty = gameDifficulty;
 
-           app.init();
+  app.init();
 
-           app.setScene(myScene);
-           app.setInterface(myInterface);
+  app.setScene(myScene);
+  app.setInterface(myInterface);
 
-           myInterface.setActiveCamera(myScene.camera);
+  myInterface.setActiveCamera(myScene.camera);
 
-           // get file name provided in URL, e.g.
-           // http://localhost/myproj/?file=myfile.xml or use "demo.xml" as
-           // default (assumes files in subfolder "scenes", check MySceneGraph
-           // constructor)
-           var file = 'final.xml';
-           if (filenameToLoad != null) {
-             file = filenameToLoad;
-           }
+  // get file name provided in URL, e.g.
+  // http://localhost/myproj/?file=myfile.xml or use "demo.xml" as
+  // default (assumes files in subfolder "scenes", check MySceneGraph
+  // constructor)
+  var file = 'final.xml';
+  if (filenameToLoad != null) {
+    file = filenameToLoad;
+  }
 
-           console.log('File to load:' + file);
-           var filename = getUrlVars()['file'] || file;
+  console.log('File to load:' + file);
+  var filename = getUrlVars()['file'] || file;
 
-           // create and load graph, and associate it to scene.
-           // Check console for loading errors
-           var myGraph = new MySceneGraph(filename, myScene);
-           myGraph.board = testeBoard;
+  // create and load graph, and associate it to scene.
+  // Check console for loading errors
+  var myGraph = new MySceneGraph(filename, myScene);
+  myGraph.board = testeBoard;
 
-           // start
-           app.run();
+  // start
+  app.run();
 };
 
 
@@ -146,12 +149,10 @@ function player(name) {
 
 function insertBackButton() {
   let backButton = document.createElement('BUTTON');
-  backButton.addEventListener("click", 
-    function refresh() 
-    {
-      mainMenu();
+  backButton.addEventListener('click', function refresh() {
+    mainMenu();
 
-     });
+  });
 
   backButton.className = 'backButton';
   backButton.innerHTML = 'Quit Game';
@@ -372,9 +373,9 @@ function firstMoveHuman(board, X, Y) {
   makeFirstMove(JsonRequest);
 }
 
-function moveHuman(board,X,Y, direction)
-{
-  let JsonRequest = 'moveOK(' + board +',' + X +',' + Y + ',' + direction + ')';
+function moveHuman(board, X, Y, direction) {
+  let JsonRequest =
+      'moveOK(' + board + ',' + X + ',' + Y + ',' + direction + ')';
   makeMoveHuman(JsonRequest);
 }
 
@@ -631,8 +632,7 @@ function makeMoveComHard(JsonRequest) {
 }
 
 
-function makeMoveHuman(JsonRequest)
-{
+function makeMoveHuman(JsonRequest) {
   let requestPort = 8082;
   let request = new XMLHttpRequest();
   request.open(
@@ -666,84 +666,79 @@ function makeMoveHuman(JsonRequest)
           scene.board = boardArray;
           scene.boardString = testeBoard;
 
-                        if(scene.currentPlayer == scene.player1)
-                        {
-                          if(responseSplit[4] == "y")
-                            {
-                              scene.firstClick = false;
-                              scene.lockSecondMove = true;
-                              scene.xFrog = responseSplit[1];
-                              scene.yFrog = responseSplit[2];
-                              scene.firstX = responseSplit[1];
-                              scene.firstY = responseSplit[2];
-                              scene.currentPlayer = scene.player1;
-                              scene.player1.score += JSON.parse(responseSplit[3]);
-                              player1.score = scene.player1.score;
-                              document.getElementById("player1score").innerHTML = scene.player1.score;
-                            }
-                          else
-                          {
-                            scene.xFrog = responseSplit[1];
-                            scene.yFrog = responseSplit[2];
-                            let xCoord = scene.xFrog;
-                            let yCoord = scene.yFrog;
-                            if(Number(xCoord) <= 9)
-                              xCoord += "00";
-                            if(Number(yCoord) <= 9)
-                              yCoord += "00";
+          if (scene.currentPlayer == scene.player1) {
+            if (responseSplit[4] == 'y') {
+              scene.firstClick = false;
+              scene.lockSecondMove = true;
+              scene.xFrog = responseSplit[1];
+              scene.yFrog = responseSplit[2];
+              scene.firstX = responseSplit[1];
+              scene.firstY = responseSplit[2];
+              scene.currentPlayer = scene.player1;
+              scene.player1.score += JSON.parse(responseSplit[3]);
+              player1.score = scene.player1.score;
+              document.getElementById('player1score').innerHTML =
+                  scene.player1.score;
+            } else {
+              scene.xFrog = responseSplit[1];
+              scene.yFrog = responseSplit[2];
+              let xCoord = scene.xFrog;
+              let yCoord = scene.yFrog;
+              if (Number(xCoord) <= 9) xCoord += '00';
+              if (Number(yCoord) <= 9) yCoord += '00';
 
-                            scene.lockSecondMove = false;
-                            scene.selectedPiece = scene.pieceManager.pieceMap.get(xCoord + yCoord);
-                            scene.selectedPiece.isSelected = false;
+              scene.lockSecondMove = false;
+              scene.selectedPiece =
+                  scene.pieceManager.pieceMap.get(xCoord + yCoord);
+              scene.selectedPiece.isSelected = false;
 
-                            scene.currentPlayer = scene.player2;
-                            document.getElementById("player1").innerHTML = scene.player1.name;
-                            document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
-                            scene.player1.score += JSON.parse(responseSplit[3]);
-                            player1.score = scene.player1.score;
-                            document.getElementById("player1score").innerHTML = scene.player1.score;
-                          }
-                        }
-                        else
-                        {
-                          if(responseSplit[4] == "y")
-                          {
-                            scene.firstClick = false;
-                            scene.lockSecondMove = true;
-                            scene.firstX = responseSplit[1];
-                            scene.firstY = responseSplit[2];
-                            scene.xFrog = responseSplit[1];
-                            scene.yFrog = responseSplit[2];
-                            scene.currentPlayer = scene.player2;
-                            scene.player2.score +=  JSON.parse(responseSplit[3]);
-                            player2.score = scene.player2.score;
-                            document.getElementById("player2score").innerHTML = scene.player2.score;
-                          }
-                          else
-                          {
-                            scene.xFrog = responseSplit[1];
-                            scene.yFrog = responseSplit[2];
-                            let xCoord = scene.xFrog;
-                            let yCoord = scene.yFrog;
-                            if(Number(xCoord) <= 9)
-                              xCoord += "00";
-                            if(Number(yCoord) <= 9)
-                              yCoord += "00";
+              scene.currentPlayer = scene.player2;
+              document.getElementById('player1').innerHTML = scene.player1.name;
+              document.getElementById('player2').innerHTML =
+                  '&#8680' + scene.player2.name;
+              scene.player1.score += JSON.parse(responseSplit[3]);
+              player1.score = scene.player1.score;
+              document.getElementById('player1score').innerHTML =
+                  scene.player1.score;
+            }
+          } else {
+            if (responseSplit[4] == 'y') {
+              scene.firstClick = false;
+              scene.lockSecondMove = true;
+              scene.firstX = responseSplit[1];
+              scene.firstY = responseSplit[2];
+              scene.xFrog = responseSplit[1];
+              scene.yFrog = responseSplit[2];
+              scene.currentPlayer = scene.player2;
+              scene.player2.score += JSON.parse(responseSplit[3]);
+              player2.score = scene.player2.score;
+              document.getElementById('player2score').innerHTML =
+                  scene.player2.score;
+            } else {
+              scene.xFrog = responseSplit[1];
+              scene.yFrog = responseSplit[2];
+              let xCoord = scene.xFrog;
+              let yCoord = scene.yFrog;
+              if (Number(xCoord) <= 9) xCoord += '00';
+              if (Number(yCoord) <= 9) yCoord += '00';
 
-                            scene.lockSecondMove = false;
-                            scene.selectedPiece = scene.pieceManager.pieceMap.get(xCoord + yCoord);
-                            scene.selectedPiece.isSelected = false;
+              scene.lockSecondMove = false;
+              scene.selectedPiece =
+                  scene.pieceManager.pieceMap.get(xCoord + yCoord);
+              scene.selectedPiece.isSelected = false;
 
-                            scene.currentPlayer = scene.player1;
-                            document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
-                            document.getElementById("player2").innerHTML = scene.player2.name;
-                            scene.player2.score +=  JSON.parse(responseSplit[3]);
-                            player2.score = scene.player2.score;
-                            document.getElementById("player2score").innerHTML = scene.player2.score;
-                          }
-                        }
-                      }
-                   }).bind(this);
+              scene.currentPlayer = scene.player1;
+              document.getElementById('player1').innerHTML =
+                  '&#8680' + scene.player1.name;
+              document.getElementById('player2').innerHTML = scene.player2.name;
+              scene.player2.score += JSON.parse(responseSplit[3]);
+              player2.score = scene.player2.score;
+              document.getElementById('player2score').innerHTML =
+                  scene.player2.score;
+            }
+          }
+        }
+      }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');

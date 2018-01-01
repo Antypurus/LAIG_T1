@@ -162,6 +162,13 @@ GamePiece.prototype.moveTo = function(x, y) {
 };
 
 GamePiece.prototype.die = function() {
+
+  if (this.animation != null) {
+    return;
+  } else {
+    this.scene.isAnimating = true;
+  }
+
   let cp = [[0, 0, 0], [0, 2, 0], [0, -5, 0]];
 
   this.startTranslation.x = this.translation.x;
