@@ -161,6 +161,8 @@ GamePiece.prototype.moveTo = function(x, y) {
   this.animation = new BezierAnimation(15, cp);
   this.animation.update(0);
 
+  this.scene.audio.play();
+
   let dx = (this.translation.x - sz / 2) / sz;
   let dz = (this.translation.z - sz / 2) / sz;
 

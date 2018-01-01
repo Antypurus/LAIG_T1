@@ -184,7 +184,7 @@ XMLscene.prototype.logPicking = function() {
 
           let ret = this.gameBoard.getCoords(customId);
           if (ret != null && this.currentPlayer.name.indexOf('CPU') < 0) {
-            this.audio.play();
+            // this.audio.play();
             this.clickedX = ret.x;
             this.clickedY = ret.y;
             this.hasClicked = true;
@@ -261,7 +261,7 @@ function handleSpaceInput(boardString, isFirstMove, gameDifficulty) {
  */
 XMLscene.prototype.display = function() {
   this.logPicking();
-  
+
   if (!scene.isFirstMove && scene.gameType != 2) {
     if (!scene.undoStop) {
       scene.backButton = document.createElement('BUTTON');
@@ -274,34 +274,39 @@ XMLscene.prototype.display = function() {
         if (Number(yCoord) <= 9) yCoord += '00';
 
         let peca = scene.pieceManager.pieceMap.get(xCoord + yCoord);
-    
+
         scene.board = allBoard['Board'];
         scene.boardString = allBoard['BoardString'];
         scene.lockSecondMove = allBoard['locksecondmove'];
 
-        if(scene.lockSecondMove)
-          if(peca != null)
-            peca.isSelected = false;
+        if (scene.lockSecondMove)
+          if (peca != null) peca.isSelected = false;
 
-        if(allBoard['Firstmove'])
+        if (allBoard['Firstmove'])
           scene.isFirstMove = true;
         else
           scene.isFirstMove = false;
 
-          scene.player1.score = allBoard['Player1Score'];
-          scene.player2.score = allBoard['Player2Score'];
+        scene.player1.score = allBoard['Player1Score'];
+        scene.player2.score = allBoard['Player2Score'];
 
         if (allBoard['CurrentPlayer'] == scene.player1) {
-          document.getElementById('player1').innerHTML = '&#8680' + scene.player1.name;
+          document.getElementById('player1').innerHTML =
+              '&#8680' + scene.player1.name;
           document.getElementById('player2').innerHTML = scene.player2.name;
-          document.getElementById('player1score').innerHTML = scene.player1.score;
-          document.getElementById('player2score').innerHTML = scene.player2.score;
+          document.getElementById('player1score').innerHTML =
+              scene.player1.score;
+          document.getElementById('player2score').innerHTML =
+              scene.player2.score;
           scene.currentPlayer = scene.player1;
         } else {
           document.getElementById('player1').innerHTML = scene.player1.name;
-          document.getElementById('player2').innerHTML = '&#8680' + scene.player2.name;
-          document.getElementById('player1score').innerHTML = scene.player1.score;
-          document.getElementById('player2score').innerHTML = scene.player2.score;
+          document.getElementById('player2').innerHTML =
+              '&#8680' + scene.player2.name;
+          document.getElementById('player1score').innerHTML =
+              scene.player1.score;
+          document.getElementById('player2score').innerHTML =
+              scene.player2.score;
           scene.currentPlayer = scene.player2;
         }
       });
@@ -318,14 +323,13 @@ XMLscene.prototype.display = function() {
     scene.backButton.className = 'hidden';
   }
 
-  if(scene.backButton != null && scene.gameType == 1 && !scene.lockSecondMove)
-  {
-    if(scene.currentPlayer.name.indexOf('CPU') < 0)
+  if (scene.backButton != null && scene.gameType == 1 &&
+      !scene.lockSecondMove) {
+    if (scene.currentPlayer.name.indexOf('CPU') < 0)
       scene.backButton.className = 'hidden';
     else
       scene.backButton.className = 'undoButton';
-  }
-  else if(scene.backButton != null && scene.gameType == 1)
+  } else if (scene.backButton != null && scene.gameType == 1)
     scene.backButton.className = 'undoButton';
 
 
@@ -385,7 +389,9 @@ XMLscene.prototype.display = function() {
       if (this.isFirstMove) {
         this.selectedPiece.isSelected = false;
         this.historyKeeper.addPlayHistory(
-            this.clickedX, this.clickedY, this.board, this.boardString, this.isFirstMove, this.player1.score, this.player2.score, this.currentPlayer, this.lockSecondMove);
+            this.clickedX, this.clickedY, this.board, this.boardString,
+            this.isFirstMove, this.player1.score, this.player2.score,
+            this.currentPlayer, this.lockSecondMove);
         this.undoBoardString = this.boardString;
         this.undoBoard = this.board;
         this.undoStop = false;
