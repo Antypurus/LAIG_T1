@@ -265,22 +265,31 @@ XMLscene.prototype.display = function() {
   if (!scene.isFirstMove) {
     if (!scene.undoStop) {
       scene.backButton = document.createElement('BUTTON');
-      scene.backButton.addEventListener('click', function refresh() {
+      scene.backButton.addEventListener('click', function undo() {
+        scene.selectedPiece = false;
         let allBoard = scene.historyKeeper.undoTurn();
         scene.board = allBoard['Board'];
         scene.boardString = allBoard['BoardString'];
-        scene.isFirstMove = true;
+        if(allBoard['Firstmove'])
+          scene.isFirstMove = true;
+        else
+          scene.isFirstMove = false;
 
-        if (scene.currentPlayer == scene.player1) {
-          document.getElementById('player1').innerHTML = scene.player1.name;
-          document.getElementById('player2').innerHTML =
-              '&#8680' + scene.player2.name;
-          scene.currentPlayer = scene.player2;
-        } else {
-          document.getElementById('player1').innerHTML =
-              '&#8680' + scene.player1.name;
+          scene.player1.score = allBoard['Player1Score'];
+          scene.player2.score = allBoard['Player2Score'];
+
+        if (allBoard['CurrentPlayer'] == scene.player1) {
+          document.getElementById('player1').innerHTML = '&#8680' + scene.player1.name;
           document.getElementById('player2').innerHTML = scene.player2.name;
+          document.getElementById('player1score').innerHTML = scene.player1.score;
+          document.getElementById('player2score').innerHTML = scene.player2.score;
           scene.currentPlayer = scene.player1;
+        } else {
+          document.getElementById('player1').innerHTML = scene.player1.name;
+          document.getElementById('player2').innerHTML = '&#8680' + scene.player2.name;
+          document.getElementById('player1score').innerHTML = scene.player1.score;
+          document.getElementById('player2score').innerHTML = scene.player2.score;
+          scene.currentPlayer = scene.player2;
         }
       });
 
@@ -350,8 +359,9 @@ XMLscene.prototype.display = function() {
     }
     if (this.hasClicked) {
       if (this.isFirstMove) {
+        this.selectedPiece.isSelected = false;
         this.historyKeeper.addPlayHistory(
-            this.clickedX, this.clickedY, this.board, this.boardString);
+            this.clickedX, this.clickedY, this.board, this.boardString, this.isFirstMove, this.player1.score, this.player2.score, this.currentPlayer);
         this.undoBoardString = this.boardString;
         this.undoBoard = this.board;
         this.undoStop = false;
