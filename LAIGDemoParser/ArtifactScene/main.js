@@ -24,11 +24,7 @@ serialInclude = function(a) {
       include(d, function() {
         serialInclude([]);
       });
-    } else {
-      var e = c[0][0];
-      c.splice(0, 1);
-      e.call();
-    };
+    } 
   } else
     b.log('Finished.');
 };
@@ -52,7 +48,34 @@ var gameType = null;
 var gameDifficulty = null;
 var checkOnetime = false;
 
+serialInclude([
+  '../lib/CGF.js',
+  'XMLscene.js',
+  'MySceneGraph.js',
+  'MyGraphNode.js',
+  'MyGraphLeaf.js',
+  'MyInterface.js',
+  'Position.js',
+  'Primitives/Cylinder.js',
+  'Primitives/FrogPiece.js',
+  'Primitives/Sphere.js',
+  'Primitives/Rectangle.js',
+  'Primitives/Triangle.js',
+  'Primitives/Circle.js',
+  'Animations/LinearAnimation.js',
+  'Animations/CircularAnimation.js',
+  'Animations/Animation.js',
+  'Animations/BezierAnimation.js',
+  'Animations/ComboAnimation.js',
+  'Vecs.js',
+  'GameEntities/HistoryKepper.js',
+  'GameEntities/GameBoard.js',
+  'GameEntities/SquareHitBox.js',
+  'GameEntities/GamePieceManager.js',
+  'GameEntities/GamePiece.js', 'player.js']);
+
 var filenameToLoad = 'final.xml';
+
 
 function play() {
   let body = document.getElementsByTagName('body')[0];
@@ -73,34 +96,7 @@ function play() {
 
   this.insertBackButton();
 
-  serialInclude([
-    '../lib/CGF.js',
-    'XMLscene.js',
-    'MySceneGraph.js',
-    'MyGraphNode.js',
-    'MyGraphLeaf.js',
-    'MyInterface.js',
-    'Position.js',
-    'player.js',
-    'Primitives/Cylinder.js',
-    'Primitives/FrogPiece.js',
-    'Primitives/Sphere.js',
-    'Primitives/Rectangle.js',
-    'Primitives/Triangle.js',
-    'Primitives/Circle.js',
-    'Animations/LinearAnimation.js',
-    'Animations/CircularAnimation.js',
-    'Animations/Animation.js',
-    'Animations/BezierAnimation.js',
-    'Animations/ComboAnimation.js',
-    'Vecs.js',
-    'GameEntities/GameBoard.js',
-    'GameEntities/SquareHitBox.js',
-    'GameEntities/GamePieceManager.js',
-    'GameEntities/GamePiece.js',
 
-    (main =
-         function() {
            // Standard application, scene and interface setup
            var app = new CGFapplication(document.body);
            var myInterface = new MyInterface();
@@ -139,28 +135,29 @@ function play() {
 
            // start
            app.run();
-         })
-  ]);
 };
 
-function unplay() {}
 
 function player(name) {
   this.score = 0;
   this.name = name;
 }
 
+
 function insertBackButton() {
   let backButton = document.createElement('BUTTON');
-  backButton.addEventListener('click', function refresh() {
-    location.reload()
-  });
+  backButton.addEventListener("click", 
+    function refresh() 
+    {
+      mainMenu();
+
+     });
+
   backButton.className = 'backButton';
   backButton.innerHTML = 'Quit Game';
   document.getElementById('script').insertAdjacentElement(
       'beforebegin', backButton);
 };
-
 
 function mainMenu() {
   let body = document.getElementsByTagName('body')[0];
@@ -253,7 +250,6 @@ function playMenu() {
   
           function goBack() {
               let JsonRequest = "quit";
-              console.log(JsonRequest);
               let requestPort = 8082;
               let request = new XMLHttpRequest();
               request.open('GET', 'http://127.0.0.1:8082' + '/' + JsonRequest, true);
@@ -376,15 +372,10 @@ function firstMoveHuman(board, X, Y) {
   makeFirstMove(JsonRequest);
 }
 
-function moveHuman(board, X, Y, direction) {
-  if (!checkIfGameOver(scene.boardString)) {
-    let JsonRequest =
-        'moveOK(' + board + ',' + X + ',' + Y + ',' + direction + ')';
-    makeMoveHuman(JsonRequest);
-  } else {
-    mainMenu();
-    return;
-  }
+function moveHuman(board,X,Y, direction)
+{
+  let JsonRequest = 'moveOK(' + board +',' + X +',' + Y + ',' + direction + ')';
+  makeMoveHuman(JsonRequest);
 }
 
 function firstMoveCom(board, difficulty) {
@@ -522,14 +513,12 @@ function makeMoveComEasy(JsonRequest) {
             } else {
               if (responseSplit[6] == 'y') {
                 scene.currentPlayer = scene.player2;
-                scene.player1.score += JSON.parse(responseSplit[5]);
-                player2.score = scene.player1.score;
+                scene.player2.score += JSON.parse(responseSplit[5]);
+                player2.score = scene.player2.score;
                 document.getElementById('player2score').innerHTML =
                     scene.player2.score;
               } else {
-                console.log('oi');
                 scene.currentPlayer = scene.player1;
-                console.log(scene.currentPlayer);
                 document.getElementById('player1').innerHTML =
                     '&#8680' + scene.player1.name;
                 document.getElementById('player2').innerHTML =
@@ -582,7 +571,6 @@ function makeMoveComHard(JsonRequest) {
             let yCoordToMove = Number(responseSplit[1]);
 
             for (let i = 0; i < directionsArray.length; i++) {
-              console.log(directionsArray[i]);
               if (directionsArray[i] == '[S]' || directionsArray[i] == 'S]' ||
                   directionsArray[i] == '[S' || directionsArray[i] == 'S') {
                 xCoordToMove += 2;
@@ -643,14 +631,8 @@ function makeMoveComHard(JsonRequest) {
 }
 
 
-function doNothing() {
-  // hello;
-}
-
-function makeMoveHuman(JsonRequest) {
-  if (scene.lockSecondMove) {
-    console.log('here');
-  }
+function makeMoveHuman(JsonRequest)
+{
   let requestPort = 8082;
   let request = new XMLHttpRequest();
   request.open(
@@ -684,56 +666,84 @@ function makeMoveHuman(JsonRequest) {
           scene.board = boardArray;
           scene.boardString = testeBoard;
 
-          if (scene.currentPlayer == scene.player1) {
-            if (responseSplit[4] == 'y') {
-              scene.firstClick = false;
-              scene.lockSecondMove = true;
-              scene.firstX = responseSplit[1];
-              scene.firstY = responseSplit[2];
-              scene.currentPlayer = scene.player1;
-              scene.player1.score += JSON.parse(responseSplit[3]);
-              player1.score = scene.player1.score;
-              document.getElementById('player1score').innerHTML =
-                  scene.player1.score;
-            } else {
-              scene.currentPlayer = scene.player2;
-              document.getElementById('player1').innerHTML = scene.player1.name;
-              document.getElementById('player2').innerHTML =
-                  '&#8680' + scene.player2.name;
-              scene.player1.score += JSON.parse(responseSplit[3]);
-              player1.score = scene.player1.score;
-              document.getElementById('player1score').innerHTML =
-                  scene.player1.score;
-            }
-          } else {
-            if (responseSplit[4] == 'y') {
-              scene.firstClick = false;
-              scene.lockSecondMove = true;
-              scene.firstX = responseSplit[1];
-              scene.firstY = responseSplit[2];
-              scene.currentPlayer = scene.player2;
-              scene.player1.score += JSON.parse(responseSplit[3]);
-              player2.score = scene.player1.score;
-              document.getElementById('player2score').innerHTML =
-                  scene.player2.score;
-            } else {
-              scene.currentPlayer = scene.player1;
-              document.getElementById('player1').innerHTML =
-                  '&#8680' + scene.player1.name;
-              document.getElementById('player2').innerHTML = scene.player2.name;
-              scene.player2.score += JSON.parse(responseSplit[3]);
-              player2.score = scene.player2.score;
-              document.getElementById('player2score').innerHTML =
-                  scene.player2.score;
-            }
-          }
-          if (checkIfGameOver(scene.boardString)) {
-            mainMenu();
-            return;
-          }
-        }
-        scene.pieceManager.display();
-      }).bind(this);
+                        if(scene.currentPlayer == scene.player1)
+                        {
+                          if(responseSplit[4] == "y")
+                            {
+                              scene.firstClick = false;
+                              scene.lockSecondMove = true;
+                              scene.xFrog = responseSplit[1];
+                              scene.yFrog = responseSplit[2];
+                              scene.firstX = responseSplit[1];
+                              scene.firstY = responseSplit[2];
+                              scene.currentPlayer = scene.player1;
+                              scene.player1.score += JSON.parse(responseSplit[3]);
+                              player1.score = scene.player1.score;
+                              document.getElementById("player1score").innerHTML = scene.player1.score;
+                            }
+                          else
+                          {
+                            scene.xFrog = responseSplit[1];
+                            scene.yFrog = responseSplit[2];
+                            let xCoord = scene.xFrog;
+                            let yCoord = scene.yFrog;
+                            if(Number(xCoord) <= 9)
+                              xCoord += "00";
+                            if(Number(yCoord) <= 9)
+                              yCoord += "00";
+
+                            scene.lockSecondMove = false;
+                            scene.selectedPiece = scene.pieceManager.pieceMap.get(xCoord + yCoord);
+                            scene.selectedPiece.isSelected = false;
+
+                            scene.currentPlayer = scene.player2;
+                            document.getElementById("player1").innerHTML = scene.player1.name;
+                            document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
+                            scene.player1.score += JSON.parse(responseSplit[3]);
+                            player1.score = scene.player1.score;
+                            document.getElementById("player1score").innerHTML = scene.player1.score;
+                          }
+                        }
+                        else
+                        {
+                          if(responseSplit[4] == "y")
+                          {
+                            scene.firstClick = false;
+                            scene.lockSecondMove = true;
+                            scene.firstX = responseSplit[1];
+                            scene.firstY = responseSplit[2];
+                            scene.xFrog = responseSplit[1];
+                            scene.yFrog = responseSplit[2];
+                            scene.currentPlayer = scene.player2;
+                            scene.player2.score +=  JSON.parse(responseSplit[3]);
+                            player2.score = scene.player2.score;
+                            document.getElementById("player2score").innerHTML = scene.player2.score;
+                          }
+                          else
+                          {
+                            scene.xFrog = responseSplit[1];
+                            scene.yFrog = responseSplit[2];
+                            let xCoord = scene.xFrog;
+                            let yCoord = scene.yFrog;
+                            if(Number(xCoord) <= 9)
+                              xCoord += "00";
+                            if(Number(yCoord) <= 9)
+                              yCoord += "00";
+
+                            scene.lockSecondMove = false;
+                            scene.selectedPiece = scene.pieceManager.pieceMap.get(xCoord + yCoord);
+                            scene.selectedPiece.isSelected = false;
+
+                            scene.currentPlayer = scene.player1;
+                            document.getElementById("player1").innerHTML =  "&#8680" + scene.player1.name;
+                            document.getElementById("player2").innerHTML = scene.player2.name;
+                            scene.player2.score +=  JSON.parse(responseSplit[3]);
+                            player2.score = scene.player2.score;
+                            document.getElementById("player2score").innerHTML = scene.player2.score;
+                          }
+                        }
+                      }
+                   }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
   request.setRequestHeader(
       'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');

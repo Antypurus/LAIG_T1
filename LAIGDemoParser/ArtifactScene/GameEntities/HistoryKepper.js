@@ -14,10 +14,10 @@ function HistoryKepper() {
  * @param {number} y the chosen y coordinate
  * @param {array} board the state of the board after the play
  */
-HistoryKepper.prototype.addPlayHistory = function(x, y, board) {
-  let add = {X: x, Y: y, Board: board};
+HistoryKepper.prototype.addPlayHistory = function(x, y, board, boardString) {
+  let add = {X: x, Y: y, Board: board, BoardString: boardString};
   let len = this.History.length;
-  if (length > lookingAtTurn) {
+  if (length > this.lookingAtTurn) {
     this.History[this.lookingAtTurn] = add;
     this.currentTurn = this.lookingAtTurn + 1;
   } else {

@@ -22,6 +22,10 @@ function XMLscene(interface) {
 
   this.stop = false;
   this.once = false;
+  this.passed = false;
+
+  this.xFrog = 0;
+  this.yFrog = 0;
 
   this.lockSecondMove = false;
 
@@ -30,11 +34,18 @@ function XMLscene(interface) {
   this.firstX = 0;
   this.firstY = 0;
 
+  this.undoStop = false;
+  this.undoBoard = null;
+  this.undoBoardString = "";
+
   this.selectedPiece = null;
 
   this.hasClicked = false;
   this.clickedX = 0;
   this.clickedY = 0;
+  this.backButton = null;
+
+  this.historyKeeper = new HistoryKepper();
 
   this.boardS = [
     [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2], [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -208,7 +219,6 @@ function checkIfGameOver(boardString) {
       true);
   request.onload = (function(response) {
     let responseSplit = response.target.response;
-    console.log(responseSplit[0]);
     if (responseSplit[0] === -1)
       scene.stop = false;
     else if (responseSplit[0] == 'n')
@@ -254,6 +264,48 @@ function handleSpaceInput(boardString, isFirstMove, gameDifficulty) {
 XMLscene.prototype.display = function() {
   this.logPicking();
 
+  if(!scene.isFirstMove)
+    {
+      if(!scene.undoStop)
+      {
+        scene.backButton = document.createElement('BUTTON');
+        scene.backButton.addEventListener("click", 
+          function refresh() 
+          {
+            let allBoard = scene.historyKeeper.undoTurn();
+            scene.board = allBoard['Board'];
+            scene.boardString = allBoard['BoardString'];
+            scene.isFirstMove = true;
+          
+            if(scene.currentPlayer == scene.player1)
+            {
+              document.getElementById("player1").innerHTML = scene.player1.name;
+              document.getElementById("player2").innerHTML = "&#8680" + scene.player2.name;
+              scene.currentPlayer = scene.player2;
+            }
+            else
+            {
+              document.getElementById("player1").innerHTML =  "&#8680" +  scene.player1.name;
+              document.getElementById("player2").innerHTML = scene.player2.name;
+              scene.currentPlayer = scene.player1;
+            }
+          });
+
+          scene.backButton.className = 'undoButton';
+          scene.backButton.innerHTML = 'Undo play';
+          document.getElementById('script').insertAdjacentElement(
+              'beforebegin', scene.backButton);
+
+              scene.undoStop = true;
+        }
+
+    }
+    else if(this.passed)
+    {
+      scene.backButton.className = 'hidden';
+    }
+
+
   if (this.isAnimating && this.selectedPiece != null) {
     this.selectedPiece.isSelected = false;
     this.selectedPiece = null;
@@ -297,8 +349,8 @@ XMLscene.prototype.display = function() {
 
   else {
     if (this.lockSecondMove) {
-      let xCoord = this.clickedX;
-      let yCoord = this.clickedY;
+      let xCoord = this.xFrog;
+      let yCoord = this.yFrog;
       if (Number(xCoord) <= 9) xCoord += '00';
       if (Number(yCoord) <= 9) yCoord += '00';
 
@@ -307,6 +359,12 @@ XMLscene.prototype.display = function() {
     }
     if (this.hasClicked) {
       if (this.isFirstMove) {
+        this.passed = true;
+        console.log(this.boardString);
+        this.historyKeeper.addPlayHistory(this.clickedX, this.clickedY, this.board, this.boardString);
+        this.undoBoardString = this.boardString;
+        this.undoBoard = this.board;
+        this.undoStop = false;
         this.selectedPiece.isSelected = false;
         firstMoveHuman(this.boardString, this.clickedX, this.clickedY);
         this.hasClicked = false;
@@ -326,7 +384,9 @@ XMLscene.prototype.display = function() {
           !this.isFirstMove && !this.firstClick &&
           (this.clickedX != this.firstX || this.clickedY != this.firstY)) {
         if (!this.lockSecondMove)
-          this.selectedPiece.isSelected = false;
+          {
+            this.selectedPiece.isSelected = false;
+          }
         else
           this.lockSecondMove = false;
 
@@ -334,20 +394,25 @@ XMLscene.prototype.display = function() {
         var direction = '';
         var coordXDiff = this.clickedX - this.firstX;
         var coordYDiff = this.firstY - this.clickedY;
-        if (coordXDiff < -1 && coordXDiff >= -2)
+        if (coordXDiff < -1 && coordXDiff >= -4)
           direction = '\'W\'';
-        else if (coordXDiff > 1 && coordXDiff <= 2)
+        else if (coordXDiff > 1 && coordXDiff <= 4)
           direction = '\'S\'';
 
-        else if (coordYDiff < -1 && coordYDiff >= -2)
+        else if (coordYDiff < -1 && coordYDiff >= -4)
           direction = '\'D\'';
-        else if (coordYDiff > 1 && coordYDiff <= 2)
+        else if (coordYDiff > 1 && coordYDiff <= 4)
           direction = '\'A\'';
         else
           this.firstClick = true;
 
         if (!this.firstClick)
-          moveHuman(this.boardString, this.firstX, this.firstY, direction);
+        {
+          stop = checkIfGameOver(this.boardString);
+          console.log(stop);
+          scene.stop = stop;
+           moveHuman(this.boardString, this.firstX, this.firstY, direction);
+        }
         this.firstClick = true;
       } else if (!this.isFirstMove && !this.firstClick) {
         this.selectedPiece.isSelected = false;
