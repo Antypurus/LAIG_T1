@@ -183,7 +183,7 @@ XMLscene.prototype.logPicking = function() {
           console.log('Picked object: ' + obj + ', with pick id ' + customId);
 
           let ret = this.gameBoard.getCoords(customId);
-          if (ret != null) {
+          if (ret != null && this.currentPlayer.name.indexOf('CPU') < 0) {
             this.audio.play();
             this.clickedX = ret.x;
             this.clickedY = ret.y;
@@ -261,15 +261,28 @@ function handleSpaceInput(boardString, isFirstMove, gameDifficulty) {
  */
 XMLscene.prototype.display = function() {
   this.logPicking();
-
+  
   if (!scene.isFirstMove) {
     if (!scene.undoStop) {
       scene.backButton = document.createElement('BUTTON');
       scene.backButton.addEventListener('click', function undo() {
-        scene.selectedPiece = false;
         let allBoard = scene.historyKeeper.undoTurn();
+
+        let xCoord = allBoard['X'];
+        let yCoord = allBoard['Y'];
+        if (Number(xCoord) <= 9) xCoord += '00';
+        if (Number(yCoord) <= 9) yCoord += '00';
+
+        let peca = scene.pieceManager.pieceMap.get(xCoord + yCoord);
+    
         scene.board = allBoard['Board'];
         scene.boardString = allBoard['BoardString'];
+        scene.lockSecondMove = allBoard['locksecondmove'];
+
+        if(scene.lockSecondMove)
+          if(peca != null)
+            peca.isSelected = false;
+
         if(allBoard['Firstmove'])
           scene.isFirstMove = true;
         else
@@ -304,6 +317,17 @@ XMLscene.prototype.display = function() {
   } else if (this.passed) {
     scene.backButton.className = 'hidden';
   }
+
+  if(scene.backButton != null && scene.gameType == 1 && !scene.lockSecondMove)
+  {
+    if(scene.currentPlayer.name.indexOf('CPU') < 0)
+      scene.backButton.className = 'hidden';
+    else
+      scene.backButton.className = 'undoButton';
+  }
+  else if(scene.backButton != null && scene.gameType == 1)
+    scene.backButton.className = 'undoButton';
+
 
 
   if (this.isAnimating && this.selectedPiece != null) {
@@ -361,7 +385,7 @@ XMLscene.prototype.display = function() {
       if (this.isFirstMove) {
         this.selectedPiece.isSelected = false;
         this.historyKeeper.addPlayHistory(
-            this.clickedX, this.clickedY, this.board, this.boardString, this.isFirstMove, this.player1.score, this.player2.score, this.currentPlayer);
+            this.clickedX, this.clickedY, this.board, this.boardString, this.isFirstMove, this.player1.score, this.player2.score, this.currentPlayer, this.lockSecondMove);
         this.undoBoardString = this.boardString;
         this.undoBoard = this.board;
         this.undoStop = false;

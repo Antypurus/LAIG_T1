@@ -47,6 +47,7 @@ var player2 = null;
 var gameType = null;
 var gameDifficulty = null;
 var checkOnetime = false;
+var myScene = null;
 
 serialInclude([
   '../lib/CGF.js',
@@ -97,13 +98,12 @@ function play() {
         <h1 id = "player2score" style = "color: white; position: absolute; margin-left: 27em; margin-top:2em;">` +
       player2.score + `</h1>`;
 
-  this.insertBackButton();
 
 
   // Standard application, scene and interface setup
   var app = new CGFapplication(document.body);
   var myInterface = new MyInterface();
-  var myScene = new XMLscene(myInterface);
+  myScene = new XMLscene(myInterface);
   scene = myScene;
   scene.board = boardArray;
   scene.boardString = testeBoard;
@@ -138,6 +138,7 @@ function play() {
 
   // start
   app.run();
+  this.insertBackButton(scene);
 };
 
 
@@ -147,10 +148,57 @@ function player(name) {
 }
 
 
-function insertBackButton() {
+function insertBackButton(scene) {
   let backButton = document.createElement('BUTTON');
   backButton.addEventListener('click', function refresh() {
-    mainMenu();
+    scene.pieceMangar = null;
+    scene.gameBoard = null;
+    scene.pieceManager = null;
+    scene.board = null;
+    scene.boardString = null;
+    scene.player1 = null;
+    scene.player2 = null;
+    scene.gameType = null;
+    scene.gameDifficulty = null;
+    scene.isFirstMove = true;
+    scene.currentPlayer = null;
+    scene.firstClick = true;
+  
+    scene.stop = false;
+    scene.once = false;
+    scene.passed = false;
+  
+    scene.xFrog = 0;
+    scene.yFrog = 0;
+  
+    scene.lockSecondMove = false;
+  
+    scene.isAnimating = false;
+  
+    scene.firstX = 0;
+    scene.firstY = 0;
+  
+    scene.undoStop = false;
+    scene.undoBoard = null;
+    scene.undoBoardString = '';
+  
+    scene.selectedPiece = null;
+  
+    scene.hasClicked = false;
+    scene.clickedX = 0;
+    scene.clickedY = 0;
+    scene.backButton = null;
+    testeBoard = null;
+    boardArray = null;
+    scene = null;
+    player1 = null;
+    player2 = null;
+    gameType = null;
+    gameDifficulty = null;
+    checkOnetime = false;
+    scene = null;
+    return mainMenu();
+    
 
   });
 
@@ -406,7 +454,6 @@ function MoveCom(board, difficulty) {
     }
   }
 }
-
 function makeFirstMove(JsonRequest) {
   let requestPort = 8082;
   let request = new XMLHttpRequest();
@@ -488,6 +535,8 @@ function makeMoveComEasy(JsonRequest) {
           else if (responseSplit[0] == 'Bad Request')
             scene.stop = true;
           else {
+            
+
             peca.moveTo(responseSplit[4], responseSplit[3]);
             testeBoard = (JSON.stringify(responseSplit[0]));
             testeBoard = testeBoard.replace(/['"]+/g, '');
@@ -567,6 +616,7 @@ function makeMoveComHard(JsonRequest) {
           else if (responseSplit[0] == 'Syntax Error')
             return;
           else {
+
             let directionsArray = responseSplit[3];
             directionsArray = directionsArray.split(',');
             let xCoordToMove = Number(responseSplit[2]);
@@ -658,18 +708,11 @@ function makeMoveHuman(JsonRequest) {
         else if (responseSplit[0] == 'Syntax Error')
           return;
         else {
+
           scene.historyKeeper.addPlayHistory(
-              scene.clickedX, scene.clickedY, scene.board, scene.boardString,
-              false, scene.player1.score, scene.player2.score,
-              scene.currentPlayer);
+            scene.clickedX, scene.clickedY, scene.board, scene.boardString, false, scene.player1.score, scene.player2.score, scene.currentPlayer, scene.lockSecondMove);
           peca.moveTo(responseSplit[1], responseSplit[2]);
 
-
-          testeBoard = (JSON.stringify(responseSplit[0]));
-          testeBoard = testeBoard.replace(/['"]+/g, '');
-          boardArray = JSON.parse(responseSplit[0]);
-          scene.board = boardArray;
-          scene.boardString = testeBoard;
 
           if (scene.currentPlayer == scene.player1) {
             if (responseSplit[4] == 'y') {
@@ -742,6 +785,12 @@ function makeMoveHuman(JsonRequest) {
                   scene.player2.score;
             }
           }
+
+          testeBoard = (JSON.stringify(responseSplit[0]));
+          testeBoard = testeBoard.replace(/['"]+/g, '');
+          boardArray = JSON.parse(responseSplit[0]);
+          scene.board = boardArray;
+          scene.boardString = testeBoard;
         }
       }).bind(this);
   // request.onerror = onError; TODO VER O QUE FAZER
