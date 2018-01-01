@@ -262,7 +262,7 @@ function handleSpaceInput(boardString, isFirstMove, gameDifficulty) {
 XMLscene.prototype.display = function() {
   this.logPicking();
   
-  if (!scene.isFirstMove) {
+  if (!scene.isFirstMove && scene.gameType != 2) {
     if (!scene.undoStop) {
       scene.backButton = document.createElement('BUTTON');
       scene.backButton.addEventListener('click', function undo() {
@@ -314,7 +314,7 @@ XMLscene.prototype.display = function() {
       scene.undoStop = true;
     }
 
-  } else if (this.passed) {
+  } else if (this.passed && scene.gameType != 2) {
     scene.backButton.className = 'hidden';
   }
 
